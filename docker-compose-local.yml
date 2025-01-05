@@ -3,7 +3,7 @@ version: "3.6"
 services:
   backend:
     image: node:18
-    container_name: ecotrans_backend_dev
+    container_name: rnp25_backend_dev
     ports:
       - "${PORT_OUT}:${PORT_OUT}"
     command: "npm run start:dev"

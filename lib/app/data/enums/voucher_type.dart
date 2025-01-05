@@ -1,0 +1,3 @@
+enum VoucherType {
+  charging,
+}

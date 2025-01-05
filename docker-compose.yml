@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+  ecotrans_backend_dev:
+    image: harbor.mypartner-isc.com/ecotrans_backend/ecotrans_backend_dev:db6ebbe0
+    container_name: ecotrans_backend_dev
+    restart: unless-stopped
+    ports:
+      - "${PORT_IN}:${PORT_OUT}"
+    env_file: .env
+    volumes:
+      - uploads:/uploads
+
+volumes:
+  uploads:

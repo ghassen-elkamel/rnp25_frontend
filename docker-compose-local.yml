@@ -1,0 +1,21 @@
+version: "3.6"
+
+services:
+  backend:
+    image: node:18
+    container_name: ecotrans_backend_dev
+    ports:
+      - "${PORT_OUT}:${PORT_OUT}"
+    command: "npm run start:dev"
+    env_file: .env
+    build:
+      context: .
+      target: development
+      dockerfile: DockerfileDev
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+      - uploads:/uploads
+
+volumes:
+  uploads:

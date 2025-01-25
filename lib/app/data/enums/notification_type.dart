@@ -1,7 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:eco_trans/app/core/values/colors.dart';
+import 'package:rnp_front/app/core/values/colors.dart';
 import '../../../app/core/theme/text.dart';
 import '../../../app/core/utils/alert.dart';
 

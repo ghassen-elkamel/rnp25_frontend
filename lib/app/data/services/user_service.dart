@@ -1,6 +1,6 @@
-import 'package:eco_trans/app/data/services/auth_service.dart';
+import 'package:rnp_front/app/data/services/auth_service.dart';
 import 'package:get/get.dart';
-import 'package:eco_trans/app/data/enums/role_type.dart';
+import 'package:rnp_front/app/data/enums/role_type.dart';
 
 import '../../core/utils/language_helper.dart';
 import '../../data/models/file_info.dart';

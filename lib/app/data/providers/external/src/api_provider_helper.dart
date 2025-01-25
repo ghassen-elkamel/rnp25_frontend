@@ -6,8 +6,8 @@ import 'dart:io';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:eco_trans/app/core/extensions/string/language.dart';
-import 'package:eco_trans/app/core/utils/language_helper.dart';
+import 'package:rnp_front/app/core/extensions/string/language.dart';
+import 'package:rnp_front/app/core/utils/language_helper.dart';
 
 import '../../../../core/utils/alert.dart';
 import '../../../../core/utils/constant.dart';
@@ -143,8 +143,8 @@ extension Helper on ApiProvider {
         'Authorization': "Bearer ${params.authorization ?? token.toString()}",
       if (LanguageHelper.language != null)
         'language': LanguageHelper.language.languageCode,
-      if (AuthService.access?.branchId != null)
-        'branchId': AuthService.access!.branchId.toString(),
+      if (AuthService.access?.companyId != null)
+        'companyId': AuthService.access!.companyId.toString(),
       'timezone': DateTime.now().timeZoneOffset.inHours.toString(),
     };
   }

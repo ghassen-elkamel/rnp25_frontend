@@ -1,4 +1,4 @@
-import 'package:eco_trans/app/core/extensions/string/language.dart';
+import 'package:rnp_front/app/core/extensions/string/language.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/utils/language_helper.dart';

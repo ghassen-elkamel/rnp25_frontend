@@ -1,4 +1,4 @@
-import 'package:eco_trans/app/core/utils/language_helper.dart';
+import 'package:rnp_front/app/core/utils/language_helper.dart';
 
 extension LanguageNullable on String? {
   String get languageCode {

@@ -1,32 +1,28 @@
 class CreateCompanyDto {
   final String companyName;
-  final String branchName;
-  final String? branchPosition;
-  final int? branchRegionId;
-  final String? firstName;
-  final String? lastName;
+
+  final int? regionId;
+  final String? fullName;
+
   final String? phoneNumber;
   final String? countryCode;
+  final String email;
 
   CreateCompanyDto({
     required this.companyName,
-    required this.branchName,
-    required this.branchPosition,
-    required this.branchRegionId,
-    required this.firstName,
-    required this.lastName,
+    required this.regionId,
+    required this.fullName,
     required this.phoneNumber,
     required this.countryCode,
+    required this.email,
   });
 
   Map<String, dynamic> toJson() => {
         "companyName": companyName,
-        "branchName": branchName,
-        "branchPosition": branchPosition,
-        "branchRegionId": branchRegionId,
-        "firstName": firstName,
-        "lastName": lastName,
+        "regionId": regionId,
+        "fullName": fullName,
         "phoneNumber": phoneNumber,
         "countryCode": countryCode,
+        'email': email
       };
 }

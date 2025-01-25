@@ -1,4 +1,4 @@
-import 'package:eco_trans/app/core/values/colors.dart';
+import 'package:rnp_front/app/core/values/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 

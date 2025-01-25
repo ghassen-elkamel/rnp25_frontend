@@ -1,4 +1,4 @@
-import 'package:eco_trans/app/core/theme/text.dart';
+import 'package:rnp_front/app/core/theme/text.dart';
 import 'package:flutter/material.dart';
 
 class AtomLogo extends StatelessWidget {
@@ -16,8 +16,9 @@ class AtomLogo extends StatelessWidget {
         height: height,
         child: Row(
           children: [
-            Image.asset("assets/images/logo-small.png",),
-            const CustomText("شركة فخامة الطريق\nللطروق العامة", textAlign: TextAlign.center,)
+            Image.asset("assets/images/logo-small.png",
+            scale: 0.8,),
+
           ],
         ),
       ),

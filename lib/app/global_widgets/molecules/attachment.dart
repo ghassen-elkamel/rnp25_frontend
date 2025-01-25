@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:eco_trans/app/data/models/file_info.dart';
+import 'package:rnp_front/app/data/models/file_info.dart';
 
 import '../../core/utils/file_picker.dart';
 import '../atoms/text_field.dart';

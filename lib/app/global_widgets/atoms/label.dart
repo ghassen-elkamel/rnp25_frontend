@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:eco_trans/app/core/extensions/string/not_null_and_not_empty.dart';
-import 'package:eco_trans/app/core/theme/text.dart';
-import 'package:eco_trans/app/core/theme/text_theme.dart';
+import 'package:rnp_front/app/core/extensions/string/not_null_and_not_empty.dart';
+import 'package:rnp_front/app/core/theme/text.dart';
+import 'package:rnp_front/app/core/theme/text_theme.dart';
 
 class AtomLabel extends StatelessWidget {
   final String label;

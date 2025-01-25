@@ -1,5 +1,5 @@
 
-import 'package:eco_trans/app/core/extensions/map/map_extension.dart';
+import 'package:rnp_front/app/core/extensions/map/map_extension.dart';
 
 List<Prediction> predictionsList(Map<String, dynamic>?  json) {
   if(json == null || !(json.containsKeyNotNull('predictions'))){

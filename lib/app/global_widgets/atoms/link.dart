@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:eco_trans/app/core/theme/text.dart';
-import 'package:eco_trans/app/core/values/colors.dart';
+import 'package:rnp_front/app/core/theme/text.dart';
+import 'package:rnp_front/app/core/values/colors.dart';
 
 class AtomLink extends StatelessWidget {
   const AtomLink({

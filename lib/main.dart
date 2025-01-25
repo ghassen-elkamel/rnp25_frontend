@@ -1,5 +1,5 @@
-import 'package:eco_trans/app/core/extensions/string/language.dart';
 import 'package:flutter/foundation.dart';
+import 'package:rnp_front/app/core/extensions/string/language.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
@@ -12,7 +12,6 @@ import 'app/core/values/colors.dart';
 import 'app/core/values/languages/language.dart';
 import 'app/data/services/auth_service.dart';
 import 'app/routes/app_pages.dart';
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if(!kIsWeb) {

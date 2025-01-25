@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:eco_trans/app/core/extensions/date_time/get_lines.dart';
+import 'package:rnp_front/app/core/extensions/date_time/get_lines.dart';
 import '../../core/theme/text.dart';
 import '../../data/models/data_time_lines.dart';
 

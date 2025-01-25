@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:eco_trans/app/core/values/colors.dart';
+import 'package:rnp_front/app/core/values/colors.dart';
 import 'package:flutter/material.dart';
 
 class AtomSpinnerProgressIndicator extends StatefulWidget {

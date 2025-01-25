@@ -3,9 +3,9 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:open_file_plus/open_file_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:eco_trans/app/core/utils/alert.dart';
+import 'package:rnp_front/app/core/utils/alert.dart';
 import 'package:get/get.dart';
-import 'package:eco_trans/app/core/values/colors.dart';
+import 'package:rnp_front/app/core/values/colors.dart';
 
  download(List<int> bodyBytes, String fileName) async{
   try {

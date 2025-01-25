@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:eco_trans/app/global_widgets/atoms/spinner_progress_indicator.dart';
+import 'package:rnp_front/app/global_widgets/atoms/spinner_progress_indicator.dart';
 
 import 'empty_list.dart';
 

@@ -1,4 +1,4 @@
-import 'package:eco_trans/app/core/extensions/date/compare_dates.dart';
+import 'package:rnp_front/app/core/extensions/date/compare_dates.dart';
 import 'package:flutter/material.dart';
 List<DataEvent> eventFromJson(dynamic str) =>
     List<DataEvent>.from(str["items"].map((x) => DataEvent.fromJson(x)));

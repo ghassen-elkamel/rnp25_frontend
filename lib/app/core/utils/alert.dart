@@ -1,7 +1,7 @@
-import 'package:eco_trans/app/core/theme/text.dart';
-import 'package:eco_trans/app/data/enums/button_type.dart';
-import 'package:eco_trans/app/global_widgets/atoms/button.dart';
-import 'package:eco_trans/app/global_widgets/atoms/circular_icon.dart';
+import 'package:rnp_front/app/core/theme/text.dart';
+import 'package:rnp_front/app/data/enums/button_type.dart';
+import 'package:rnp_front/app/global_widgets/atoms/button.dart';
+import 'package:rnp_front/app/global_widgets/atoms/circular_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

@@ -1,14 +1,14 @@
 import 'dart:developer';
 
-import 'package:eco_trans/app/core/extensions/string/language.dart';
-import 'package:eco_trans/app/core/utils/language_helper.dart';
-import 'package:eco_trans/app/data/providers/external/api_provider.dart';
-import 'package:eco_trans/app/data/providers/google_map/entity/place_details.dart';
+import 'package:rnp_front/app/core/extensions/string/language.dart';
+import 'package:rnp_front/app/core/utils/language_helper.dart';
+import 'package:rnp_front/app/data/providers/external/api_provider.dart';
+import 'package:rnp_front/app/data/providers/google_map/entity/place_details.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'entity/prediction.dart';
 
 class GoogleMapsProvider {
-  static String apiKey= "AIzaSyDypJRZW1wsdqxcSqG043txQi1KjuiwUBI";
+  static String apiKey= "";
 
   Future<List<Prediction>> findPlaceFromText(String text) async {
     var result = await ApiProvider().get(

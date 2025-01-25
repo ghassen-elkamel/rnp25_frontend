@@ -1,4 +1,4 @@
-import 'package:eco_trans/app/data/enums/role_type.dart';
+import 'package:rnp_front/app/data/enums/role_type.dart';
 
 class Role {
   Role({

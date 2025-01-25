@@ -1,18 +1,19 @@
-import 'package:eco_trans/app/core/theme/text.dart';
-import 'package:eco_trans/app/core/values/colors.dart';
-import 'package:eco_trans/app/data/enums/button_type.dart';
-import 'package:eco_trans/app/data/models/form/entity_form.dart';
-import 'package:eco_trans/app/global_widgets/atoms/button.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rnp_front/app/core/theme/text.dart';
+import 'package:rnp_front/app/core/values/colors.dart';
+import 'package:rnp_front/app/data/enums/button_type.dart';
+import 'package:rnp_front/app/data/models/form/entity_form.dart';
+import 'package:rnp_front/app/global_widgets/atoms/button.dart';
 
 import '../../core/utils/screen.dart';
 import '../../global_widgets/atoms/app_bar.dart';
-import '../atoms/drawer_content.dart';
-import '../molecules/drawer.dart';
 import '../../global_widgets/atoms/floating_action_button.dart';
+import '../atoms/drawer_content.dart';
 import '../atoms/search.dart';
 import '../atoms/web_app_bar.dart';
+import '../molecules/drawer.dart';
 
 class AppScaffold extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -71,7 +72,7 @@ class AppScaffold extends StatelessWidget {
       children: [
         Row(
           children: [
-            if (title != null)
+            if (kIsWeb && title != null)
               DecoratedBox(
                 decoration: const BoxDecoration(
                     color: white,

@@ -1,9 +1,10 @@
 import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
+
 import '../../core/utils/alert.dart';
-import '../../core/values/colors.dart';
 
 class AtomSafeImageNetwork extends StatelessWidget {
   final String? path;
@@ -11,28 +12,35 @@ class AtomSafeImageNetwork extends StatelessWidget {
   final String imageErrorPath;
   final double radius;
   final Map<String, String>? headers;
+  final BoxFit boxFit;
   final bool isCircular;
   final double? width;
   final double? height;
   final bool onTapShowFullScreen;
   final Function()? onTap;
+  final Widget? fullScreenDetails;
+  final Widget Function(Widget image)? alertTemplate;
 
   const AtomSafeImageNetwork({
     super.key,
     this.host,
     required this.path,
     this.imageErrorPath = "images/image-not-found.png",
-    this.radius = 20,
+    this.radius = 35,
     this.isCircular = false,
     this.headers,
     this.width,
     this.height,
     this.onTapShowFullScreen = false,
     this.onTap,
-  });
+    this.boxFit = BoxFit.cover,
+    this.fullScreenDetails,
+    this.alertTemplate,
+  }) ;
 
   @override
   Widget build(BuildContext context) {
+    log("$host?path=$path");
     if (path == null) {
       return errorImage();
     }
@@ -40,7 +48,6 @@ class AtomSafeImageNetwork extends StatelessWidget {
     if (isCircular) {
       result = CircleAvatar(
         radius: radius,
-        backgroundColor: primaryColor,
         backgroundImage: getImageFromNetwork().image,
       );
     } else {
@@ -52,34 +59,40 @@ class AtomSafeImageNetwork extends StatelessWidget {
     if (onTapShowFullScreen) {
       result = InkWell(
         onTap: () {
-          onTap?.call();
+          Widget content = ClipRRect(
+            borderRadius: BorderRadius.circular(radius),
+            child: PhotoView(
+              imageProvider: getImageFromNetwork().image,
+              tightMode: true,
+              errorBuilder: (context, error, stackTrace) {
+                return errorImage();
+              },
+              loadingBuilder: (context, event) {
+                return Image.asset(
+                  "assets/images/loading_img.gif",
+                  height: height,
+                  width: width,
+                  fit: BoxFit.none,
+                );
+              },
+            ),
+          );
           Alert.showCustomDialog(
             content: SizedBox(
               height: MediaQuery.of(context).size.height - 300,
-              child: Center(
-                child: PhotoView(
-                  imageProvider: CachedNetworkImageProvider(
-                    "$host?path=$path",
-                    headers: headers,
-                  ),
-                  backgroundDecoration: const BoxDecoration(color: white),
-                  errorBuilder: (context, error, stackTrace) {
-                    return errorImage();
-                  },
-                  loadingBuilder: (context, event) {
-                    return Image.asset(
-                      "assets/images/loading_img.gif",
-                      height: height,
-                      width: width,
-                      fit: BoxFit.none,
-                    );
-                  },
-                ),
+              child: Column(
+                children: [
+                  Expanded(
+                      child: alertTemplate == null
+                          ? content
+                          : alertTemplate!(content)),
+                  if (fullScreenDetails != null) fullScreenDetails!,
+                ],
               ),
             ),
           );
         },
-        child: result,
+        child: Hero(tag: "image", child: result),
       );
     }
 
@@ -87,7 +100,6 @@ class AtomSafeImageNetwork extends StatelessWidget {
   }
 
   Widget getImage({bool isCached = true}) {
-    log("$host?path=$path");
     if (host != null) {
       return CachedNetworkImage(
         imageUrl: "$host?path=$path",
@@ -115,12 +127,16 @@ class AtomSafeImageNetwork extends StatelessWidget {
     );
   }
 
-  Image errorImage() {
-    return Image.asset(
-      "assets/$imageErrorPath",
-      fit: BoxFit.cover,
-      width: width,
-      height: height,
+  Widget errorImage() {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(radius),
+      child: Image.asset(
+        "assets/$imageErrorPath",
+        fit: BoxFit.cover,
+        width: width,
+        height: height,
+        scale: 0.6,
+      ),
     );
   }
 
@@ -131,15 +147,19 @@ class AtomSafeImageNetwork extends StatelessWidget {
       width: width,
       height: height,
       headers: headers,
-      fit: BoxFit.cover,
+      fit: boxFit,
       errorBuilder: (context, error, stackTrace) {
         return errorImage();
       },
       loadingBuilder: (context, child, loadingProgress) {
-        return Image.asset(
-          "assets/images/loading_img.gif",
-          fit: BoxFit.cover,
-        );
+        if ((loadingProgress?.cumulativeBytesLoaded ?? 0) <
+            (loadingProgress?.expectedTotalBytes ?? 0)) {
+          return Image.asset(
+            "assets/images/loading_img.gif",
+            fit: BoxFit.cover,
+          );
+        }
+        return child;
       },
     );
   }

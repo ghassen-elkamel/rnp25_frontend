@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:eco_trans/app/data/models/item_header.dart';
-import 'package:eco_trans/app/data/models/response/meta_data.dart';
+import 'package:rnp_front/app/data/models/item_header.dart';
+import 'package:rnp_front/app/data/models/response/meta_data.dart';
 
 import '../../core/theme/text.dart';
 import '../../core/utils/screen.dart';

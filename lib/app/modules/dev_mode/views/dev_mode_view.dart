@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:eco_trans/app/core/values/colors.dart';
-import 'package:eco_trans/app/routes/app_pages.dart';
+import 'package:rnp_front/app/core/values/colors.dart';
+import 'package:rnp_front/app/routes/app_pages.dart';
 import '../../../core/theme/text.dart';
 import '../controllers/dev_mode_controller.dart';
 

@@ -1,4 +1,4 @@
-import 'package:eco_trans/app/core/utils/screen.dart';
+import 'package:rnp_front/app/core/utils/screen.dart';
 import 'package:flutter/material.dart';
 import '../../core/theme/text.dart';
 import '../../core/values/colors.dart';

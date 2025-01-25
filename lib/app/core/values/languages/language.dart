@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:eco_trans/app/core/extensions/string/language.dart';
+import 'package:rnp_front/app/core/extensions/string/language.dart';
 import '../../../data/models/item_select.dart';
 import 'translations/ar.dart';
 import 'translations/en.dart';

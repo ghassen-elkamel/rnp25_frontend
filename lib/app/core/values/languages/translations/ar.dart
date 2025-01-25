@@ -1016,5 +1016,23 @@ class ArLanguage extends BaseLanguage {
   @override
   String get underMaintenance => "تحت الصيانة";
 
+  @override
+  String get title => "العنوان";
 
+  @override
+  String get startDate => "تاريخ البدء";
+
+  @override
+  String get endDate => "تاريخ الانتهاء";
+
+  @override
+  String get location => "الموقع";
+
+  @override
+  String get dontHaveAccount => " ليس لديك حساب ؟ ";
+
+
+
+  @override
+  String get loginAccount => "تسجيل الدخول";
 }

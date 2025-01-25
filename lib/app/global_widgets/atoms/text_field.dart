@@ -1,4 +1,4 @@
-import 'package:eco_trans/app/core/utils/form_validator.dart';
+import 'package:rnp_front/app/core/utils/form_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';

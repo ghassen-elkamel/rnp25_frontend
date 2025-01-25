@@ -1,4 +1,3 @@
-import 'package:eco_trans/app/core/theme/text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,42 +11,19 @@ class SplashScreenView extends GetView<SplashScreenController> {
   Widget build(BuildContext context) {
     return Material(
       color: primaryColor,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 40.0),
-            child: AnimatedBuilder(
-              animation: controller.animationController,
-              builder: (_, __) {
-                return Opacity(
-                  opacity: controller.opacity.value ?? 0.0,
-                  child: CircleAvatar(
-                    backgroundColor: white,
-                    radius: 80,
-                    child: Image.asset(
-                      'assets/images/logo-small.png',
-                      width: 90,
-                    ),
-                  ),
-                );
-              },
+      child: AnimatedBuilder(
+        animation: controller.animationController,
+        builder: (_, __) {
+          return Opacity(
+            opacity: controller.opacity.value ?? 0.0,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18.0),
+              child: Image.asset(
+                'assets/images/logo-small.png',
+              ),
             ),
-          ),
-          Column(
-            children: [
-              const CustomText.xxl(
-                "BY",
-                color: white,
-              ),
-              Image.asset(
-                'assets/images/my-partner.png',
-                color: white,
-                height: 60,
-              ),
-            ],
-          ),
-        ],
+          );
+        },
       ),
     );
   }

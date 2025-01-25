@@ -1,24 +1,22 @@
-import 'package:eco_trans/app/core/extensions/string/not_null_and_not_empty.dart';
+import 'package:rnp_front/app/core/extensions/string/not_null_and_not_empty.dart';
 
 class AppAuth {
-
   AppAuth({
-    required this.countryCode,
-    required this.phoneNumber,
+
+    required this.email,
     required this.password,
     this.fcmToken,
   });
 
-  final String countryCode;
-  final String phoneNumber;
+
+  final String email;
   final String password;
   final String? fcmToken;
 
   Map<String, dynamic> toJson() => {
-    "countryCode": countryCode,
-    "phoneNumber": phoneNumber,
-    "password": password,
-    if(fcmToken.isFilled)
-    "fcmToken": fcmToken,
-  };
+
+        "email": email,
+        "password": password,
+        if (fcmToken.isFilled) "fcmToken": fcmToken,
+      };
 }

@@ -1,10 +1,10 @@
-import 'package:eco_trans/app/core/values/font_family.dart';
+import 'package:rnp_front/app/core/values/font_family.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:intl_phone_field/phone_number.dart';
-import 'package:eco_trans/app/core/utils/language_helper.dart';
+import 'package:rnp_front/app/core/utils/language_helper.dart';
 import '../../core/theme/text.dart';
 import '../../core/values/colors.dart';
 
@@ -126,7 +126,7 @@ class _AtomPhoneTextFieldState extends State<AtomPhoneTextField> {
                 controller: widget.controller,
                 focusNode: myFocusNode,
                 keyboardType: TextInputType.number,
-                initialCountryCode: widget.initialCountryCode ?? 'LY',
+                initialCountryCode: widget.initialCountryCode ?? 'TN',
                 readOnly: widget.readOnly,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 inputFormatters: [

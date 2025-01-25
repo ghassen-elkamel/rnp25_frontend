@@ -1,9 +1,8 @@
-import 'package:eco_trans/app/core/extensions/map/map_extension.dart';
-import 'package:eco_trans/app/data/models/dto/create_company.dart';
-import 'package:eco_trans/app/data/models/entities/branch.dart';
-import 'package:eco_trans/app/data/models/entities/company.dart';
-import 'package:eco_trans/app/data/models/entities/user.dart';
-import 'package:eco_trans/app/data/models/file_info.dart';
+import 'package:rnp_front/app/core/extensions/map/map_extension.dart';
+import 'package:rnp_front/app/data/models/dto/create_company.dart';
+import 'package:rnp_front/app/data/models/entities/company.dart';
+import 'package:rnp_front/app/data/models/entities/user.dart';
+import 'package:rnp_front/app/data/models/file_info.dart';
 
 import '../providers/external/api_provider.dart';
 
@@ -20,19 +19,7 @@ class CompanyService {
     return [];
   }
 
-  Future<List<Branch>> getBranches(
-      {bool withLoadingAlert = true, Map<String, String>? relations}) async {
-    final response = await ApiProvider().get(
-      HttpParamsGetDelete(
-          endpoint: "/v1/branch/all",
-          withLoadingAlert: withLoadingAlert,
-          queryParam: relations),
-    );
-    if (response.containsKeyNotNull('items')) {
-      return branchesFromJson(response);
-    }
-    return [];
-  }
+
 
   Future<User?> createCompany(
       {required CreateCompanyDto companyDto, FileInfo? file}) async {
@@ -52,20 +39,8 @@ class CompanyService {
     return null;
   }
 
-  createBranch({required Branch branch}) async {
-    final response = await ApiProvider().post(
-      HttpParamsPostPut(
-        endpoint: "/v1/branch",
-        body: branch.toJson(),
-      ),
-    );
 
-    if (response != null) {
-      return Branch.fromJson(response);
-    }
 
-    return null;
-  }
 
   Future<Company?> getCurrentCompany() async {
     final response = await ApiProvider().get(

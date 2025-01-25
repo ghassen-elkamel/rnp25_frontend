@@ -1,4 +1,4 @@
-package com.mypartner.eco_trans
+package com.mypartner.rnp_front
 
 import io.flutter.embedding.android.FlutterActivity
 

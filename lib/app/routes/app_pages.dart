@@ -1,13 +1,11 @@
 import 'package:get/get.dart';
 
-import '../modules/branch/bindings/branch_binding.dart';
-import '../modules/branch/views/branch_view.dart';
-import '../modules/cars/bindings/cars_binding.dart';
-import '../modules/cars/views/cars_view.dart';
 import '../modules/company/bindings/company_binding.dart';
 import '../modules/company/views/company_view.dart';
 import '../modules/dev_mode/bindings/dev_mode_binding.dart';
 import '../modules/dev_mode/views/dev_mode_view.dart';
+import '../modules/events/bindings/events_binding.dart';
+import '../modules/events/views/events_view.dart';
 import '../modules/force_update/bindings/force_update_binding.dart';
 import '../modules/force_update/views/force_update_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -50,7 +48,7 @@ class AppPages {
       name: _Paths.LOGIN,
       page: () => const LoginView(),
       binding: LoginBinding(),
-      transition: Transition.noTransition,
+      transition: Transition.downToUp,
     ),
     GetPage(
       name: _Paths.SPLASH_SCREEN,
@@ -78,12 +76,7 @@ class AppPages {
       binding: CompanyBinding(),
       transition: Transition.noTransition,
     ),
-    GetPage(
-      name: _Paths.BRANCH,
-      page: () => const BranchView(),
-      binding: BranchBinding(),
-      transition: Transition.noTransition,
-    ),
+
     GetPage(
       name: _Paths.USERS,
       page: () => const UsersView(),
@@ -94,7 +87,7 @@ class AppPages {
       name: _Paths.SIGN_UP,
       page: () => const SignUpView(),
       binding: SignUpBinding(),
-      transition: Transition.noTransition,
+      transition: Transition.upToDown,
     ),
     GetPage(
       name: _Paths.WALLET,
@@ -117,10 +110,9 @@ class AppPages {
       binding: WaitingVoucherBinding(),
     ),
     GetPage(
-      name: _Paths.CARS,
-      page: () => const CarsView(),
-      binding: CarsBinding(),
-      transition: Transition.noTransition,
+      name: _Paths.EVENTS,
+      page: () => const EventsView(),
+      binding: EventsBinding(),
     ),
   ];
 }

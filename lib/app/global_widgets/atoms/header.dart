@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:eco_trans/app/core/values/colors.dart';
-import 'package:eco_trans/app/data/enums/order.dart';
-import 'package:eco_trans/app/data/models/item_header.dart';
+import 'package:rnp_front/app/core/values/colors.dart';
+import 'package:rnp_front/app/data/enums/order.dart';
+import 'package:rnp_front/app/data/models/item_header.dart';
 
 import '../../core/theme/text.dart';
 

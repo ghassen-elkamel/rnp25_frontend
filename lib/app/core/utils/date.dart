@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:eco_trans/app/core/extensions/string/language.dart';
+import 'package:rnp_front/app/core/extensions/string/language.dart';
 
 import 'language_helper.dart';
 

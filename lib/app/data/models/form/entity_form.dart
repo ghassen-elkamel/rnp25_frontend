@@ -1,4 +1,4 @@
-import 'package:eco_trans/app/core/utils/date.dart';
+import 'package:rnp_front/app/core/utils/date.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

@@ -1213,4 +1213,24 @@ class EnLanguage extends BaseLanguage {
   @override
   String get underMaintenance => "Under Maintenance";
 
+  @override
+  String get description => "Description";
+
+  @override
+  String get title => "Title";
+
+  @override
+  String get startDate => "Start date";
+
+  @override
+  String get endDate => "End date";
+
+  @override
+  String get location => "Location";
+
+  @override
+  String get dontHaveAccount => "I don't have an account.";
+
+  @override
+  String get loginAccount => "Login to your account";
 }

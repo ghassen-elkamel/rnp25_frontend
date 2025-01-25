@@ -1,4 +1,4 @@
-import 'package:eco_trans/app/modules/qr_code_scanner/views/scanner_error.widget.dart';
+import 'package:rnp_front/app/modules/qr_code_scanner/views/scanner_error.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';

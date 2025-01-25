@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:eco_trans/app/core/extensions/date/compare_dates.dart';
-import 'package:eco_trans/app/core/extensions/string/capitalize_first_letter.dart';
-import 'package:eco_trans/app/core/theme/text.dart';
+import 'package:rnp_front/app/core/extensions/date/compare_dates.dart';
+import 'package:rnp_front/app/core/extensions/string/capitalize_first_letter.dart';
+import 'package:rnp_front/app/core/theme/text.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../core/utils/date.dart';
 import '../../core/values/colors.dart';

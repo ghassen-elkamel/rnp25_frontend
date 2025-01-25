@@ -1,10 +1,10 @@
-import 'package:eco_trans/app/core/extensions/string/language.dart';
-import 'package:eco_trans/app/data/models/form/entity_form.dart';
-import 'package:eco_trans/app/data/models/form/item_action.dart';
-import 'package:eco_trans/app/data/models/item_header.dart';
-import 'package:eco_trans/app/global_widgets/atoms/search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rnp_front/app/core/extensions/string/language.dart';
+import 'package:rnp_front/app/data/models/form/entity_form.dart';
+import 'package:rnp_front/app/data/models/form/item_action.dart';
+import 'package:rnp_front/app/data/models/item_header.dart';
+import 'package:rnp_front/app/global_widgets/atoms/search.dart';
 
 import '../../../core/theme/text.dart';
 import '../../../core/utils/alert.dart';
@@ -73,8 +73,6 @@ class UsersView extends GetView<UsersController> {
                     "email".tr,
                   ),
                   ItemHeader("phone".tr),
-                  if(controller.selectedRole.value == RolesType.driver)
-                  ItemHeader("status".tr),
                 ],
                 onDelete: (item) async {
                   controller.deleteAccount(item);
@@ -118,10 +116,6 @@ class UsersView extends GetView<UsersController> {
                         MoleculeEditableText(
                           text: item.fullPhoneNumber.reverseArabic(),
                         ),
-                        if(controller.selectedRole.value == RolesType.driver)
-                        MoleculeEditableText(
-                          text: item.driver?.status?.name,
-                        ),
                       ],
                     ),
                   );
@@ -151,10 +145,7 @@ class UsersView extends GetView<UsersController> {
                                 label: item.email,
                                 icon: Icons.alternate_email,
                               ),
-                              AtomLabelWithIcon(
-                                label: item.branch?.name,
-                                icon: Icons.public,
-                              ),
+
                             ],
                           ),
                         ),
@@ -181,20 +172,6 @@ class UsersView extends GetView<UsersController> {
         controller.email.text = item.email ?? "";
         controller.phone.text = item.phoneNumber ?? "";
         controller.countryCode = item.countryCode ?? "";
-        controller.selectedBranch.value = item.branch;
-        controller.branchController.text =
-            controller.selectedBranch.value?.toString() ?? "";
-        controller.address.text = item.driver?.address ?? "";
-        controller.identificationPaper.text =
-            item.driver?.identificationPaper ?? "";
-        controller.drivingLicenseNumber.text =
-            item.driver?.drivingLicenseNumber ?? "";
-        controller.drivingLicenseType.text =
-            item.driver?.drivingLicenseType ?? "";
-        controller.drivingLicenseExpirationDate =
-            item.driver?.drivingLicenseExpirationDate;
-        controller.drivingLicenseExpirationDateController.text =
-            UtilsDate.formatDDMMYYYY(item.driver?.drivingLicenseExpirationDate);
       },
       onEdit: (item) async {
         return controller.addUpdateItem(oldItem: item);
@@ -217,41 +194,6 @@ class UsersView extends GetView<UsersController> {
             controller.countryCode = newItem;
           },
         ),
-        ItemForm.rxSelect(
-          label: "branch".tr,
-          rxValue: controller.selectedBranch,
-          controller: controller.branchController,
-          rxItems: controller.branches,
-          onChange: (newItem) {
-            controller.selectedBranch.value = newItem;
-          },
-        ),
-        if (controller.selectedRole.value == RolesType.driver) ...[
-          ItemForm(
-            label: "address".tr,
-            controller: controller.address,
-          ),
-          ItemForm(
-            label: "identificationPaper".tr,
-            controller: controller.identificationPaper,
-          ),
-          ItemForm(
-            label: "drivingLicenseNumber".tr,
-            controller: controller.drivingLicenseNumber,
-          ),
-          ItemForm(
-            label: "drivingLicenseType".tr,
-            controller: controller.drivingLicenseType,
-          ),
-          ItemForm.date(
-            label: "drivingLicenseExpirationDate".tr,
-            controller: controller.drivingLicenseExpirationDateController,
-            initValue: controller.drivingLicenseExpirationDate,
-            onChange: (newItem) {
-              controller.drivingLicenseExpirationDate = newItem;
-            },
-          ),
-        ]
       ],
     );
   }

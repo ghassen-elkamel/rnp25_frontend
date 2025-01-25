@@ -7,14 +7,6 @@ class Company {
   final DateTime updatedAt;
   final int createdBy;
   final String name;
-  final bool isMultiCoffer;
-  final bool haveDealers;
-  final bool withSwiftDetails;
-  final bool showCurrentExchangeRate;
-  final bool isMultiBalanceClient;
-  final bool showInternationalExchangeRate;
-  final bool haveCashiers;
-  final bool canChargePrincipalSafe;
   final String? imagePath;
 
   Company({
@@ -24,14 +16,6 @@ class Company {
     required this.createdBy,
     required this.name,
     this.imagePath,
-    this.isMultiCoffer = true,
-    this.haveDealers = true,
-    this.withSwiftDetails = true,
-    this.showCurrentExchangeRate = true,
-    this.isMultiBalanceClient = true,
-    this.showInternationalExchangeRate = true,
-    this.haveCashiers = true,
-    this.canChargePrincipalSafe = true,
   });
 
   factory Company.fromJson(Map<String, dynamic> json) => Company(
@@ -41,14 +25,6 @@ class Company {
         createdBy: json["createdBy"],
         name: json["name"],
         imagePath: json["imagePath"],
-        isMultiCoffer: json["isMultiCoffer"],
-        haveDealers: json["haveDealers"],
-        withSwiftDetails: json["withSwiftDetails"],
-    showCurrentExchangeRate: json["showCurrentExchangeRate"],
-    isMultiBalanceClient: json["isMultiBalanceClient"],
-    showInternationalExchangeRate: json["showInternationalExchangeRate"],
-    haveCashiers: json["haveCashiers"],
-    canChargePrincipalSafe: json["canChargePrincipalSafe"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -57,13 +33,6 @@ class Company {
         "updatedAt": updatedAt.toIso8601String(),
         "createdBy": createdBy,
         "name": name,
-        "isMultiCoffer": isMultiCoffer,
-        "haveDealers": haveDealers,
-        "withSwiftDetails": withSwiftDetails,
-        "showCurrentExchangeRate": showCurrentExchangeRate,
-        "isMultiBalanceClient": isMultiBalanceClient,
-        "showInternationalExchangeRate": showInternationalExchangeRate,
-        "haveCashiers": haveCashiers,
         if (imagePath != null) "imagePath": imagePath,
       };
 

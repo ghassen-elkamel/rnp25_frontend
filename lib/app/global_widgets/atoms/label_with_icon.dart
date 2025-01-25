@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:eco_trans/app/core/extensions/string/not_null_and_not_empty.dart';
+import 'package:rnp_front/app/core/extensions/string/not_null_and_not_empty.dart';
 
 import '../../core/theme/text.dart';
 import '../../core/values/colors.dart';

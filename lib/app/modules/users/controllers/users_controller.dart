@@ -1,15 +1,14 @@
-import 'package:eco_trans/app/core/extensions/string/language.dart';
-import 'package:eco_trans/app/data/enums/order.dart';
-import 'package:eco_trans/app/data/enums/role_type.dart';
-import 'package:eco_trans/app/data/models/entities/branch.dart';
-import 'package:eco_trans/app/data/models/entities/company.dart';
-import 'package:eco_trans/app/data/models/file_info.dart';
-import 'package:eco_trans/app/data/services/auth_service.dart';
-import 'package:eco_trans/app/data/services/company_service.dart';
-import 'package:eco_trans/app/data/services/user_service.dart';
-import 'package:eco_trans/app/global_widgets/atoms/button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rnp_front/app/core/extensions/string/language.dart';
+import 'package:rnp_front/app/data/enums/order.dart';
+import 'package:rnp_front/app/data/enums/role_type.dart';
+import 'package:rnp_front/app/data/models/entities/company.dart';
+import 'package:rnp_front/app/data/models/file_info.dart';
+import 'package:rnp_front/app/data/services/auth_service.dart';
+import 'package:rnp_front/app/data/services/company_service.dart';
+import 'package:rnp_front/app/data/services/user_service.dart';
+import 'package:rnp_front/app/global_widgets/atoms/button.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../core/theme/text.dart';
@@ -26,7 +25,6 @@ class UsersController extends GetxController {
 
   TextEditingController fullName = TextEditingController();
   TextEditingController email = TextEditingController();
-  TextEditingController branchController = TextEditingController();
   TextEditingController phone = TextEditingController();
   TextEditingController region = TextEditingController();
   TextEditingController newPassword = TextEditingController();
@@ -49,11 +47,10 @@ class UsersController extends GetxController {
   Rx<RolesType?> selectedRole = Rx(null);
 
   RxList<Country> countries = <Country>[].obs;
-  RxList<Branch> branches = <Branch>[].obs;
+
   Rx<List<Region>> regions = Rx([]);
   Country? selectedCountry;
   Region? selectedRegion;
-  Rx<Branch?> selectedBranch = Rx(null);
 
   GlobalKey<FormState> chargingForm = GlobalKey();
   TextEditingController amount = TextEditingController();
@@ -76,14 +73,11 @@ class UsersController extends GetxController {
 
     List result = await Future.wait([
       countryService.findAllCountries(withLoadingAlert: false),
-      companyService.getBranches(withLoadingAlert: false),
       companyService.getCurrentCompany(),
       loadData(false),
     ]);
     countries.value = result[0];
-    branches.value = result[1];
-    branches.value = branches.value.haveUsers;
-    selectedBranch.value = branches.value.firstOrNull;
+
     currentCompany = result[2];
     isLoading.value = false;
 
@@ -160,18 +154,6 @@ class UsersController extends GetxController {
   }
 
   Future<bool> addUpdateItem({User? oldItem}) async {
-    Driver? driver;
-    if (selectedRole.value == RolesType.driver) {
-      driver = Driver(
-        id: oldItem?.driver?.id,
-        status: oldItem?.driver?.status,
-        address: address.text,
-        identificationPaper: identificationPaper.text,
-        drivingLicenseNumber: drivingLicenseNumber.text,
-        drivingLicenseType: drivingLicenseType.text,
-        drivingLicenseExpirationDate: drivingLicenseExpirationDate,
-      );
-    }
     User? user = User(
       id: oldItem?.id,
       internalCode: oldItem?.internalCode,
@@ -179,9 +161,7 @@ class UsersController extends GetxController {
       email: email.text,
       phoneNumber: phone.text,
       countryCode: countryCode,
-      branchId: selectedBranch.value?.id,
       role: selectedRole.value,
-      driver: driver,
     );
     user = await userService.createOrUpdate(user: user);
     if (user == null) {

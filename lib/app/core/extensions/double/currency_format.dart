@@ -1,4 +1,4 @@
-import 'package:eco_trans/app/core/utils/constant.dart';
+import 'package:rnp_front/app/core/utils/constant.dart';
 import 'package:intl/intl.dart';
 
 extension CurrencyFormat on double? {

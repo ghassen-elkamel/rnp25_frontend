@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:eco_trans/app/core/extensions/string/language.dart';
-import 'package:eco_trans/app/core/values/languages/language.dart';
-import 'package:eco_trans/app/data/models/item_select.dart';
-import 'package:eco_trans/app/data/services/user_service.dart';
-import 'package:eco_trans/app/global_widgets/organisms/dropdown.dart';
+import 'package:rnp_front/app/core/extensions/string/language.dart';
+import 'package:rnp_front/app/core/values/languages/language.dart';
+import 'package:rnp_front/app/data/models/item_select.dart';
+import 'package:rnp_front/app/data/services/user_service.dart';
+import 'package:rnp_front/app/global_widgets/organisms/dropdown.dart';
 import '../../core/theme/text.dart';
 import '../../core/utils/constant.dart';
 import '../../core/utils/language_helper.dart';

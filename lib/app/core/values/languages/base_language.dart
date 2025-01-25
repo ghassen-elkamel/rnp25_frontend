@@ -1,5 +1,19 @@
 abstract class BaseLanguage {
 
+  String get loginAccount;
+
+  String get dontHaveAccount;
+
+  String get location;
+
+  String get endDate;
+
+  String get startDate;
+
+  String get title;
+
+  String get description;
+
   String get underMaintenance;
 
   String get available;
@@ -964,6 +978,13 @@ abstract class BaseLanguage {
 "car": car,
 "available": available,
 "underMaintenance": underMaintenance,
+"description": description,
+"title": title,
+"startDate": startDate,
+"endDate": endDate,
+"location": location,
+"dontHaveAccount": dontHaveAccount,
+"loginAccount": loginAccount,
     };
   }
 }

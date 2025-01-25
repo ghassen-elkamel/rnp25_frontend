@@ -1,14 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-import 'package:eco_trans/app/core/utils/file_picker.dart';
-import 'package:eco_trans/app/data/models/form/entity_form.dart';
-import 'package:eco_trans/app/data/models/form/item_form.dart';
-import 'package:eco_trans/app/data/providers/external/api_provider.dart';
-import 'package:eco_trans/app/data/providers/external/src/api_provider_helper.dart';
-import 'package:eco_trans/app/global_widgets/atoms/spinner_progress_indicator.dart';
-import 'package:eco_trans/app/global_widgets/templates/app_scaffold.dart';
+import 'package:rnp_front/app/core/extensions/string/not_null_and_not_empty.dart';
+import 'package:rnp_front/app/core/utils/file_picker.dart';
+import 'package:rnp_front/app/data/models/form/entity_form.dart';
+import 'package:rnp_front/app/data/models/form/item_form.dart';
+import 'package:rnp_front/app/data/providers/external/api_provider.dart';
+import 'package:rnp_front/app/data/providers/external/src/api_provider_helper.dart';
+import 'package:rnp_front/app/global_widgets/atoms/spinner_progress_indicator.dart';
+import 'package:rnp_front/app/global_widgets/templates/app_scaffold.dart';
+
 import '../../../core/theme/text.dart';
 import '../../../core/utils/constant.dart';
 import '../../../core/utils/date.dart';
@@ -24,9 +25,7 @@ class CompanyView extends GetView<CompanyController> {
       title: "company".tr,
       selectedIndex: 4,
       withMenu: true,
-      onSearch: (value) {
-
-      },
+      onSearch: (value) {},
       body: Obx(() {
         if (controller.isLoading.isTrue) {
           return const AtomSpinnerProgressIndicator();
@@ -53,7 +52,8 @@ class CompanyView extends GetView<CompanyController> {
                           alignment: AlignmentDirectional.centerEnd,
                           child: CachedNetworkImage(
                             width: 50,
-                            imageUrl: "$hostCompanyPhotos?path=${item.imagePath}",
+                            imageUrl:
+                                "$hostCompanyPhotos?path=${item.imagePath}",
                             fit: BoxFit.contain,
                             httpHeaders: ApiProvider().getImageHeaders(),
                           ),
@@ -83,7 +83,8 @@ class CompanyView extends GetView<CompanyController> {
       itemsForm: [
         ItemForm(
           onTap: () async {
-            controller.selectedFile = await CustomFilePicker.showPicker(context: context);
+            controller.selectedFile =
+                await CustomFilePicker.showPicker(context: context);
             controller.imagePath.text = controller.selectedFile?.fileName ?? "";
           },
           label: "logo".tr,
@@ -92,25 +93,17 @@ class CompanyView extends GetView<CompanyController> {
           suffix: IconButton(
               icon: const Icon(Icons.attach_file),
               onPressed: () async {
-                controller.selectedFile = await CustomFilePicker.showPicker(context: context);
-                controller.imagePath.text = controller.selectedFile?.fileName ?? "";
+                controller.selectedFile =
+                    await CustomFilePicker.showPicker(context: context);
+                controller.imagePath.text =
+                    controller.selectedFile?.fileName ?? "";
               }),
         ),
         ItemForm(
           label: "companyName".tr,
           controller: controller.companyName,
         ),
-        ItemForm(
-          label: "branchPosition".tr,
-          controller: controller.branchPosition,
-          readOnly: true,
-          isRequired: false,
-          onTap: () => controller.selectPosition(context),
-          suffix: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
-            child: Icon(Icons.map),
-          ),
-        ),
+
         ItemForm.rxSelect(
           label: "country".tr,
           onChange: controller.onSelectCountry,
@@ -121,13 +114,24 @@ class CompanyView extends GetView<CompanyController> {
           label: "region".tr,
           onChange: (newItem) {
             controller.selectedRegion = newItem;
-            controller.branchName.text = "${"branch".tr} ${controller.selectedRegion?.name ?? ""}";
+
           },
           rxItems: controller.regions,
         ),
+
         ItemForm(
-          label: "branchName".tr,
-          controller: controller.branchName,
+          label: "email".tr,
+          controller: controller.email,
+          isRequired: true,
+          validator: (value) {
+            if (!value.isFilled) {
+              return "emailIsRequired".tr;
+            }
+            if (!GetUtils.isEmail(value!)) {
+              return "emailIsInvalid".tr;
+            }
+            return null;
+          },
         ),
         ItemForm.phone(
           label: "phone".tr,
@@ -138,13 +142,10 @@ class CompanyView extends GetView<CompanyController> {
           },
         ),
         ItemForm(
-          label: "firstName".tr,
-          controller: controller.firstName,
+          label: "fullName".tr,
+          controller: controller.fullName,
         ),
-        ItemForm(
-          label: "lastName".tr,
-          controller: controller.lastName,
-        ),
+
       ],
       onAdd: controller.addItem,
     );

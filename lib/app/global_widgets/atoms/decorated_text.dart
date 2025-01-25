@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:eco_trans/app/core/theme/text.dart';
+import 'package:rnp_front/app/core/theme/text.dart';
 import '../../core/values/colors.dart';
 
 class AtomDecoratedText extends StatelessWidget {

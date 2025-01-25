@@ -1,6 +1,6 @@
-import 'package:eco_trans/app/core/extensions/string/language.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rnp_front/app/core/extensions/string/language.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../core/utils/constant.dart';
@@ -14,6 +14,7 @@ import '../../data/services/user_service.dart';
 import '../../routes/app_pages.dart';
 import '../organisms/dropdown.dart';
 import 'menu_item.dart';
+
 class AtomDrawerContent extends StatelessWidget {
   final int? selectedIndex;
 
@@ -43,10 +44,10 @@ class AtomDrawerContent extends StatelessWidget {
                     simpleInput: true,
                     items: Language.list
                         .map((element) => ItemSelect(
-                      label: element.code,
-                      pathPicture: element.path,
-                      value: element,
-                    ))
+                              label: element.code,
+                              pathPicture: element.path,
+                              value: element,
+                            ))
                         .toList(),
                     onChange: (item) async {
                       UserService userService = UserService();
@@ -80,12 +81,14 @@ class AtomDrawerContent extends StatelessWidget {
                 icon: Icons.group,
                 onTap: () => Get.offAllNamed(Routes.USERS),
               ),
-            if (AuthService.access?.role == RolesType.admin)
+            if (AuthService.isAdmin())
               AtomMenuItem(
-                label: "cars".tr,
+                label: 'events',
+                icon: Icons.event,
                 isSelected: selectedIndex == 7,
-                icon: Icons.directions_car,
-                onTap: () => Get.offAllNamed(Routes.CARS),
+                onTap: () {
+                  Get.offAllNamed(Routes.EVENTS);
+                },
               ),
             if (AuthService.isAppManager())
               AtomMenuItem(
@@ -94,13 +97,7 @@ class AtomDrawerContent extends StatelessWidget {
                 icon: Icons.business_sharp,
                 onTap: () => Get.offAllNamed(Routes.COMPANY),
               ),
-            if (AuthService.isAppManager())
-              AtomMenuItem(
-                label: "branches".tr,
-                isSelected: selectedIndex == 5,
-                icon: Icons.location_on,
-                onTap: () => Get.offAllNamed(Routes.BRANCH),
-              ),
+
             AtomMenuItem(
               isSelected: selectedIndex == 6,
               label: "termsOfUse".tr,

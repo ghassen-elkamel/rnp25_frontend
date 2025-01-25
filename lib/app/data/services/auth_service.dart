@@ -15,7 +15,7 @@ class AuthService {
   static int? selectedCompanyCode;
   static AccessUser? access;
 
-  static get canSeeRate => access?.canSeeRate ?? false;
+
 
   static bool isAppManager() {
     return access?.role == RolesType.appManager;
@@ -30,7 +30,7 @@ class AuthService {
   }
 
   static List<RolesType> getMyRolesFilter() {
-    return [RolesType.driver, RolesType.admin, RolesType.client];
+    return [ RolesType.admin, RolesType.client];
   }
 
   Future<bool> customerAuth({
@@ -102,8 +102,7 @@ class AuthService {
         Get.offAllNamed(Routes.HOME);
         break;
       case null:
-      case RolesType.driver:
-        Get.offAllNamed(Routes.HOME);
+
     }
   }
 

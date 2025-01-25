@@ -6,6 +6,7 @@ class AtomGridView extends StatelessWidget {
   final bool addCrowding;
   final bool withBuilder;
   final bool shrinkWrap;
+  final EdgeInsetsGeometry padding;
 
   const AtomGridView({
     super.key,
@@ -14,6 +15,7 @@ class AtomGridView extends StatelessWidget {
     this.withBuilder = true,
     this.shrinkWrap = false,
     required this.children,
+    this.padding = const EdgeInsets.all(24),
   });
 
   @override
@@ -21,9 +23,18 @@ class AtomGridView extends StatelessWidget {
     List<Widget> rows = [];
     List<Widget> row = [];
     for (int i = 0; i < children.length; i++) {
-      row.add(Expanded(child: children[i]));
+      row.add(Expanded(
+          child: Padding(
+            padding: padding,
+            child: children[i],
+          )));
       if (row.length == crossAxisCount) {
-        rows.add(Row(children: row));
+        rows.add(
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: row,
+          ),
+        );
         row = [];
       }
     }
@@ -36,35 +47,41 @@ class AtomGridView extends StatelessWidget {
 
       rows.add(Row(children: row));
     }
-    return Scrollbar(
+
+    Widget content = Padding(
+      padding: padding,
+      child: withBuilder
+          ? ListView.builder(
+        primary: true,
+        itemCount: rows.length,
+        shrinkWrap: shrinkWrap,
+
+        itemBuilder: (context, index) {
+          return rows[index];
+        },
+      )
+          : shrinkWrap
+          ? Column(
+        children: rows,
+      )
+          : SingleChildScrollView(
+        primary: true,
+        child: Column(
+          children: rows,
+        ),
+      ),
+    );
+    return shrinkWrap
+        ? content
+        : Scrollbar(
       thumbVisibility: true,
       thickness: 10,
       radius: const Radius.circular(20),
       scrollbarOrientation: ScrollbarOrientation.left,
       child: ScrollConfiguration(
-        behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: withBuilder
-              ? ListView.builder(
-                  primary: true,
-                  itemCount: rows.length,
-                  shrinkWrap: shrinkWrap,
-                  itemBuilder: (context, index) {
-                    return rows[index];
-                  },
-                )
-              : shrinkWrap
-                  ? Column(
-                      children: rows,
-                    )
-                  : SingleChildScrollView(
-                      primary: true,
-                      child: Column(
-                        children: rows,
-                      ),
-                    ),
-        ),
+        behavior:
+        ScrollConfiguration.of(context).copyWith(scrollbars: false),
+        child: content,
       ),
     );
   }

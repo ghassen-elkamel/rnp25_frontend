@@ -15,9 +15,14 @@ import { AppConfigModule } from "./modules/app-config/app-config.module";
 import { NotificationsModule } from "./modules/notifications/notifications.module";
 import { NotificationTokenModule } from "./modules/notification-token/notification-token.module";
 import { CompanyModule } from "./modules/company/company.module";
-import { BranchModule } from "./modules/branch/branch.module";
+
 import * as path from "path";
 import { AcceptLanguageResolver, HeaderResolver, I18nModule, QueryResolver } from "nestjs-i18n";
+import { EventsModule } from './modules/events/events.module';
+import { FormModule } from './modules/form/form.module';
+import { FormQuestionModule } from './modules/form-question/form-question.module';
+import { FormResponseModule } from './modules/form_response/form_response.module';
+import { QuestionResponseModule } from './modules/question_response/question_response.module';
 @Global()
 @Module({
   imports: [
@@ -42,7 +47,12 @@ import { AcceptLanguageResolver, HeaderResolver, I18nModule, QueryResolver } fro
     NotificationsModule,
     NotificationTokenModule,
     CompanyModule,
-    BranchModule,
+    EventsModule,
+    FormResponseModule,
+    QuestionResponseModule,
+    //FormModule,
+    //FormQuestionModule,
+
   ],
   controllers: [AppController],
   providers: [

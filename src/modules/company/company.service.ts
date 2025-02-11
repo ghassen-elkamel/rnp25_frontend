@@ -1,54 +1,51 @@
-import { Inject, Injectable, forwardRef, Req } from "@nestjs/common";
+import { Inject, Injectable, forwardRef } from "@nestjs/common";
 import { CreateCompanyDto } from "./dto/create-company.dto";
-import { UpdateCompanyDto } from "./dto/update-company.dto";
 import { Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Company } from "./entities/company.entity";
 import { CreateFullCompanyDto } from "./dto/create-full-company.dto";
-import { BranchService } from "../branch/branch.service";
-import { CreateBranchDto } from "../branch/dto/create-branch.dto";
-import { Branch } from "../branch/entities/branch.entity";
+
 import { CreateUserDto } from "../users/dto/create-user.dto";
 import { RolesType } from "src/enums/roles.enum";
 import { Role } from "../users/entities/role.entity";
 import { UsersService } from "../users/users.service";
+import { encodePassword } from "src/utils/bycrpt.helper";
+import { RegionService } from "../region/region.service";
 
 @Injectable()
 export class CompanyService {
   constructor(
     @InjectRepository(Company)
     private repository: Repository<Company>,
-    @Inject(forwardRef(() => BranchService))
-    private branchService: BranchService,
+
     @Inject(forwardRef(() => UsersService))
     private usersService: UsersService,
+    private readonly regionService: RegionService,
   ) {}
 
   async create(createFullCompanyDto: CreateFullCompanyDto, userId, file: Express.Multer.File) {
     let createCompanyDto: CreateCompanyDto = new CreateCompanyDto(userId);
     createCompanyDto.name = createFullCompanyDto.companyName;
     createCompanyDto.imagePath = file?.filename;
-
-    let company = await this.repository.save(createCompanyDto);
-
-    let createBranchDto: CreateBranchDto = new CreateBranchDto(userId);
-    createBranchDto.company = company;
-    createBranchDto.regionId = createFullCompanyDto.branchRegionId;
-    createBranchDto.position = createFullCompanyDto.branchPosition;
-    createBranchDto.name = createFullCompanyDto.branchName;
-
-    let branch: Branch = await this.branchService.create(createBranchDto);
+    let region = await this.regionService.findOne(+createFullCompanyDto.regionId);
+    createCompanyDto.region = region;
+    let company = this.repository.create(createCompanyDto);
 
     let createUserDto: CreateUserDto = new CreateUserDto();
-    createUserDto.username = createFullCompanyDto.username;
-    createUserDto.firstName = createFullCompanyDto.firstName;
-    createUserDto.lastName = createFullCompanyDto.lastName;
     createUserDto.phoneNumber = createFullCompanyDto.phoneNumber;
     createUserDto.countryCode = createFullCompanyDto.countryCode;
-    createUserDto.branch = branch;
+    createUserDto.fullName = createFullCompanyDto.fullName;
     createUserDto.role = new Role(RolesType.admin);
+    createUserDto.company = company;
+    createUserDto.email = createFullCompanyDto.email;
+    const user = await this.usersService.create(createUserDto);
+    const password = user.password;
+    await this.repository.save(company);
+    user.password = await encodePassword(user.password);
+    const newUser = await this.usersService.saveChanges(user);
 
-    return this.usersService.create(createUserDto);
+    newUser.password = password;
+    return newUser;
   }
 
   async findAll() {

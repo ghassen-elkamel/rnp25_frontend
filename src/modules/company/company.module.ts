@@ -3,11 +3,12 @@ import { CompanyService } from "./company.service";
 import { CompanyController } from "./company.controller";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { Company } from "./entities/company.entity";
-import { BranchModule } from "../branch/branch.module";
+
 import { UsersModule } from "../users/users.module";
+import { RegionModule } from "../region/region.module";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Company]), forwardRef(() => BranchModule), forwardRef(() => UsersModule)],
+  imports: [TypeOrmModule.forFeature([Company]),  forwardRef(() => UsersModule),RegionModule],
   controllers: [CompanyController],
   providers: [CompanyService],
   exports: [CompanyService],

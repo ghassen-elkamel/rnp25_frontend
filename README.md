@@ -13,7 +13,7 @@ docker compose -f docker-compose.yml build --no-cache
 
 docker compose -f docker-compose.yml up --build -V
 
-```
+`
 
 ## Docker - Create Image
 
@@ -52,8 +52,7 @@ docker exec -it <container name> /bin/bash
 
 ```
 
-npx typeorm migration:generate src/db/migrations/update_user -d dist/db/data-source.js
-
+v
 ```
 4- Excecute the migration
 
@@ -86,7 +85,6 @@ npx prettier --write .
 
 ```
 
-kubectl delete -f xchange_backend.yaml && kubectl apply -f xchange_backend.yaml
 
 ```
 

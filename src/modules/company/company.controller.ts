@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, UseGuards, Req, UploadedFile, Res, Query } from "@nestjs/common";
+import { Controller, Get, Post, Body, UseGuards, Req, UploadedFile, Res, Query, Global } from "@nestjs/common";
 import { CompanyService } from "./company.service";
 import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
 import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
@@ -34,6 +34,8 @@ export class CompanyController {
       root: process.env.UPLOAD_DIR + process.env.UPLOAD_COMPANIES_DIR,
     });
   }
+
+
 
   @Get("all")
   findAll() {

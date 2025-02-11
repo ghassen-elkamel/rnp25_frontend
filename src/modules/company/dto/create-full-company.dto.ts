@@ -2,12 +2,10 @@ import { CreationEntityDto } from "src/common/dto/creation.dto";
 
 export class CreateFullCompanyDto extends CreationEntityDto {
   companyName: string;
-  branchName: string;
-  branchPosition: string;
-  branchRegionId: number;
+  regionId: number;
   username: string;
-  firstName: string;
-  lastName: string;
+  fullName: string;
+  email : string;
   phoneNumber: string;
   countryCode: string;
 }

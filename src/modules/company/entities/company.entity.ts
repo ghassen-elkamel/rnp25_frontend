@@ -1,6 +1,8 @@
 import { CreationEntity } from "src/common/entities/creation.entity";
-import { Column, Entity } from "typeorm";
-
+import { Region } from "src/modules/region/entities/region.entity";
+import { User } from "src/modules/users/entities/user.entity";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne } from "typeorm";
+import { Event } from "../../events/entities/event.entity";
 @Entity()
 export class Company extends CreationEntity {
   @Column()
@@ -9,30 +11,13 @@ export class Company extends CreationEntity {
   @Column({ nullable: true })
   imagePath: string;
 
-  @Column({ default: true })
-  isMultiCoffer: boolean;
-
-  @Column({ default: true })
-  isMultiBalanceClient: boolean;
-
-  @Column({ default: true })
-  haveDealers: boolean;
-
-  @Column({ default: true })
-  haveCashiers: boolean;
-
-  @Column({ default: true })
-  withSwiftDetails: boolean;
-
-  @Column({ default: true })
-  showCurrentExchangeRate: boolean;
-
-  @Column({ default: false })
-  showInternationalExchangeRate: boolean;
-
-  @Column({ default: true })
-  canChargePrincipalSafe: boolean;
-
+@ManyToOne(()=>Region,(region)=>region.companies)
+region :Region
   @Column({ nullable: true })
   whatsappPhoneNumber: string;
+  @OneToOne(()=>User,user=>user.company)
+ @JoinColumn()
+  supervisor:User;
+@OneToMany(()=>Event,(event)=>event.company)
+events:Event[]
 }

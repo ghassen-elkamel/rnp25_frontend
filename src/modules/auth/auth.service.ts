@@ -5,6 +5,7 @@ import { User } from "../users/entities/user.entity";
 import { UsersService } from "../users/users.service";
 import { AuthDto } from "./dto/auth.dto";
 import { Token } from "./entities/token.entity";
+import { Company } from "../company/entities/company.entity";
 
 @Injectable()
 export class AuthService {
@@ -15,13 +16,15 @@ export class AuthService {
   ) {}
 
   async login(auth: AuthDto, language): Promise<Token | any> {
-    let user = await this.usersService.findOneByUsername(auth.username);
+    let user = await this.usersService.finOneByEmail(auth.email);
     if (!user) throw new BadRequestException("invalidInformation");
 
+    console.log(user.role);
     const matches = await comparePassword(auth.password, user.password);
     if (!matches) {
       throw new BadRequestException("invalidPassword");
     }
+
     let newUser = await this.usersService.setLanguage(user.id, language);
     user.language = newUser.language;
     await this.usersService.addTokenToUser(auth.fcmToken, user);
@@ -30,7 +33,7 @@ export class AuthService {
   }
 
   async refreshTokens(userReq: User) {
-    const user = await this.usersService.findOneByUsername(userReq.username);
+    const user = await this.usersService.finOneByEmail(userReq.email);
     if (!user) throw new NotFoundException("invalidInformation");
 
     return await this.getTokens(user);
@@ -41,10 +44,8 @@ export class AuthService {
       this.jwtService.signAsync(
         {
           userId: user.id,
-          username: user.username,
           role: user.role.code,
-          branchId: user.branch?.id,
-          companyId: user.branch?.company?.id,
+          companyId: user.company?.id,
           language: user.language,
         },
         {
@@ -55,10 +56,10 @@ export class AuthService {
       this.jwtService.signAsync(
         {
           userId: user.id,
-          username: user.username,
+          companyId: user.company?.id,
+
           role: user.role.code,
-          branchId: user.branch?.id,
-          companyId: user.branch?.company?.id,
+
           language: user.language,
         },
         {
@@ -73,9 +74,8 @@ export class AuthService {
       refreshToken,
       role: user.role.code,
       userId: user.id,
-      branchId: user.branch?.id,
+
       language: user.language,
-      companyId: user.branch?.company?.id,
     };
   }
 }

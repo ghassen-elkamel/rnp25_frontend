@@ -16,13 +16,7 @@ export class AuthController {
     return this.authService.login(auth, language);
   }
 
-  @Post("loginTV")
-  async loginTV(@Body() auth: AuthDto, @Headers() headers): Promise<Token | any> {
-    let language: string = headers.language;
-    auth.username = "mypartner";
-    auth.password = "1234";
-    return await this.authService.login(auth, language);
-  }
+
 
   @ApiBearerAuth()
   @UseGuards(RefreshTokenGuard)

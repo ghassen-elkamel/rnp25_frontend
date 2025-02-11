@@ -1,5 +1,6 @@
+import { Company } from "src/modules/company/entities/company.entity";
 import { Country } from "src/modules/country/entities/country.entity";
-import { Entity, Column, PrimaryColumn, ManyToOne } from "typeorm";
+import { Entity, Column, PrimaryColumn, ManyToOne, OneToMany } from "typeorm";
 
 @Entity()
 export class Region {
@@ -20,4 +21,6 @@ export class Region {
 
   @Column()
   countryId: number;
+  @OneToMany(()=>Company,(company)=>company.region)
+  companies:Company[]
 }

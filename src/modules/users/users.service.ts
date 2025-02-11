@@ -9,7 +9,7 @@ import {
 import { InjectRepository } from "@nestjs/typeorm";
 import { RolesType } from "src/enums/roles.enum";
 import { encodePassword } from "src/utils/bycrpt.helper";
-import { In, Repository } from "typeorm";
+import { In, IsNull, Not, Repository } from "typeorm";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { User } from "./entities/user.entity";
 import { Order } from "src/enums/order.enum";
@@ -18,24 +18,25 @@ import { UpdateUserDto } from "./dto/update-user.dto";
 import { NotificationsService } from "../notifications/notifications.service";
 import { NotificationTokenService } from "../notification-token/notification-token.service";
 import { CreateNotificationTokenDto } from "../notification-token/dto/create-notification-token.dto";
-import { BranchService } from "../branch/branch.service";
-import { CreateBranchDto } from "../branch/dto/create-branch.dto";
-import { Company } from "../company/entities/company.entity";
+
 import { NotificationType } from "src/enums/notification.enum";
+import { Role } from "./entities/role.entity";
+
+import { use } from "passport";
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
-    private branchService: BranchService,
+
     private notificationTokenService: NotificationTokenService,
     @Inject(forwardRef(() => NotificationsService))
     private notificationsService: NotificationsService,
   ) {}
 
-  async create(createUserDto: CreateUserDto, companyId?: number) {
-    const user = await this.findOneByUsername(createUserDto.username);
+  async create(createUserDto: CreateUserDto) {
+    const user = await this.finOneByEmail(createUserDto.phoneNumber);
     if (user) {
       if (user.deletedAt) {
         await this.usersRepository.restore({ id: user.id });
@@ -46,57 +47,58 @@ export class UsersService {
       }
     }
 
-    if (!createUserDto.branch && createUserDto.branchId) {
-      createUserDto.branch = await this.branchService.findOne(createUserDto.branchId);
-    }
+
 
     createUserDto.isActive = true;
     createUserDto.isVerified = true;
     createUserDto.isBlocked = false;
+    createUserDto.role = new Role(RolesType.client);
+
     let key1 = uuidv1();
     let password = key1.split("-")[0];
-
-    createUserDto.password = await encodePassword(password);
+    let returnPassword = false;
+    if (!createUserDto.password) {
+      returnPassword = true;
+      createUserDto.password = await encodePassword(password);
+    } else {
+      createUserDto.password = await encodePassword(createUserDto.password);
+    }
 
     const newUser = await this.usersRepository.create(createUserDto);
     await this.usersRepository.save(newUser);
 
     delete newUser.role;
-    newUser.password = password;
-    newUser.username = createUserDto.username;
+    if (returnPassword) {
+      newUser.password = password;
+    }
     await this.addTokenToUser(createUserDto.fcmToken, newUser);
     return newUser;
   }
 
-  async findOneByUsername(username: string) {
+  async findOneByPhone(phoneNumber: string, countryCode: string) {
     const user = await this.usersRepository.findOne({
       where: {
-        username: username,
+        phoneNumber: phoneNumber,
+        countryCode: countryCode,
       },
       relations: {
         notificationToken: true,
         role: true,
-        branch: {
-          company: true,
-        },
+
+    
       },
       select: {
         id: true,
-        username: true,
+        phoneNumber: true,
+        countryCode: true,
         password: true,
-        firstName: true,
-        lastName: true,
+        fullName: true,
         language: true,
         role: {
           code: true,
           label: true,
         },
-        branch: {
-          id: true,
-          company: {
-            id: true,
-          },
-        },
+    
         isBlocked: true,
         deletedAt: true,
         isVerified: true,
@@ -110,6 +112,7 @@ export class UsersService {
     if (!id) {
       return;
     }
+
     const user = await this.usersRepository.findOne({
       where: {
         id: id,
@@ -133,7 +136,7 @@ export class UsersService {
         id: id,
       },
       relations: {
-        branch: true,
+
         role: true,
       },
     });
@@ -150,11 +153,7 @@ export class UsersService {
       where: {
         id: id,
       },
-      relations: {
-        branch: {
-          company: true,
-        },
-      },
+    
     });
 
     if (!user) throw new NotFoundException("User does not exist");
@@ -169,7 +168,7 @@ export class UsersService {
       },
       relations: {
         role: true,
-        branch: true,
+
       },
     });
 
@@ -178,53 +177,36 @@ export class UsersService {
     return user;
   }
 
-  async update(user: UpdateUserDto, companyId: number) {
+  async update(user: UpdateUserDto) {
     const oldItem = await this.usersRepository.findOne({
-      where: { id: user.id, branch: { company: { id: companyId } } },
-      relations: { branch: true, role: true },
+      where: { id: user.id },
+      relations: {  role: true },
     });
 
     if (!oldItem) {
       throw new UnauthorizedException();
     }
 
-    if (user.externalCode != oldItem.externalCode) {
-      if (oldItem.role.code == RolesType.client) {
-        user.username = user.branchId.toString().padStart(3, "0") + user.externalCode;
-      }
-      const verifyUser = await this.findOneByUsername(user.username);
-      if (verifyUser && verifyUser.id != oldItem.id) {
-        throw new BadRequestException("thisUsernameAlreadyExistsPleaseTryAgain");
-      }
-    }
-    if (user.branchId && user.branchId != oldItem.branch.id) {
-      user.branch = await this.branchService.findOne(user.branchId);
-    } else {
-      user.branch = oldItem.branch;
+    const verifyUser = await this.findOneByPhone(user.phoneNumber, user.countryCode);
+    if (verifyUser && verifyUser.id != oldItem.id) {
+      throw new BadRequestException("thisUsernameAlreadyExistsPleaseTryAgain");
     }
 
-    if (user.branch.name != user.firstName) {
-      user.branch.name = user.firstName;
-      this.branchService.update(user.branch);
-      user.lastName = "";
-    }
+
+
     return this.usersRepository.save(user);
   }
 
   async findAllByRole(args: { roles: RolesType[]; companyId: number }) {
     const users = await this.usersRepository.find({
       where: {
+   
         role: {
           code: In(args.roles),
         },
-        branch: {
-          company: {
-            id: args.companyId,
-          },
-        },
       },
       relations: {
-        branch: { region: { country: true } },
+       
         role: true,
       },
       order: {
@@ -236,7 +218,7 @@ export class UsersService {
   }
 
   async deleteUser(userId: number) {
-    const user = await this.usersRepository.findOne({ where: { id: userId }, relations: { branch: true } });
+    const user = await this.usersRepository.findOne({ where: { id: userId },  });
     const result = await this.usersRepository.softDelete({
       id: userId,
     });
@@ -244,45 +226,24 @@ export class UsersService {
     if (result.affected > 0) {
       const numberOfUsers = await this.usersRepository.count({
         where: {
-          branch: {
-            id: user.branch.id,
-          },
+   
         },
       });
-      if (numberOfUsers == 0) {
-        await this.branchService.deleteBranch(user.branch.id);
-      }
+
     }
 
     return result;
   }
 
   async countByRole(rolesType: RolesType, branchId: number, companyId: number): Promise<number> {
-    let branchCondition = {};
-    if (branchId) {
-      branchCondition = {
-        branch: {
-          id: branchId,
-        },
-      };
-    }
 
-    if (companyId) {
-      branchCondition = {
-        branch: {
-          company: {
-            id: companyId,
-          },
-        },
-      };
-    }
 
     return await this.usersRepository.count({
       where: {
         role: {
           code: rolesType,
         },
-        ...branchCondition,
+
       },
     });
   }
@@ -332,19 +293,17 @@ export class UsersService {
   }
 
   async findUsersByBranchId(branchId: number) {
-    let roles = [RolesType.admin, RolesType.driver];
+    let roles = [RolesType.admin];
     const users = await this.usersRepository.find({
       where: {
-        branch: {
-          id: branchId,
-        },
+
         role: {
           code: In(roles),
         },
       },
       relations: {
         role: true,
-        branch: true,
+
         notificationToken: true,
       },
     });
@@ -385,5 +344,50 @@ export class UsersService {
     user.password = await encodePassword(newPassword);
 
     return await this.usersRepository.save(user);
+  }
+
+  findByIds(usersId: number[]) {
+    return this.usersRepository.find({
+      where: {
+        id: In(usersId),
+      },
+    });
+  }
+
+  async saveChanges(user: User) {
+    return await this.usersRepository.save(user);
+  }
+ async  finOneByEmail(email: string) {
+    const user = await this.usersRepository.findOne({
+      where: {
+
+email:email
+      },
+      relations: {
+        notificationToken: true,
+        role: true,
+        company :true
+
+     
+      },
+      select: {
+        id: true,
+        phoneNumber: true,
+        countryCode: true,
+        password: true,
+        fullName: true,
+        language: true,
+        role: {
+          code: true,
+          label: true,
+        },
+     
+        isBlocked: true,
+        deletedAt: true,
+        isVerified: true,
+      },
+      withDeleted: true,
+    });
+    return user;
   }
 }

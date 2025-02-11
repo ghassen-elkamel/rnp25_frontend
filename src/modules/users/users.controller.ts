@@ -45,13 +45,16 @@ export class UsersController {
     let items = await this.usersService.findAllByRole({ roles: query.roles, companyId });
     return { items };
   }
-
+  @Post("admin")
+  createByAdmin(@Body() createUserDto: CreateUserDto, @Req() req) {
+    createUserDto.role = new Role(createUserDto.receivedRole);
+    return this.usersService.create(createUserDto);
+  }
+  @Public()
   @Post()
   create(@Body() createUserDto: CreateUserDto, @Req() req) {
-    let companyId = req.user.companyId;
-
     createUserDto.role = new Role(createUserDto.receivedRole);
-    return this.usersService.create(createUserDto, companyId);
+    return this.usersService.create(createUserDto);
   }
 
   @Get("me")
@@ -64,9 +67,7 @@ export class UsersController {
 
   @Patch()
   update(@Req() req, @Body() user: UpdateUserDto) {
-    let companyId = req.user.companyId;
-
-    return this.usersService.update(user, companyId);
+    return this.usersService.update(user);
   }
 
   @Get(":id")

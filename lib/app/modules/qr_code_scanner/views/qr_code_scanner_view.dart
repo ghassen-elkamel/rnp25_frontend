@@ -1,7 +1,9 @@
-import 'package:rnp_front/app/modules/qr_code_scanner/views/scanner_error.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:qr_code_scanner_plus/qr_code_scanner_plus.dart';
+import 'package:rnp_front/app/global_widgets/atoms/button.dart';
+
+import '../../../core/utils/alert.dart';
 import '../../../global_widgets/templates/app_scaffold.dart';
 import '../controllers/qr_code_scanner_controller.dart';
 
@@ -10,25 +12,33 @@ class QrCodeScannerView extends GetView<QrCodeScannerController> {
 
   @override
   Widget build(BuildContext context) {
-    final scanWindow = Rect.fromCenter(
-      center: MediaQuery.sizeOf(context).center(Offset.zero),
-      width: 200,
-      height: 200,
-    );
-
     return AppScaffold(
-      title: 'voucherScanner'.tr,
-      centerTitle: true,
-      withCloseIcon: true,
-      body: MobileScanner(
-        fit: BoxFit.contain,
-        scanWindow: scanWindow,
-        onDetect: controller.onDetect,
-        controller: controller.scannerController,
-        errorBuilder: (context, error, child) {
-          return ScannerErrorWidget(error: error);
-        },
-      ),
-    );
+        title: 'scanQr'.tr,
+        centerTitle: true,
+        withMenu: true,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              AtomButton(
+                isSmall: true,
+                label: 'scan',
+                onPressed: () {
+                  Alert.showCustomDialog(
+                    title: "scanQR".tr,
+                    content: SizedBox.square(
+                      dimension: 300,
+                      child: QRView(
+                        key: controller.qrKey,
+                        onQRViewCreated: controller.onQRViewCreated,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        ));
   }
 }

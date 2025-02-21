@@ -1031,8 +1031,15 @@ class ArLanguage extends BaseLanguage {
   @override
   String get dontHaveAccount => " ليس لديك حساب ؟ ";
 
+  @override
+  String get loginAccount => "تسجيل الدخول";
+
 
 
   @override
-  String get loginAccount => "تسجيل الدخول";
+  String get bilel => ""; 
+
+
+  @override
+  String get scanQr => ""; 
 }

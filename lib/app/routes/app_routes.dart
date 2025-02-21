@@ -22,6 +22,9 @@ abstract class Routes {
   static const WAITING_VOUCHER = _Paths.WAITING_VOUCHER;
 
   static const EVENTS = _Paths.EVENTS;
+  static const SURVEY = _Paths.SURVEY;
+  static const EVENT_DETAILS = _Paths.EVENT_DETAILS;
+  static const FORMS_LIST = _Paths.FORMS_LIST;
 }
 
 abstract class _Paths {
@@ -45,4 +48,7 @@ abstract class _Paths {
   static const WAITING_VOUCHER = '/waiting-voucher';
 
   static const EVENTS = '/events';
+  static const SURVEY = '/survey';
+  static const EVENT_DETAILS = '/event-details';
+  static const FORMS_LIST = '/forms-list';
 }

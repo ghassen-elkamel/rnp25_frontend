@@ -25,7 +25,7 @@ const String storageAccessUserKey = "accessUser";
 
 const String storageLocaleKey = "locale";
 
-const double appBarHeight = 100;
+const double appBarHeight = 60;
 
 const String stripePublishableKey =
     "pk_test_51NNBjbItp882xOIgPx2g4BrTQymvsP9r4NYY6U0315ucGZzXOKPpQSteWnzjRioLwBRRk3kq4Ax5dr8bVnQsBk7300k5EtV5U0";

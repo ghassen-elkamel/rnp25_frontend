@@ -1,42 +1,34 @@
 import 'dart:async';
 
-import 'package:rnp_front/app/core/utils/image.dart';
-import 'package:rnp_front/app/data/enums/car_type.dart';
-import 'package:rnp_front/app/data/enums/itinerary_steps.dart';
-import 'package:rnp_front/app/data/enums/payment_method.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-
-import '../../../core/utils/alert.dart';
-import '../../../data/providers/google_map/entity/prediction.dart';
-import '../../../data/providers/google_map/google_maps_provider.dart';
+import 'package:rnp_front/app/data/models/entities/user-event.dart';
+import 'package:rnp_front/app/data/services/user_event_service.dart';
 
 class HomeController extends GetxController {
-
-
-
-
-
   RxBool isLoading = false.obs;
-
+  UserEventService userEventService = UserEventService();
+  Rx<UserEvent?> userEvent =Rx<UserEvent?>(null);
 
   @override
   Future<void> onInit() async {
     isLoading.value = true;
-
+getQrCode();
     isLoading.value = false;
 
     super.onInit();
   }
 
+  getQrCode() async {
+    final response = await userEventService.getUserUUid('2');
+    if(response!=null){
+      userEvent.value = response;
+    }
+
+
+  }
 
   @override
   void onClose() {
-
     super.onClose();
   }
-
 }
-
-
-

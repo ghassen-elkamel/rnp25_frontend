@@ -1,7 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
+import '../../../core/values/colors.dart';
 import '../../../global_widgets/templates/app_scaffold.dart';
 import '../controllers/home_controller.dart';
 
@@ -11,9 +12,8 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-
       selectedIndex: 1,
-      title: 'hello',
+      title: 'welcome'.tr,
       padding: EdgeInsets.zero,
       body: Obx(() {
         if (controller.isLoading.value) {
@@ -21,9 +21,26 @@ class HomeView extends GetView<HomeController> {
             child: CircularProgressIndicator(),
           );
         }
-        return const Center(
-          child: Text('HomeView is working'),
-        );
+        return Center(
+            child: QrImageView(
+          data: controller.userEvent.value?.uuid.toString() ?? '',
+          version: QrVersions.auto,
+          backgroundColor: Colors.transparent,
+          dataModuleStyle: const QrDataModuleStyle(
+            dataModuleShape: QrDataModuleShape.square,
+            color: secondColor,
+          ),
+          embeddedImageStyle: const QrEmbeddedImageStyle(
+            size: Size(35, 35),
+          ),
+          semanticsLabel: 'Ticket',
+          gapless: true,
+          eyeStyle: const QrEyeStyle(
+            eyeShape: QrEyeShape.square,
+            color: secondColor,
+          ),
+          size: 300.0,
+        ));
       }),
     );
   }

@@ -1,5 +1,9 @@
 abstract class BaseLanguage {
 
+  String get scanQr;
+
+  String get bilel;
+
   String get loginAccount;
 
   String get dontHaveAccount;
@@ -985,6 +989,8 @@ abstract class BaseLanguage {
 "location": location,
 "dontHaveAccount": dontHaveAccount,
 "loginAccount": loginAccount,
+"bilel": bilel,
+"scanQr": scanQr,
     };
   }
 }

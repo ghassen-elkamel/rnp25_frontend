@@ -1233,4 +1233,13 @@ class EnLanguage extends BaseLanguage {
 
   @override
   String get loginAccount => "Login to your account";
+
+
+
+  @override
+  String get bilel => ""; 
+
+
+  @override
+  String get scanQr => ""; 
 }

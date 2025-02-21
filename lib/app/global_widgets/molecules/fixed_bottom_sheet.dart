@@ -31,14 +31,13 @@ class MoleculeFixedBottomSheet extends StatelessWidget {
               host: hostPhoto,
               path: backgroundImage,
               width: Get.width,
-
               boxFit: BoxFit.fitWidth,
               imageErrorPath: imageErrorPath,
             )),
         Align(
           alignment: Alignment.bottomCenter,
           child: SizedBox(
-            height: Get.height* 0.6,
+            height: Get.height * 0.6,
             child: DecoratedBox(
               decoration: const BoxDecoration(
                 color: Colors.white,

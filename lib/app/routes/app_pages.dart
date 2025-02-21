@@ -4,10 +4,14 @@ import '../modules/company/bindings/company_binding.dart';
 import '../modules/company/views/company_view.dart';
 import '../modules/dev_mode/bindings/dev_mode_binding.dart';
 import '../modules/dev_mode/views/dev_mode_view.dart';
+import '../modules/event_details/bindings/event_details_binding.dart';
+import '../modules/event_details/views/event_details_view.dart';
 import '../modules/events/bindings/events_binding.dart';
 import '../modules/events/views/events_view.dart';
 import '../modules/force_update/bindings/force_update_binding.dart';
 import '../modules/force_update/views/force_update_view.dart';
+import '../modules/forms_list/bindings/forms_list_binding.dart';
+import '../modules/forms_list/views/forms_list_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
@@ -20,6 +24,8 @@ import '../modules/sign_up/bindings/sign_up_binding.dart';
 import '../modules/sign_up/views/sign_up_view.dart';
 import '../modules/splash_screen/bindings/splash_screen_binding.dart';
 import '../modules/splash_screen/views/splash_screen_view.dart';
+import '../modules/survey/bindings/survey_binding.dart';
+import '../modules/survey/views/survey_view.dart';
 import '../modules/transfer_credit/bindings/transfer_credit_binding.dart';
 import '../modules/transfer_credit/views/transfer_credit_view.dart';
 import '../modules/users/bindings/users_binding.dart';
@@ -76,7 +82,6 @@ class AppPages {
       binding: CompanyBinding(),
       transition: Transition.noTransition,
     ),
-
     GetPage(
       name: _Paths.USERS,
       page: () => const UsersView(),
@@ -113,6 +118,21 @@ class AppPages {
       name: _Paths.EVENTS,
       page: () => const EventsView(),
       binding: EventsBinding(),
+    ),
+    GetPage(
+      name: _Paths.SURVEY,
+      page: () => const SurveyView(),
+      binding: SurveyBinding(),
+    ),
+    GetPage(
+      name: _Paths.EVENT_DETAILS,
+      page: () => const EventDetailsView(),
+      binding: EventDetailsBinding(),
+    ),
+    GetPage(
+      name: _Paths.FORMS_LIST,
+      page: () => const FormsListView(),
+      binding: FormsListBinding(),
     ),
   ];
 }

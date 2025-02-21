@@ -27,7 +27,6 @@ class LoginView extends GetView<LoginController> {
           child: Form(
             key: controller.key,
             child: Column(
-              spacing: 20,
               children: [
                 AtomTextField.simple(
                   validator: (p0) {
@@ -81,7 +80,7 @@ class LoginView extends GetView<LoginController> {
 
     return Scaffold(
       body: MoleculeFixedBottomSheet(
-        height: Get.height * 0.7,
+        height: Get.height * 0.9,
         title: "welcome".tr,
         backgroundImage: loginBackground,
         content: [
@@ -89,14 +88,9 @@ class LoginView extends GetView<LoginController> {
             children: [
               CustomText.l("loginAccount".tr),
               const SizedBox(
-                height: 10,
+                height: 5,
               ),
-              CustomText.m(
-                "loginMessage".tr,
-                color: grey,
-                textAlign: TextAlign.start,
-                maxLines: 10,
-              ),
+
               Form(
                 key: controller.key,
                 child: Column(
@@ -164,7 +158,7 @@ class LoginView extends GetView<LoginController> {
                       ],
                     ),
                     const SizedBox(
-                      height: 30,
+                      height: 10,
                     ),
                     InkWell(
                         onTap: () {

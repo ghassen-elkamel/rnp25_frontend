@@ -97,7 +97,12 @@ class AtomDrawerContent extends StatelessWidget {
                 icon: Icons.business_sharp,
                 onTap: () => Get.offAllNamed(Routes.COMPANY),
               ),
-
+            if (AuthService.isAdmin())
+              AtomMenuItem(
+                label: 'forms',
+                icon: Icons.format_align_center,
+                onTap: () => Get.offAllNamed(Routes.FORMS_LIST),
+              ),
             AtomMenuItem(
               isSelected: selectedIndex == 6,
               label: "termsOfUse".tr,
@@ -109,6 +114,13 @@ class AtomDrawerContent extends StatelessWidget {
                 }
               },
             ),
+            if (AuthService.isClient())
+              AtomMenuItem(
+                  label: 'QR',
+                  icon: Icons.qr_code,
+                  onTap: () {
+                    Get.offAllNamed(Routes.QR_CODE_SCANNER);
+                  }),
             AtomMenuItem(
               label: 'logout'.tr,
               icon: Icons.logout,

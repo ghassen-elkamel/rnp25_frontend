@@ -33,7 +33,7 @@ class MoleculeDropdownContent<T> extends StatelessWidget {
             child: AtomTextField(
               hintText: "search".tr,
               onChanged: onSearch,
-              height: 40,
+              height: 50,
               borderRadius: 30,
               suffix: const Padding(
                 padding: EdgeInsets.all(8.0),

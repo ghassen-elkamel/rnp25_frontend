@@ -188,6 +188,7 @@ class _OrganismDropdownState<T> extends State<OrganismDropdown<T>> {
                 link: layerLink,
                 child: widget.simpleInput
                     ? AtomTextField.simple(
+                  height: 80,
                   inputKey: key,
                   backgroundColor: widget.backgroundColor ?? greyDark,
                   controller: widget.controller,

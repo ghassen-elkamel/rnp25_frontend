@@ -1,6 +1,7 @@
-import 'package:rnp_front/app/data/services/auth_service.dart';
 import 'package:get/get.dart';
 import 'package:rnp_front/app/data/enums/role_type.dart';
+import 'package:rnp_front/app/data/models/dto/create_subscription_form.dart';
+import 'package:rnp_front/app/data/services/auth_service.dart';
 
 import '../../core/utils/language_helper.dart';
 import '../../data/models/file_info.dart';
@@ -24,6 +25,24 @@ class UserService {
     }
     return null;
   }
+
+  Future<User?> signUp({
+    required CreateSubscriptionFormDto createSubscriptionFormDto,
+    bool withLoadingAlert = true,
+  }) async {
+    var response = await ApiProvider().post(
+      HttpParamsPostPut(
+        endpoint: "/v1/subscription-form",
+        body: createSubscriptionFormDto.toJson(),
+        withLoadingAlert: withLoadingAlert,
+      ),
+    );
+    if (response != null) {
+      return User.fromJson(response, Get.locale?.languageCode);
+    }
+    return null;
+  }
+
   Future<User?> createByAmin({
     required User user,
     bool withLoadingAlert = true,
@@ -94,8 +113,7 @@ class UserService {
     );
   }
 
-  Future<List<User>> findAllByRole(
-      {required List<RolesType> roles }) async {
+  Future<List<User>> findAllByRole({required List<RolesType> roles}) async {
     var response = await ApiProvider().get(
       HttpParamsGetDelete(
         endpoint: "/v1/users",
@@ -146,11 +164,10 @@ class UserService {
     if (user.id != null) {
       return await update(user: user);
     }
-    if(AuthService.isAdmin()) {
+    if (AuthService.isAdmin()) {
       return await createByAmin(user: user);
     }
     return await create(user: user);
-
   }
 
   Future<bool> updatePassword({int? id, required String newPassword}) async {

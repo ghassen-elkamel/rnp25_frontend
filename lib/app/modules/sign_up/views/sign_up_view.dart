@@ -11,10 +11,12 @@ import 'package:rnp_front/app/global_widgets/atoms/phone_text_field.dart';
 import 'package:rnp_front/app/global_widgets/atoms/spinner_progress_indicator.dart';
 import 'package:rnp_front/app/global_widgets/organisms/dropdown.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:rnp_front/app/core/utils/form_utils.dart';
 
 import '../../../core/theme/text.dart';
 import '../../../core/utils/file_picker.dart';
 import '../../../core/values/colors.dart';
+import '../../../data/enums/room_type.dart';
 import '../../../data/models/file_info.dart';
 import '../../../global_widgets/atoms/button.dart';
 import '../../../global_widgets/atoms/text_field.dart';
@@ -31,20 +33,10 @@ class SignUpView extends GetView<SignUpController> {
     final isPad = screenSize.width > 768;
 
     return Scaffold(
-      backgroundColor: primaryColor,
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [primaryColor, primaryColor.withOpacity(0.8)],
-          ),
-        ),
-        child: Obx(
-          () => controller.isLoading.value
-              ? const Center(child: AtomSpinnerProgressIndicator())
-              : _buildContent(screenSize, isTablet, isPad),
-        ),
+      body: Obx(
+        () => controller.isLoading.value
+            ? const Center(child: AtomSpinnerProgressIndicator())
+            : _buildContent(screenSize, isTablet, isPad),
       ),
     );
   }
@@ -58,7 +50,12 @@ class SignUpView extends GetView<SignUpController> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 16),
+                Image.asset(
+                  'assets/icons/small_icon.png',
+                  width: 100,
+                  height: 100,
+                ),
+                const SizedBox(height: 8),
                 _buildHeaderText(),
                 const SizedBox(height: 8),
                 _buildFormContainer(screenSize, isTablet, isPad),
@@ -73,7 +70,7 @@ class SignUpView extends GetView<SignUpController> {
   Widget _buildHeaderText() {
     return CustomText.xl(
       'createAccount'.tr,
-      color: white,
+      color: black,
       fontWeight: FontWeight.bold,
     )
         .animate()
@@ -199,6 +196,8 @@ class SignUpView extends GetView<SignUpController> {
         return secondPage(isTablet);
       case 2:
         return thirdPage();
+      case 3:
+        return fourthPage();
       default:
         return const SizedBox();
     }
@@ -227,7 +226,7 @@ class SignUpView extends GetView<SignUpController> {
                 label: controller.currentStep.value == 2
                     ? "register".tr
                     : "next".tr,
-                onPressed: _handleNextButton,
+                onPressed: _handleNext,
               ),
             ],
           )),
@@ -240,26 +239,137 @@ class SignUpView extends GetView<SignUpController> {
     controller.currentStep.value--;
   }
 
-  void _handleNextButton() {
+  void _handleNext() {
     HapticFeedback.mediumImpact();
 
-    if (controller.currentStep.value == 2) {
+    // If we're at the last step, perform registration
+    if (controller.currentStep.value == 3) {
+      // Validate fourth page
+      if (!FormUtils.validateRequiredFields(
+        formKey: controller.key,
+        snackbarMessage: 'pleaseFillInAllRequiredFieldsBeforeRegistering'.tr,
+      )) {
+        // Show animation and set autovalidation mode to trigger on user interaction
+        _showValidationError();
+        return;
+      }
+
+      // Additional validation for room type and receipt
+      if (controller.selectedRoomType.value == null) {
+        Get.snackbar(
+          'roomTypeRequired'.tr,
+          'pleaseSelectYourPreferredRoomType'.tr,
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.red.shade100,
+          colorText: Colors.red.shade900,
+          icon: const Icon(Icons.warning_amber_rounded, color: Colors.red),
+        );
+        _showValidationError();
+        return;
+      }
+
+      if (controller.selectedImage.value == null) {
+        Get.snackbar(
+          'paymentReceiptRequired'.tr,
+          'pleaseUploadYourPaymentReceipt'.tr,
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.red.shade100,
+          colorText: Colors.red.shade900,
+          icon: const Icon(Icons.warning_amber_rounded, color: Colors.red),
+        );
+        _showValidationError();
+        return;
+      }
 
       Future.delayed(const Duration(milliseconds: 1500), () {
         controller.register();
       });
     } else {
-      if (controller.currentStep.value == 0 &&
-          !controller.key.currentState!.validate()) {
-        controller.errorShake.value = true;
-        Future.delayed(const Duration(milliseconds: 500), () {
-          controller.errorShake.value = false;
-        });
+      // Validate current step fields based on step number
+      bool isValid = false;
+
+      if (controller.currentStep.value == 0) {
+        // First page - validate form fields
+        isValid = FormUtils.validateRequiredFields(
+          formKey: controller.key,
+          snackbarMessage: 'pleaseFillInAllPersonalInformation'.tr,
+        );
+      } else if (controller.currentStep.value == 1) {
+        // Second page - validate zone and OLM selection
+        if (controller.selectedZoneType.value == null) {
+          Get.snackbar(
+            'zoneSelectionRequired'.tr,
+            'pleaseSelectYourZone'.tr,
+            snackPosition: SnackPosition.TOP,
+            backgroundColor: Colors.red.shade100,
+            colorText: Colors.red.shade900,
+            icon: const Icon(Icons.warning_amber_rounded, color: Colors.red),
+          );
+          isValid = false;
+        } else if (controller.selectedOlm.value == null) {
+          Get.snackbar(
+            'olmSelectionRequired'.tr,
+            'pleaseSelectYourOlm'.tr,
+            snackPosition: SnackPosition.TOP,
+            backgroundColor: Colors.red.shade100,
+            colorText: Colors.red.shade900,
+            icon: const Icon(Icons.warning_amber_rounded, color: Colors.red),
+          );
+          isValid = false;
+        } else {
+          isValid = true;
+        }
+      } else if (controller.currentStep.value == 2) {
+        // Third page - validate position and subscription
+        if (controller.selectedPositionType.value == null) {
+          Get.snackbar(
+            'positionSelectionRequired'.tr,
+            'pleaseSelectYourPosition'.tr,
+            snackPosition: SnackPosition.TOP,
+            backgroundColor: Colors.red.shade100,
+            colorText: Colors.red.shade900,
+            icon: const Icon(Icons.warning_amber_rounded, color: Colors.red),
+          );
+          isValid = false;
+        } else if (controller.selectedPositionType.value ==
+                PositionType.OTHER &&
+            !FormUtils.validateField(
+              controller: controller.otherPositionType,
+              fieldName: 'positionDescription'.tr,
+            )) {
+          isValid = false;
+        } else if (controller.selectedSubscriptionOption.value == null) {
+          Get.snackbar(
+            'subscriptionSelectionRequired'.tr,
+            'pleaseSelectYourSubscription'.tr,
+            snackPosition: SnackPosition.TOP,
+            backgroundColor: Colors.red.shade100,
+            colorText: Colors.red.shade900,
+            icon: const Icon(Icons.warning_amber_rounded, color: Colors.red),
+          );
+          isValid = false;
+        } else {
+          isValid = true;
+        }
+      }
+
+      if (!isValid) {
+        _showValidationError();
         return;
       }
+
+      // Proceed to next step if validation passes
       controller.pageDirection.value = -1.0;
       controller.currentStep.value++;
     }
+  }
+
+  // Helper method to show error animation and set fields to autovalidate
+  void _showValidationError() {
+    controller.errorShake.value = true;
+    Future.delayed(const Duration(milliseconds: 500), () {
+      controller.errorShake.value = false;
+    });
   }
 
   Widget _buildLoginText() {
@@ -274,7 +384,7 @@ class SignUpView extends GetView<SignUpController> {
           padding: const EdgeInsets.all(8.0),
           child: RichText(
             text: TextSpan(
-              text: "alreadyHaveAnAccount? ",
+              text: "alreadyHaveAnAccount".tr,
               style: TextStyle(color: Colors.grey.shade600, fontSize: 14),
               children: [
                 TextSpan(
@@ -344,7 +454,8 @@ class SignUpView extends GetView<SignUpController> {
           Align(
             alignment: Alignment.centerLeft,
             child: CustomText.sm(
-              'byCreatingAnAccountYouAgreeToOurTermsOfServiceAndPrivacyPolicy',
+              'byCreatingAnAccountYouAgreeToOurTermsOfServiceAndPrivacyPolicy'
+                  .tr,
               color: Colors.grey.shade500,
             ),
           ),
@@ -387,7 +498,14 @@ class SignUpView extends GetView<SignUpController> {
           controller: controller,
           hintText: hintText,
           isObscureText: isObscureText,
-          validator: validator,
+          autoValidate: AutovalidateMode.onUserInteraction,
+          validator: validator ??
+              (value) {
+                if (value == null || value.isEmpty) {
+                  return "$hintText is required".tr;
+                }
+                return null;
+              },
           suffix: InkWell(
             onTap: onSuffixTap,
             child: Icon(
@@ -407,8 +525,6 @@ class SignUpView extends GetView<SignUpController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomText.m('Select your zone'.tr, color: Colors.grey.shade700),
-          const SizedBox(height: 16),
           _buildZoneSelection(isWide),
           const SizedBox(height: 20),
           _buildOlmDropdown(),
@@ -418,11 +534,24 @@ class SignUpView extends GetView<SignUpController> {
   }
 
   Widget _buildZoneSelection(bool isWide) {
-    return Wrap(
-      spacing: 8,
-      runSpacing: 10,
-      children:
-          zoneTypeList.map((zone) => _buildZoneCard(zone, isWide)).toList(),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            CustomText.m('selectYourZone'.tr, color: Colors.grey.shade700),
+            const SizedBox(width: 4),
+            CustomText.sm('*', color: Colors.red),
+          ],
+        ),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 8,
+          runSpacing: 10,
+          children:
+              zoneTypeList.map((zone) => _buildZoneCard(zone, isWide)).toList(),
+        ),
+      ],
     );
   }
 
@@ -489,19 +618,32 @@ class SignUpView extends GetView<SignUpController> {
     return Obx(() => AnimatedOpacity(
           duration: const Duration(milliseconds: 300),
           opacity: 1.0,
-          child: OrganismDropdown(
-            label: 'selectYourOlm',
-            hintText: 'selectYourOlm'.tr,
-            withBorder: true,
-            simpleInput: true,
-            isSearchable: true,
-            items: controller.selectedZoneOlms.value
-                .map((e) => ItemSelect(label: e.name, value: e))
-                .toList(),
-            onChange: (item) {
-              HapticFeedback.selectionClick();
-              controller.selectedOlm.value = item.value;
-            },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  CustomText.m('selectYourOlm'.tr, color: Colors.grey.shade700),
+                  const SizedBox(width: 4),
+                  CustomText.sm('*', color: Colors.red),
+                ],
+              ),
+              const SizedBox(height: 8),
+              OrganismDropdown(
+                label: 'selectYourOlm'.tr,
+                hintText: 'selectYourOlm'.tr,
+                withBorder: true,
+                simpleInput: true,
+                height: 500,
+                items: controller.selectedZoneOlms.value
+                    .map((e) => ItemSelect(label: e.name, value: e))
+                    .toList(),
+                onChange: (item) {
+                  HapticFeedback.selectionClick();
+                  controller.selectedOlm.value = item.value;
+                },
+              ),
+            ],
           ),
         ));
   }
@@ -523,6 +665,41 @@ class SignUpView extends GetView<SignUpController> {
               'selectYourSubscription'.tr, '', Icons.verified_user_rounded),
           const SizedBox(height: 16),
           _buildSubscriptionOptions(isWide),
+          const SizedBox(height: 24),
+        ],
+      ),
+    );
+  }
+
+  Widget fourthPage({bool isWide = false}) {
+    return SizedBox(
+      key: const ValueKey('page4'),
+      width: double.infinity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildSectionHeader(
+            'roommates'.tr,
+            'pleaseEnterRoommates'.tr,
+            Icons.people_alt_rounded,
+            isRequired: false,
+          ),
+          const SizedBox(height: 16),
+          _buildInputField(
+            controller.roommatesController,
+            "roommates".tr,
+            Icons.person_add_alt_1_rounded,
+            keyboardType: TextInputType.text,
+            validator: (value) => null,
+          ),
+          const SizedBox(height: 24),
+          _buildSectionHeader(
+            'roomType'.tr,
+            'selectYourPreferredRoomType'.tr,
+            Icons.bedroom_parent_outlined,
+          ),
+          const SizedBox(height: 16),
+          _buildRoomTypeOptions(isWide),
           const SizedBox(height: 32),
           _buildSectionHeader(
               'uploadReceipt'.tr,
@@ -536,22 +713,144 @@ class SignUpView extends GetView<SignUpController> {
     );
   }
 
-  Widget _buildPositionDropdown() {
-    return OrganismDropdown(
-      height: 300,
-      isSearchable: true,
-      simpleInput: true,
-      items: positionTypesList
-          .map((e) => ItemSelect(label: e.name, value: e))
-          .toList(),
-      onChange: (item) {
-        HapticFeedback.selectionClick();
-        controller.selectedPositionType.value = item.value;
+  Widget _buildRoomTypeOptions(bool isWide) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            CustomText.m('roomType'.tr, color: Colors.grey.shade700),
+            const SizedBox(width: 4),
+            CustomText.sm('*', color: Colors.red),
+          ],
+        ),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 12,
+          runSpacing: 16,
+          children: roomTypes
+              .asMap()
+              .entries
+              .map((entry) => _buildRoomTypeCard(entry, isWide))
+              .toList(),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildRoomTypeCard(MapEntry<int, RoomType> entry, bool isWide) {
+    return GestureDetector(
+      onTap: () {
+        HapticFeedback.lightImpact();
+        controller.selectedRoomType.value = entry.value;
       },
+      child: Obx(() {
+        final isSelected = controller.selectedRoomType.value == entry.value;
+        return AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          width: isWide ? 240 : double.infinity,
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: isSelected
+                ? primaryColor.withOpacity(0.08)
+                : Colors.grey.shade50,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: isSelected ? primaryColor : Colors.grey.shade300,
+              width: 2,
+            ),
+            boxShadow: isSelected
+                ? [
+                    BoxShadow(
+                      color: primaryColor.withOpacity(0.15),
+                      blurRadius: 12,
+                      offset: const Offset(0, 4),
+                    )
+                  ]
+                : null,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: isSelected ? primaryColor : Colors.grey.shade200,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: CustomText.sm(
+                  entry.value.name.tr,
+                  color: isSelected ? Colors.white : Colors.grey.shade700,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  Icon(
+                    isSelected
+                        ? Icons.radio_button_checked
+                        : Icons.radio_button_unchecked,
+                    color: isSelected ? primaryColor : Colors.grey,
+                    size: 20,
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: CustomText.sm(
+                      'select'.tr,
+                      fontWeight:
+                          isSelected ? FontWeight.bold : FontWeight.normal,
+                      color: isSelected ? primaryColor : Colors.grey.shade600,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      }),
     )
         .animate()
-        .fadeIn(duration: 300.ms)
-        .moveY(begin: 20, end: 0, duration: 300.ms, curve: Curves.easeOutCubic);
+        .fadeIn(
+          duration: 400.ms,
+          delay: Duration(milliseconds: entry.key * 100),
+        )
+        .moveY(
+          begin: 20,
+          end: 0,
+          duration: 400.ms,
+          delay: Duration(milliseconds: entry.key * 100),
+          curve: Curves.easeOutQuint,
+        );
+  }
+
+  Widget _buildPositionDropdown() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            CustomText.m('selectYourPosition'.tr, color: Colors.grey.shade700),
+            const SizedBox(width: 4),
+            CustomText.sm('*', color: Colors.red),
+          ],
+        ),
+        const SizedBox(height: 8),
+        OrganismDropdown(
+          height: 300,
+          isSearchable: true,
+          simpleInput: true,
+          items: positionTypesList
+              .map((e) => ItemSelect(label: e.name, value: e))
+              .toList(),
+          onChange: (item) {
+            HapticFeedback.selectionClick();
+            controller.selectedPositionType.value = item.value;
+          },
+        ).animate().fadeIn(duration: 300.ms).moveY(
+            begin: 20, end: 0, duration: 300.ms, curve: Curves.easeOutCubic),
+      ],
+    );
   }
 
   Widget _buildOtherPositionField() {
@@ -581,17 +880,30 @@ class SignUpView extends GetView<SignUpController> {
   }
 
   Widget _buildSubscriptionOptions(bool isWide) {
-    return Obx(() => controller.subscriptionOptions.value.isEmpty
-        ? _buildEmptySubscriptionState()
-        : Wrap(
-            spacing: 12,
-            runSpacing: 16,
-            children: controller.subscriptionOptions.value
-                .asMap()
-                .entries
-                .map((entry) => _buildSubscriptionCard(entry, isWide))
-                .toList(),
-          ));
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            CustomText.m('selectSubscription'.tr, color: Colors.grey.shade700),
+            const SizedBox(width: 4),
+            CustomText.sm('*', color: Colors.red),
+          ],
+        ),
+        const SizedBox(height: 8),
+        Obx(() => controller.subscriptionOptions.value.isEmpty
+            ? _buildEmptySubscriptionState()
+            : Wrap(
+                spacing: 12,
+                runSpacing: 16,
+                children: controller.subscriptionOptions.value
+                    .asMap()
+                    .entries
+                    .map((entry) => _buildSubscriptionCard(entry, isWide))
+                    .toList(),
+              )),
+      ],
+    );
   }
 
   Widget _buildSubscriptionCard(
@@ -693,12 +1005,26 @@ class SignUpView extends GetView<SignUpController> {
   }
 
   Widget _buildFileUploadArea() {
-    return Obx(() => controller.selectedImage.value != null
-        ? _buildFilePreview(controller.selectedImage.value!)
-        : _buildAttachmentButton());
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            CustomText.m('paymentReceipt'.tr, color: Colors.grey.shade700),
+            const SizedBox(width: 4),
+            CustomText.sm('*', color: Colors.red),
+          ],
+        ),
+        const SizedBox(height: 8),
+        Obx(() => controller.selectedImage.value != null
+            ? _buildFilePreview(controller.selectedImage.value!)
+            : _buildAttachmentButton()),
+      ],
+    );
   }
 
-  Widget _buildSectionHeader(String title, String description, IconData icon) {
+  Widget _buildSectionHeader(String title, String description, IconData icon,
+      {bool isRequired = true}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -707,6 +1033,10 @@ class SignUpView extends GetView<SignUpController> {
             Icon(icon, size: 20, color: primaryColor),
             const SizedBox(width: 8),
             CustomText.l(title.tr, fontWeight: FontWeight.bold),
+            if (isRequired) ...[
+              const SizedBox(width: 4),
+              CustomText.sm('*', color: Colors.red),
+            ],
           ],
         ),
         const SizedBox(height: 4),
@@ -733,10 +1063,10 @@ class SignUpView extends GetView<SignUpController> {
           Icon(Icons.subscriptions_outlined,
               size: 40, color: Colors.grey.shade400),
           const SizedBox(height: 16),
-          CustomText.m('NoSubscriptionOptionsAvailable',
+          CustomText.m('noSubscriptionOptionsAvailable'.tr,
               color: Colors.grey.shade600, textAlign: TextAlign.center),
           const SizedBox(height: 8),
-          CustomText.sm('pleaseCheckBackLaterOrContactSupport',
+          CustomText.sm('pleaseCheckBackLaterOrContactSupport'.tr,
               color: Colors.grey.shade500, textAlign: TextAlign.center),
         ],
       ),
@@ -760,13 +1090,20 @@ class SignUpView extends GetView<SignUpController> {
               Icon(Icons.cloud_upload_outlined,
                   size: 48, color: primaryColor.withOpacity(0.7)),
               const SizedBox(height: 12),
-              CustomText.m('uploadReceipt'.tr,
-                  color: primaryColor, fontWeight: FontWeight.w600),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CustomText.m('uploadReceipt'.tr,
+                      color: primaryColor, fontWeight: FontWeight.w600),
+                  const SizedBox(width: 4),
+                  CustomText.sm('*', color: Colors.red),
+                ],
+              ),
               const SizedBox(height: 8),
-              CustomText.sm('Click to browse or drop files here'.tr,
+              CustomText.sm('clickToBrowseOrDropFilesHere'.tr,
                   color: Colors.grey.shade600),
               const SizedBox(height: 8),
-              CustomText.xs('Support: JPEG, PNG, PDF (Max: 5MB)'.tr,
+              CustomText.xs('supportJpegPngPdfMax5mb'.tr,
                   color: Colors.grey.shade500),
             ],
           ),
@@ -776,17 +1113,6 @@ class SignUpView extends GetView<SignUpController> {
         .animate()
         .fadeIn(duration: 400.ms, delay: 200.ms)
         .scale(duration: 400.ms, delay: 200.ms);
-  }
-
-  Future<void> _selectFile() async {
-    Rx<FileInfo?> selectedImage = Rx<FileInfo?>(null);
-    selectedImage.value =
-        await CustomFilePicker.showPicker(context: Get.context!);
-
-    if (selectedImage.value != null) {
-      HapticFeedback.mediumImpact();
-      controller.selectedImage.value = selectedImage.value;
-    }
   }
 
   Widget _buildFilePreview(FileInfo file) {
@@ -839,5 +1165,19 @@ class SignUpView extends GetView<SignUpController> {
         .animate()
         .fadeIn(duration: 300.ms)
         .slideY(begin: 0.2, end: 0, duration: 300.ms);
+  }
+
+  Future<void> _selectFile() async {
+    Rx<FileInfo?> selectedImage = Rx<FileInfo?>(null);
+    selectedImage.value =
+        await CustomFilePicker.showPicker(context: Get.context!);
+
+    if (selectedImage.value != null) {
+      HapticFeedback.mediumImpact();
+      selectedImage.value = selectedImage.value;
+      print("*******");
+      print(selectedImage.value != null);
+      controller.selectedImage.value = selectedImage.value;
+    }
   }
 }

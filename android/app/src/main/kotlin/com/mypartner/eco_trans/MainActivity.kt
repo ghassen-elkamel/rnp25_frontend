@@ -1,4 +1,4 @@
-package com.mypartner.rnp_front
+package com.gremda.rnp_front
 
 import io.flutter.embedding.android.FlutterActivity
 

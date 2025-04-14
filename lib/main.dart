@@ -6,16 +6,19 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
+import 'app/core/utils/config_firebase.dart';
 import 'app/core/utils/constant.dart';
 import 'app/core/utils/language_helper.dart';
 import 'app/core/values/colors.dart';
 import 'app/core/values/languages/language.dart';
 import 'app/data/services/auth_service.dart';
 import 'app/routes/app_pages.dart';
+import 'app/core/utils/profile_alert_manager.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  if(!kIsWeb) {
-   // ConfigFirebase.init();
+  if (!kIsWeb) {
+    ConfigFirebase.init();
   }
   //Stripe.publishableKey = stripePublishableKey;
 

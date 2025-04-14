@@ -90,7 +90,6 @@ class LoginView extends GetView<LoginController> {
               const SizedBox(
                 height: 5,
               ),
-
               Form(
                 key: controller.key,
                 child: Column(
@@ -132,7 +131,20 @@ class LoginView extends GetView<LoginController> {
                         ),
                       ),
                       onTap: () {
-                        //       Get.toNamed(Routes.PHONE_VERIFICATION);
+                        Get.dialog(
+                          AlertDialog(
+                            title: Text('Password Reset'.tr),
+                            content: Text(
+                                'You can contact the Genius Bar to reset your password.'
+                                    .tr),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Get.back(),
+                                child: Text('OK'.tr),
+                              ),
+                            ],
+                          ),
+                        );
                       },
                     ),
                     const SizedBox(

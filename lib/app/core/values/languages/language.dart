@@ -43,9 +43,9 @@ class Language extends Translations {
     ImageLanguage? item = getElementByCode(code.languageCode);
     if (item != null) {
       return ItemSelect(
-        label: "",
-        value: item,
+        label: item.code,
         pathPicture: item.path,
+        value: item,
       );
     }
     return null;

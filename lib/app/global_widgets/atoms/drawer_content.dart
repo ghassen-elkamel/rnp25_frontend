@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rnp_front/app/core/extensions/string/language.dart';
@@ -33,7 +34,7 @@ class AtomDrawerContent extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: SizedBox(
-                  width: 80,
+                  width: 150,
                   child: OrganismDropdown(
                     initValue: Language.getElementForSelect(
                       LanguageHelper.language,
@@ -61,18 +62,20 @@ class AtomDrawerContent extends StatelessWidget {
             const SizedBox(
               height: 10.0,
             ),
-            AtomMenuItem(
-              label: "home".tr,
-              isSelected: selectedIndex == 1,
-              icon: Icons.home_outlined,
-              onTap: () => Get.offAllNamed(Routes.HOME),
-            ),
-            if (AuthService.isClient())
+            if (kIsWeb && AuthService.access?.role == RolesType.admin)
               AtomMenuItem(
-                label: "myWallet".tr,
-                isSelected: selectedIndex == 2,
-                icon: Icons.wallet,
-                onTap: () => Get.offAllNamed(Routes.WALLET),
+                label: "program".tr,
+                icon: Icons.calendar_month,
+                onTap: () {
+                  Get.offAllNamed(Routes.PROGRAM_MANAGEMENT);
+                },
+              ),
+            if (AuthService.access?.role != RolesType.admin)
+              AtomMenuItem(
+                label: "home".tr,
+                isSelected: selectedIndex == 1,
+                icon: Icons.home_outlined,
+                onTap: () => Get.offAllNamed(Routes.HOME),
               ),
             if (AuthService.access?.role == RolesType.admin)
               AtomMenuItem(
@@ -81,27 +84,12 @@ class AtomDrawerContent extends StatelessWidget {
                 icon: Icons.group,
                 onTap: () => Get.offAllNamed(Routes.USERS),
               ),
-            if (AuthService.isAdmin())
-              AtomMenuItem(
-                label: 'events',
-                icon: Icons.event,
-                isSelected: selectedIndex == 7,
-                onTap: () {
-                  Get.offAllNamed(Routes.EVENTS);
-                },
-              ),
             if (AuthService.isAppManager())
               AtomMenuItem(
                 label: "companies".tr,
                 isSelected: selectedIndex == 4,
                 icon: Icons.business_sharp,
                 onTap: () => Get.offAllNamed(Routes.COMPANY),
-              ),
-            if (AuthService.isAdmin())
-              AtomMenuItem(
-                label: 'forms',
-                icon: Icons.format_align_center,
-                onTap: () => Get.offAllNamed(Routes.FORMS_LIST),
               ),
             AtomMenuItem(
               isSelected: selectedIndex == 6,
@@ -114,7 +102,7 @@ class AtomDrawerContent extends StatelessWidget {
                 }
               },
             ),
-            if (AuthService.isClient())
+            if (AuthService.isSupervisor())
               AtomMenuItem(
                   label: 'QR',
                   icon: Icons.qr_code,

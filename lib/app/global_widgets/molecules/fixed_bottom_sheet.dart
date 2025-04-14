@@ -37,7 +37,7 @@ class MoleculeFixedBottomSheet extends StatelessWidget {
         Align(
           alignment: Alignment.bottomCenter,
           child: SizedBox(
-            height: Get.height * 0.6,
+            height: Get.height * 0.65,
             child: DecoratedBox(
               decoration: const BoxDecoration(
                 color: Colors.white,

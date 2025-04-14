@@ -170,6 +170,10 @@ extension Helper on ApiProvider {
         'Authorization': 'Bearer $token',
       });
     }
+
+    log("Creating form data request to: $uri");
+    log("Request headers: ${request.headers}");
+
     body.forEach((key, value) {
       if (value != null) {
         request.fields[key] = value.toString();
@@ -177,15 +181,19 @@ extension Helper on ApiProvider {
     });
 
     if (files.isNotEmpty) {
+      log("Adding ${files.length} files to request");
       for (FileInfo file in files) {
+        log("File: ${file.fileName}, size: ${file.bytes.length} bytes");
         http.MultipartFile multipartFile = http.MultipartFile.fromBytes(
           'files',
           file.bytes,
           filename: file.fileName,
         );
 
+        log("Created multipart file with name: 'files', filename: ${file.fileName}");
         request.files.add(multipartFile);
       }
+      log("Final request: ${request.files.length} files, URI: ${request.url}");
       return request;
     }
     throw Exception("MultipartRequest cannot be null");

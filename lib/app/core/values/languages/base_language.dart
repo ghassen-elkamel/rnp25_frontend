@@ -1,4 +1,13 @@
 abstract class BaseLanguage {
+  String get createAccount;
+
+  String get created;
+
+  String get dateInformation;
+
+  String get subscriptionDetails;
+
+  String get olmInformation;
 
   String get scanQr;
 
@@ -653,6 +662,142 @@ abstract class BaseLanguage {
 
   String get externalCommission;
 
+  String get profilePictureRequired;
+
+  String get profilePictureRequiredMessage;
+
+  String get addProfilePicture;
+
+  String get enableDisableAccount;
+
+  String get blockAccountAccess;
+
+  String get basicInformation;
+
+  String get systemInformation;
+
+  String get contactInformation;
+
+  String get systemActions;
+
+  String get internalCode;
+
+  String get role;
+
+  String get createdDate;
+
+  String get creditBalance;
+
+  String get editUser;
+
+  String get editProfile;
+
+  String get notifications;
+
+  String get unread;
+
+  String get read;
+
+  String get singleDay;
+
+  String get multipleDays;
+
+  String get singleHour;
+
+  String get multipleHours;
+
+  String get singleMinute;
+
+  String get multipleMinutes;
+
+  String get justNow;
+
+  String get events;
+
+  String get failedToLoadImage;
+
+  String get skipButton;
+
+  String get getStarted;
+
+  String get majorActivities;
+
+  String get seeMore;
+
+  String get scan;
+
+  String get surveyView;
+
+  String get editProfileView;
+
+  String get eventDetailsView;
+
+  String get success;
+
+  String get profilePhotoUpdatedSuccessfully;
+
+  String get failedToUpdateProfilePhoto;
+
+  String get noReceiptAvailable;
+
+  String get subscriptionInformation;
+
+  String get olm;
+
+  String get position;
+
+  String get option;
+
+  String get fee;
+
+  String get id;
+
+  String get ok;
+
+  // Subscription form strings - Sign up
+  String get selectYourPosition;
+  String get chooseYourRoleInTheOrganization;
+  String get selectYourSubscription;
+  String get selectYourOlm;
+  String get selectYourPreferredRoomType;
+  String get selectYourZone;
+  String get specifyYourPosition;
+  String get pleaseSpecifyYourPosition;
+  String get uploadReceipt;
+  String get pleaseAttachYourPaymentConfirmation;
+  String get receiptDocument;
+  String get paymentReceipt;
+  String get roomType;
+  String get roommates;
+  String get pleaseEnterRoommates;
+  String get selectSubscription;
+  String get noSubscriptionOptionsAvailable;
+  String get pleaseCheckBackLaterOrContactSupport;
+  String get clickToBrowseOrDropFilesHere;
+  String get supportJpegPngPdfMax5mb;
+
+  // Validation messages
+  String get pleaseFillInAllRequiredFieldsBeforeRegistering;
+  String get roomTypeRequired;
+  String get paymentReceiptRequired;
+  String get pleaseUploadYourPaymentReceipt;
+  String get pleaseFillInAllPersonalInformation;
+  String get zoneSelectionRequired;
+  String get pleaseSelectYourZone;
+  String get olmSelectionRequired;
+  String get pleaseSelectYourOlm;
+  String get positionSelectionRequired;
+  String get pleaseSelectYourPosition;
+  String get positionDescription;
+  String get subscriptionSelectionRequired;
+  String get pleaseSelectYourSubscription;
+
+  // Sign up form additional strings
+  String get personalInformation;
+  String get organizationInformation;
+  String get byCreatingAnAccountYouAgreeToOurTermsOfServiceAndPrivacyPolicy;
+  String get alreadyHaveAnAccount;
+
   Map<String, String> toJson() {
     return {
       'back': back,
@@ -972,25 +1117,121 @@ abstract class BaseLanguage {
       "drivingLicenseNumber": drivingLicenseNumber,
       "drivingLicenseType": drivingLicenseType,
       "drivingLicenseExpirationDate": drivingLicenseExpirationDate,
-"brand": brand,
-"model": model,
-"registrationNumber": registrationNumber,
-"type": type,
-"updateAffectedDriver": updateAffectedDriver,
-"affectTo": affectTo,
-"cars": cars,
-"car": car,
-"available": available,
-"underMaintenance": underMaintenance,
-"description": description,
-"title": title,
-"startDate": startDate,
-"endDate": endDate,
-"location": location,
-"dontHaveAccount": dontHaveAccount,
-"loginAccount": loginAccount,
-"bilel": bilel,
-"scanQr": scanQr,
+      "brand": brand,
+      "model": model,
+      "registrationNumber": registrationNumber,
+      "type": type,
+      "updateAffectedDriver": updateAffectedDriver,
+      "affectTo": affectTo,
+      "cars": cars,
+      "car": car,
+      "available": available,
+      "underMaintenance": underMaintenance,
+      "description": description,
+      "title": title,
+      "startDate": startDate,
+      "endDate": endDate,
+      "location": location,
+      "dontHaveAccount": dontHaveAccount,
+      "loginAccount": loginAccount,
+      "bilel": bilel,
+      "scanQr": scanQr,
+      "olmInformation": olmInformation,
+      "subscriptionDetails": subscriptionDetails,
+      "dateInformation": dateInformation,
+      "created": created,
+      "createAccount": createAccount,
+      "profilePictureRequired": profilePictureRequired,
+      "profilePictureRequiredMessage": profilePictureRequiredMessage,
+      "addProfilePicture": addProfilePicture,
+      "enableDisableAccount": enableDisableAccount,
+      "blockAccountAccess": blockAccountAccess,
+      "basicInformation": basicInformation,
+      "systemInformation": systemInformation,
+      "contactInformation": contactInformation,
+      "systemActions": systemActions,
+      "internalCode": internalCode,
+      "role": role,
+      "createdDate": createdDate,
+      "creditBalance": creditBalance,
+      "editUser": editUser,
+      "editProfile": editProfile,
+      "notifications": notifications,
+      "unread": unread,
+      "read": read,
+      "singleDay": singleDay,
+      "multipleDays": multipleDays,
+      "singleHour": singleHour,
+      "multipleHours": multipleHours,
+      "singleMinute": singleMinute,
+      "multipleMinutes": multipleMinutes,
+      "justNow": justNow,
+      "events": events,
+      "failedToLoadImage": failedToLoadImage,
+      "skipButton": skipButton,
+      "getStarted": getStarted,
+      "majorActivities": majorActivities,
+      "seeMore": seeMore,
+      "scan": scan,
+      "surveyView": surveyView,
+      "editProfileView": editProfileView,
+      "eventDetailsView": eventDetailsView,
+      "success": success,
+      "error": error,
+      "profilePhotoUpdatedSuccessfully": profilePhotoUpdatedSuccessfully,
+      "failedToUpdateProfilePhoto": failedToUpdateProfilePhoto,
+      "noReceiptAvailable": noReceiptAvailable,
+      "subscriptionDetails": subscriptionDetails,
+      "subscriptionInformation": subscriptionInformation,
+      "olm": olm,
+      "position": position,
+      "type": type,
+      "option": option,
+      "fee": fee,
+      "id": id,
+      "ok": ok,
+      "selectYourPosition": selectYourPosition,
+      "chooseYourRoleInTheOrganization": chooseYourRoleInTheOrganization,
+      "selectYourSubscription": selectYourSubscription,
+      "selectYourOlm": selectYourOlm,
+      "selectYourPreferredRoomType": selectYourPreferredRoomType,
+      "selectYourZone": selectYourZone,
+      "specifyYourPosition": specifyYourPosition,
+      "pleaseSpecifyYourPosition": pleaseSpecifyYourPosition,
+      "uploadReceipt": uploadReceipt,
+      "pleaseAttachYourPaymentConfirmation":
+          pleaseAttachYourPaymentConfirmation,
+      "receiptDocument": receiptDocument,
+      "paymentReceipt": paymentReceipt,
+      "roomType": roomType,
+      "roommates": roommates,
+      "pleaseEnterRoommates": pleaseEnterRoommates,
+      "selectSubscription": selectSubscription,
+      "noSubscriptionOptionsAvailable": noSubscriptionOptionsAvailable,
+      "pleaseCheckBackLaterOrContactSupport":
+          pleaseCheckBackLaterOrContactSupport,
+      "clickToBrowseOrDropFilesHere": clickToBrowseOrDropFilesHere,
+      "supportJpegPngPdfMax5mb": supportJpegPngPdfMax5mb,
+      "pleaseFillInAllRequiredFieldsBeforeRegistering":
+          pleaseFillInAllRequiredFieldsBeforeRegistering,
+      "roomTypeRequired": roomTypeRequired,
+      "paymentReceiptRequired": paymentReceiptRequired,
+      "pleaseUploadYourPaymentReceipt": pleaseUploadYourPaymentReceipt,
+      "pleaseFillInAllPersonalInformation": pleaseFillInAllPersonalInformation,
+      "zoneSelectionRequired": zoneSelectionRequired,
+      "pleaseSelectYourZone": pleaseSelectYourZone,
+      "olmSelectionRequired": olmSelectionRequired,
+      "pleaseSelectYourOlm": pleaseSelectYourOlm,
+      "positionSelectionRequired": positionSelectionRequired,
+      "pleaseSelectYourPosition": pleaseSelectYourPosition,
+      "positionDescription": positionDescription,
+      "subscriptionSelectionRequired": subscriptionSelectionRequired,
+      "pleaseSelectYourSubscription": pleaseSelectYourSubscription,
+      "personalInformation": personalInformation,
+      "organizationInformation": organizationInformation,
+      "byCreatingAnAccountYouAgreeToOurTermsOfServiceAndPrivacyPolicy":
+          byCreatingAnAccountYouAgreeToOurTermsOfServiceAndPrivacyPolicy,
+      "alreadyHaveAnAccount": alreadyHaveAnAccount,
     };
   }
 }

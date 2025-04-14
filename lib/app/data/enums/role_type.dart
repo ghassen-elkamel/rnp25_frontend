@@ -1,1 +1,1 @@
-enum RolesType { appManager, admin, client, }
+enum RolesType { appManager, admin, client,supervisor }

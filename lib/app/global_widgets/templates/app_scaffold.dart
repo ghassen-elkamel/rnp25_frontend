@@ -6,6 +6,7 @@ import 'package:rnp_front/app/core/values/colors.dart';
 import 'package:rnp_front/app/data/enums/button_type.dart';
 import 'package:rnp_front/app/data/models/form/entity_form.dart';
 import 'package:rnp_front/app/global_widgets/atoms/button.dart';
+import 'package:rnp_front/app/global_widgets/atoms/curved_navigation_bar.dart';
 
 import '../../core/utils/screen.dart';
 import '../../global_widgets/atoms/app_bar.dart';
@@ -118,7 +119,9 @@ class AppScaffold extends StatelessWidget {
             )
           : null,
       key: _scaffoldKey,
-      backgroundColor: white,
+      backgroundColor: backgroundColor,
+      bottomNavigationBar: kIsWeb?null:
+      AtomCurvedNavigationBar(selectedIndex: selectedIndex??0),
       drawer: !withMenu || withCloseIcon || !isMobile(context)
           ? null
           : MoleculeDrawer(
@@ -194,6 +197,7 @@ class AppScaffold extends StatelessWidget {
           ],
         ),
       ),
+
       floatingActionButtonLocation: floatingActionButtonLocation,
       floatingActionButton: getFloatingBtnAdd(context) ?? floatingActionButton,
     );

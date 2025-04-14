@@ -1,1 +1,1 @@
-enum ButtonColor {primary,second, third, white, greyLight,greenLight,red}
+enum ButtonColor {primary,second, third, white, greyLight,greenLight,red,black}

@@ -3,6 +3,7 @@ import 'package:rnp_front/app/core/extensions/string/parse_double.dart';
 import 'package:rnp_front/app/core/utils/transformer.dart';
 import 'package:rnp_front/app/data/enums/role_type.dart';
 import 'package:rnp_front/app/data/models/entities/role.dart';
+import 'package:rnp_front/app/data/models/entities/subscription_form.dart';
 
 List<User> usersFromJson(dynamic str) =>
     List<User>.from(str["items"].map((x) => User.fromJson(x)));
@@ -21,13 +22,18 @@ class User {
     this.pathPicture,
     this.language,
     this.credit,
+    this.subscirptionForm,
+    this.isVerified,
+    this.isBlocked,
   });
 
+  final bool? isVerified;
+  final bool? isBlocked;
   final int? id;
   final String? password;
   final String? internalCode;
   final String? fullName;
-
+  final SubscriptionForm? subscirptionForm;
   final String? phoneNumber;
   final String? countryCode;
   final String? email;
@@ -53,6 +59,11 @@ class User {
       createdAt: DateTime.tryParse(json["createdAt"] ?? ""),
       language: json["language"],
       credit: json["credit"].toString().tryDouble,
+      subscirptionForm: json["subscirptionForm"] != null
+          ? SubscriptionForm.fromJson(json["subscirptionForm"])
+          : null,
+      isVerified: json["isVerified"],
+      isBlocked: json["isBlocked"],
     );
   }
 
@@ -66,6 +77,8 @@ class User {
         if (password != null) "password": password,
         if (role != null) "receivedRole": role?.name,
         if (language != null) "language": language,
+        if (subscirptionForm != null)
+          "subscirptionForm": subscirptionForm?.toJson(),
       };
 
   User clone(User user) {

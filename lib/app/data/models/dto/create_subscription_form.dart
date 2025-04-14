@@ -1,9 +1,13 @@
+import 'package:rnp_front/app/data/enums/room_type.dart';
+
 class CreateSubscriptionFormDto {
   final CreateUserDto createUserDto;
   final String positionType;
   final String positionTitle;
   final int subscriptionTypeId;
   final int olmId;
+  final String roommates;
+  final RoomType roomType;
 
   CreateSubscriptionFormDto({
     required this.createUserDto,
@@ -11,6 +15,8 @@ class CreateSubscriptionFormDto {
     required this.positionTitle,
     required this.subscriptionTypeId,
     required this.olmId,
+    required this.roommates,
+    required this.roomType,
   });
 
   factory CreateSubscriptionFormDto.fromJson(Map<String, dynamic> json) {
@@ -20,6 +26,8 @@ class CreateSubscriptionFormDto {
       positionTitle: json['positionTitle'],
       subscriptionTypeId: json['subscriptionTypeId'],
       olmId: json['olmId'],
+      roommates: json['roommates'],
+      roomType: RoomType.values[json['roomType']],
     );
   }
 
@@ -30,6 +38,8 @@ class CreateSubscriptionFormDto {
       'positionTitle': positionTitle,
       'subscriptionTypeId': subscriptionTypeId,
       'olmId': olmId,
+      'roommates': roommates,
+      'roomType': roomType.toString()
     };
   }
 }

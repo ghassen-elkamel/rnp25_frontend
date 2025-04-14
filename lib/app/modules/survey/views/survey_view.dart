@@ -10,7 +10,7 @@ class SurveyView extends GetView<SurveyController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('SurveyView'),
+        title: Text('surveyView'.tr),
         centerTitle: true,
       ),
       body: const Center(

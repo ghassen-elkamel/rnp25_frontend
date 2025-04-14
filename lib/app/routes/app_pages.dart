@@ -4,6 +4,8 @@ import '../modules/company/bindings/company_binding.dart';
 import '../modules/company/views/company_view.dart';
 import '../modules/dev_mode/bindings/dev_mode_binding.dart';
 import '../modules/dev_mode/views/dev_mode_view.dart';
+import '../modules/edit_profile/bindings/edit_profile_binding.dart';
+import '../modules/edit_profile/views/edit_profile_view.dart';
 import '../modules/event_details/bindings/event_details_binding.dart';
 import '../modules/event_details/views/event_details_view.dart';
 import '../modules/events/bindings/events_binding.dart';
@@ -12,12 +14,26 @@ import '../modules/force_update/bindings/force_update_binding.dart';
 import '../modules/force_update/views/force_update_view.dart';
 import '../modules/forms_list/bindings/forms_list_binding.dart';
 import '../modules/forms_list/views/forms_list_view.dart';
+import '../modules/get_started/bindings/get_started_binding.dart';
+import '../modules/get_started/views/get_started_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/my_notifications/bindings/my_notifications_binding.dart';
 import '../modules/my_notifications/views/my_notifications_view.dart';
+import '../modules/notifications/bindings/notifications_binding.dart';
+import '../modules/notifications/views/notifications_view.dart';
+import '../modules/onboarding/bindings/onboarding_binding.dart';
+import '../modules/onboarding/views/onboarding_view.dart';
+import '../modules/profile/bindings/profile_binding.dart';
+import '../modules/profile/views/profile_view.dart';
+import '../modules/program/bindings/program_binding.dart';
+import '../modules/program/views/program_view.dart';
+import '../modules/program_management/bindings/program_management_binding.dart';
+import '../modules/program_management/views/program_management_view.dart';
+import '../modules/program_overview/bindings/program_overview_binding.dart';
+import '../modules/program_overview/views/program_overview_view.dart';
 import '../modules/qr_code_scanner/bindings/qr_code_scanner_binding.dart';
 import '../modules/qr_code_scanner/views/qr_code_scanner_view.dart';
 import '../modules/sign_up/bindings/sign_up_binding.dart';
@@ -34,6 +50,7 @@ import '../modules/waiting_voucher/bindings/waiting_voucher_binding.dart';
 import '../modules/waiting_voucher/views/waiting_voucher_view.dart';
 import '../modules/wallet/bindings/wallet_binding.dart';
 import '../modules/wallet/views/wallet_view.dart';
+import '../core/middlewares/auth_middleware.dart';
 
 part 'app_routes.dart';
 
@@ -48,6 +65,7 @@ class AppPages {
       name: _Paths.HOME,
       page: () => const HomeView(),
       binding: HomeBinding(),
+      middlewares: [ProfilePictureMiddleware()],
       transition: Transition.noTransition,
     ),
     GetPage(
@@ -98,6 +116,7 @@ class AppPages {
       name: _Paths.WALLET,
       page: () => const WalletView(),
       binding: WalletBinding(),
+      middlewares: [ProfilePictureMiddleware()],
     ),
     GetPage(
       name: _Paths.TRANSFER_CREDIT,
@@ -118,6 +137,7 @@ class AppPages {
       name: _Paths.EVENTS,
       page: () => const EventsView(),
       binding: EventsBinding(),
+      middlewares: [ProfilePictureMiddleware()],
     ),
     GetPage(
       name: _Paths.SURVEY,
@@ -133,6 +153,48 @@ class AppPages {
       name: _Paths.FORMS_LIST,
       page: () => const FormsListView(),
       binding: FormsListBinding(),
+    ),
+    GetPage(
+      name: _Paths.ONBOARDING,
+      page: () => const OnboardingView(),
+      binding: OnboardingBinding(),
+    ),
+    GetPage(
+      name: _Paths.GET_STARTED,
+      page: () => const GetStartedView(),
+      binding: GetStartedBinding(),
+    ),
+    GetPage(
+      name: _Paths.PROGRAM,
+      page: () => const ProgramView(),
+      binding: ProgramBinding(),
+      middlewares: [ProfilePictureMiddleware()],
+    ),
+    GetPage(
+      name: _Paths.PROGRAM_MANAGEMENT,
+      page: () => const ProgramManagementView(),
+      binding: ProgramManagementBinding(),
+    ),
+    GetPage(
+      name: _Paths.NOTIFICATIONS,
+      page: () => const NotificationsView(),
+      binding: NotificationsBinding(),
+    ),
+    GetPage(
+      name: _Paths.PROGRAM_OVERVIEW,
+      page: () => const ProgramOverviewView(),
+      binding: ProgramOverviewBinding(),
+      middlewares: [ProfilePictureMiddleware()],
+    ),
+    GetPage(
+      name: _Paths.PROFILE,
+      page: () => const ProfileView(),
+      binding: ProfileBinding(),
+    ),
+    GetPage(
+      name: _Paths.EDIT_PROFILE,
+      page: () => const EditProfileView(),
+      binding: EditProfileBinding(),
     ),
   ];
 }

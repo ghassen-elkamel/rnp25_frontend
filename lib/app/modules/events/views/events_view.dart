@@ -17,7 +17,7 @@ class EventsView extends GetView<EventsController> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-        title: 'Events'.tr,
+        title: 'events'.tr,
         selectedIndex: 7,
         entityForms: [addForm(context)],
         body: Obx(() {
@@ -51,7 +51,7 @@ class EventsView extends GetView<EventsController> {
               'https://www.eventbookings.com/wp-content/uploads/2024/01/Different-Types-of-Events-in-2024-Which-is-Right-for-You.jpg',
               errorBuilder:
                   (BuildContext context, Object error, StackTrace? stackTrace) {
-                return const Text('Failed to load image');
+                return Text('failedToLoadImage'.tr);
               },
             ),
             Padding(

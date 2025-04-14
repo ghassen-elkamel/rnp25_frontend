@@ -28,7 +28,7 @@ class AtomAttachementButton extends StatelessWidget {
     return InkWell(
       onTap: () async {
         selectedImage.value = await CustomFilePicker.showPicker(
-          onlyDocs: onlyDocs,
+
             context: context, withDocs: withDocs);
         if (selectedImage.value != null) {
           onPressed?.call(selectedImage.value!);

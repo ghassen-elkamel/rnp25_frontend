@@ -44,6 +44,7 @@ class AtomTextField extends StatefulWidget {
     this.selectTextOnFocus = true,
     this.label,
     this.onSubmitted,
+    this.autoValidate = AutovalidateMode.disabled,
   }) : simple = false;
 
   const AtomTextField.simple({
@@ -81,6 +82,7 @@ class AtomTextField extends StatefulWidget {
     this.selectTextOnFocus = true,
     this.label,
     this.onSubmitted,
+    this.autoValidate = AutovalidateMode.disabled,
   }) : simple = true;
 
   final GlobalKey? inputKey;
@@ -117,6 +119,7 @@ class AtomTextField extends StatefulWidget {
   final bool simple;
   final bool selectTextOnFocus;
   final void Function(String value)? onSubmitted;
+  final AutovalidateMode autoValidate;
 
   @override
   _AtomTextFieldState createState() => _AtomTextFieldState();
@@ -316,12 +319,13 @@ class _AtomTextFieldState extends State<AtomTextField> {
         readOnly: widget.readOnly,
         maxLines: widget.maxLines,
         textInputAction: widget.textInputAction ?? TextInputAction.done,
-        autovalidateMode: AutovalidateMode.disabled,
+        autovalidateMode: widget.autoValidate,
         onTap: widget.onTap,
         onChanged: (value) {
           if (widget.onChanged != null) {
             widget.onChanged!.call(value);
           }
+          validate(value);
         },
         focusNode: myFocusNode,
         expands: widget.maxLines == null ? true : false,

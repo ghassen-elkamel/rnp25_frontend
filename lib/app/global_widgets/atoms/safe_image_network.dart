@@ -20,6 +20,8 @@ class AtomSafeImageNetwork extends StatelessWidget {
   final Function()? onTap;
   final Widget? fullScreenDetails;
   final Widget Function(Widget image)? alertTemplate;
+  final int maxRetries;
+  final Duration retryDelay;
 
   const AtomSafeImageNetwork({
     super.key,
@@ -36,14 +38,20 @@ class AtomSafeImageNetwork extends StatelessWidget {
     this.boxFit = BoxFit.cover,
     this.fullScreenDetails,
     this.alertTemplate,
-  }) ;
+    this.maxRetries = 3,
+    this.retryDelay = const Duration(seconds: 2),
+  });
 
   @override
   Widget build(BuildContext context) {
-    log("$host?path=$path");
-    if (path == null) {
+    final imageUrl =
+        path == null ? null : (host != null ? "$host?path=$path" : path);
+    log("Loading image: $imageUrl");
+
+    if (imageUrl == null) {
       return errorImage();
     }
+
     Widget result = const SizedBox();
     if (isCircular) {
       result = CircleAvatar(
@@ -56,6 +64,7 @@ class AtomSafeImageNetwork extends StatelessWidget {
         child: getImage(),
       );
     }
+
     if (onTapShowFullScreen) {
       result = InkWell(
         onTap: () {
@@ -65,6 +74,7 @@ class AtomSafeImageNetwork extends StatelessWidget {
               imageProvider: getImageFromNetwork().image,
               tightMode: true,
               errorBuilder: (context, error, stackTrace) {
+                log("Error loading image in PhotoView: $error");
                 return errorImage();
               },
               loadingBuilder: (context, event) {
@@ -100,14 +110,57 @@ class AtomSafeImageNetwork extends StatelessWidget {
   }
 
   Widget getImage({bool isCached = true}) {
+    // If path starts with assets/, use Image.asset directly
+    if (path?.startsWith('assets/') == true) {
+      return Image.asset(
+        path!,
+        fit: boxFit,
+        width: width,
+        height: height,
+        errorBuilder: (context, error, stackTrace) {
+          log("Error loading asset image: $error");
+          return errorImage();
+        },
+      );
+    }
+
     if (host != null) {
       return CachedNetworkImage(
         imageUrl: "$host?path=$path",
         width: width,
         height: height,
         httpHeaders: headers,
-        fit: BoxFit.cover,
+        fit: boxFit,
         errorWidget: (context, error, stackTrace) {
+          log("Error loading cached network image: $error");
+          return errorImage();
+        },
+        placeholder: (context, url) {
+          return Image.asset(
+            "assets/images/loading_img.gif",
+            height: height,
+            width: width,
+            fit: BoxFit.none,
+          );
+        },
+        // Add retry mechanism
+        maxHeightDiskCache: 1500,
+        maxWidthDiskCache: 1500,
+        memCacheHeight: 800,
+        memCacheWidth: 800,
+      );
+    }
+
+    // If no host but has path, assume it's a full URL or asset path
+    if (path?.startsWith('http') == true) {
+      return CachedNetworkImage(
+        imageUrl: path!,
+        width: width,
+        height: height,
+        httpHeaders: headers,
+        fit: boxFit,
+        errorWidget: (context, error, stackTrace) {
+          log("Error loading direct URL: $error");
           return errorImage();
         },
         placeholder: (context, url) {
@@ -123,7 +176,13 @@ class AtomSafeImageNetwork extends StatelessWidget {
 
     return Image.asset(
       "assets/$path",
-      fit: BoxFit.cover,
+      fit: boxFit,
+      width: width,
+      height: height,
+      errorBuilder: (context, error, stackTrace) {
+        log("Error loading asset with path: $error, path: assets/$path");
+        return errorImage();
+      },
     );
   }
 
@@ -136,19 +195,37 @@ class AtomSafeImageNetwork extends StatelessWidget {
         width: width,
         height: height,
         scale: 0.6,
+        errorBuilder: (context, error, stackTrace) {
+          // Fallback if even the error image fails to load
+          return Container(
+            width: width,
+            height: height,
+            decoration: BoxDecoration(
+              color: Colors.grey[300],
+              borderRadius: BorderRadius.circular(radius),
+            ),
+            child: const Icon(
+              Icons.image_not_supported,
+              color: Colors.grey,
+            ),
+          );
+        },
       ),
     );
   }
 
   Image getImageFromNetwork() {
+    final imageUrl = host != null ? "$host?path=$path" : "assets/$path";
+
     return Image.network(
-      "$host?path=$path",
+      imageUrl,
       scale: 0.6,
       width: width,
       height: height,
       headers: headers,
       fit: boxFit,
       errorBuilder: (context, error, stackTrace) {
+        log("Error in getImageFromNetwork: $error, imageUrl: $imageUrl");
         return errorImage();
       },
       loadingBuilder: (context, child, loadingProgress) {
@@ -157,6 +234,9 @@ class AtomSafeImageNetwork extends StatelessWidget {
           return Image.asset(
             "assets/images/loading_img.gif",
             fit: BoxFit.cover,
+            width: width,
+            height: height,
+            errorBuilder: (_, __, ___) => const SizedBox(),
           );
         }
         return child;

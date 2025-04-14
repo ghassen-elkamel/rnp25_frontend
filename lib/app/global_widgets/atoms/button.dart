@@ -93,6 +93,8 @@ class AtomButton extends StatelessWidget {
         return greenLight.withOpacity(0.7);
       case ButtonColor.red:
         return red.withOpacity(0.7);
+        case ButtonColor.black:
+        return black;
     }
   }
 
@@ -115,6 +117,8 @@ class AtomButton extends StatelessWidget {
       case ButtonColor.greenLight:
       case ButtonColor.red:
         return white;
+      case ButtonColor.black:
+        return white;
     }
   }
 
@@ -126,6 +130,8 @@ class AtomButton extends StatelessWidget {
     switch (buttonColor) {
       case ButtonColor.white:
         return white;
+      case ButtonColor.black:
+        return black;
 
       case ButtonColor.third:
         return thirdColor;

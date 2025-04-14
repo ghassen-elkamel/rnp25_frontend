@@ -25,6 +25,14 @@ abstract class Routes {
   static const SURVEY = _Paths.SURVEY;
   static const EVENT_DETAILS = _Paths.EVENT_DETAILS;
   static const FORMS_LIST = _Paths.FORMS_LIST;
+  static const ONBOARDING = _Paths.ONBOARDING;
+  static const GET_STARTED = _Paths.GET_STARTED;
+  static const PROGRAM = _Paths.PROGRAM;
+  static const PROGRAM_CREATION = _Paths.PROGRAM_CREATION;
+  static const PROGRAM_MANAGEMENT = _Paths.PROGRAM_MANAGEMENT;
+  static const NOTIFICATIONS = _Paths.NOTIFICATIONS;
+  static const PROGRAM_OVERVIEW = _Paths.PROGRAM_OVERVIEW;
+  static const EDIT_PROFILE = _Paths.EDIT_PROFILE;
 }
 
 abstract class _Paths {
@@ -51,4 +59,12 @@ abstract class _Paths {
   static const SURVEY = '/survey';
   static const EVENT_DETAILS = '/event-details';
   static const FORMS_LIST = '/forms-list';
+  static const ONBOARDING = '/onboarding';
+  static const GET_STARTED = '/get-started';
+  static const PROGRAM = '/program';
+  static const PROGRAM_CREATION = '/program-creation';
+  static const PROGRAM_MANAGEMENT = '/program-management';
+  static const NOTIFICATIONS = '/notifications';
+  static const PROGRAM_OVERVIEW = '/program-overview';
+  static const EDIT_PROFILE = '/edit-profile';
 }

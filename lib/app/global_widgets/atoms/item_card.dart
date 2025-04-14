@@ -33,12 +33,23 @@ class AtomItemCard<T> extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
               child: item.pathPicture != null
-                  ? Center(
-                      child: Image.asset(
-                        item.pathPicture!,
-                        width: 24,
-                        height: 24,
-                      ),
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          item.pathPicture!,
+                          width: 24,
+                          height: 24,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          item.label,
+                          textAlign: TextAlign.center,
+                          style: isSelected
+                              ? styleWhiteFontRobotoW500Size16
+                              : styleBlack90FontRobotoW400Size16,
+                        ),
+                      ],
                     )
                   : Text(
                       item.label,

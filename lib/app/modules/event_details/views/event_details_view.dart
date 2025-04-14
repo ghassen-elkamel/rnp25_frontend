@@ -10,7 +10,7 @@ class EventDetailsView extends GetView<EventDetailsController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('EventDetailsView'),
+        title: Text('eventDetailsView'.tr),
         centerTitle: true,
       ),
       body: const Center(

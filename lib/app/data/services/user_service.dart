@@ -1,12 +1,15 @@
 import 'package:get/get.dart';
 import 'package:rnp_front/app/data/enums/role_type.dart';
 import 'package:rnp_front/app/data/models/dto/create_subscription_form.dart';
+import 'package:rnp_front/app/data/models/entities/subscription_form.dart';
 import 'package:rnp_front/app/data/services/auth_service.dart';
 
 import '../../core/utils/language_helper.dart';
 import '../../data/models/file_info.dart';
 import '../models/entities/user.dart';
 import '../providers/external/api_provider.dart';
+import 'dart:developer';
+import 'dart:io';
 
 class UserService {
   Future<User?> create({
@@ -26,20 +29,30 @@ class UserService {
     return null;
   }
 
-  Future<User?> signUp({
+  Future<Map<String, dynamic>?> signUp({
     required CreateSubscriptionFormDto createSubscriptionFormDto,
     bool withLoadingAlert = true,
   }) async {
-    var response = await ApiProvider().post(
-      HttpParamsPostPut(
-        endpoint: "/v1/subscription-form",
-        body: createSubscriptionFormDto.toJson(),
-        withLoadingAlert: withLoadingAlert,
-      ),
-    );
-    if (response != null) {
-      return User.fromJson(response, Get.locale?.languageCode);
+    log("Starting signup process");
+
+    try {
+      var response = await ApiProvider().post(
+        HttpParamsPostPut(
+          endpoint: "/v1/subscription-form",
+          body: createSubscriptionFormDto.toJson(),
+          withLoadingAlert: withLoadingAlert,
+        ),
+      );
+
+      if (response != null) {
+        log("Successfully created subscription form: ${response}");
+        return response;
+      }
+    } catch (e) {
+      log("Error during signup process: $e");
     }
+
+    log("Failed to create subscription form");
     return null;
   }
 
@@ -175,6 +188,34 @@ class UserService {
       HttpParamsPostPut(
         endpoint: "/v1/users/password/$id",
         body: {'newPassword': newPassword},
+      ),
+    );
+
+    if (response != null) {
+      return true;
+    }
+    return false;
+  }
+
+  activateUser(int? id) async {
+    var response = await ApiProvider().patch(
+      HttpParamsPostPut(
+        endpoint: "/v1/users/activate/$id",
+        body: {},
+      ),
+    );
+
+    if (response != null) {
+      return true;
+    }
+    return false;
+  }
+
+  blockUser(int? id) async {
+    var response = await ApiProvider().patch(
+      HttpParamsPostPut(
+        endpoint: "/v1/users/block/$id",
+        body: {},
       ),
     );
 

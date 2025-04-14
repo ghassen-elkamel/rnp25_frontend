@@ -1034,12 +1034,306 @@ class ArLanguage extends BaseLanguage {
   @override
   String get loginAccount => "تسجيل الدخول";
 
-
+  @override
+  String get bilel => "";
 
   @override
-  String get bilel => ""; 
-
+  String get scanQr => "مسح رمز QR";
 
   @override
-  String get scanQr => ""; 
+  String get olmInformation => "معلومات OLM";
+
+  @override
+  String get subscriptionDetails => "تفاصيل الاشتراك";
+
+  @override
+  String get subscriptionInformation => "معلومات الاشتراك";
+
+  @override
+  String get olm => "OLM";
+
+  @override
+  String get position => "المنصب";
+
+  @override
+  String get option => "الخيار";
+
+  @override
+  String get fee => "الرسوم";
+
+  @override
+  String get id => "رقم التعريف";
+
+  @override
+  String get ok => "موافق";
+
+  @override
+  String get dateInformation => "معلومات التاريخ";
+
+  @override
+  String get created => "تم الإنشاء";
+
+  @override
+  String get createAccount => "إنشاء حساب";
+
+  @override
+  String get profilePictureRequired => "الصورة الشخصية مطلوبة";
+
+  @override
+  String get profilePictureRequiredMessage =>
+      "يرجى إضافة صورة شخصية لتحسين تجربتك.";
+
+  @override
+  String get addProfilePicture => "إضافة صورة شخصية";
+
+  @override
+  String get enableDisableAccount => "تمكين أو تعطيل هذا الحساب";
+
+  @override
+  String get blockAccountAccess => "حظر وصول هذا الحساب";
+
+  @override
+  String get basicInformation => "معلومات أساسية";
+
+  @override
+  String get systemInformation => "معلومات النظام";
+
+  @override
+  String get contactInformation => "معلومات الاتصال";
+
+  @override
+  String get systemActions => "إجراءات النظام";
+
+  @override
+  String get internalCode => "الرمز الداخلي";
+
+  @override
+  String get role => "الدور";
+
+  @override
+  String get createdDate => "تاريخ الإنشاء";
+
+  @override
+  String get creditBalance => "رصيد الائتمان";
+
+  @override
+  String get editUser => "تعديل المستخدم";
+
+  @override
+  String get editProfile => "تعديل الملف الشخصي";
+
+  @override
+  String get notifications => "الإشعارات";
+
+  @override
+  String get unread => "غير مقروءة";
+
+  @override
+  String get read => "مقروءة";
+
+  @override
+  String get singleDay => "يوم";
+
+  @override
+  String get multipleDays => "أيام";
+
+  @override
+  String get singleHour => "ساعة";
+
+  @override
+  String get multipleHours => "ساعات";
+
+  @override
+  String get singleMinute => "دقيقة";
+
+  @override
+  String get multipleMinutes => "دقائق";
+
+  @override
+  String get justNow => "الآن";
+
+  @override
+  String get events => "الفعاليات";
+
+  @override
+  String get failedToLoadImage => "فشل تحميل الصورة";
+
+  @override
+  String get skipButton => "تخطي";
+
+  @override
+  String get getStarted => "ابدأ الآن";
+
+  @override
+  String get majorActivities => "الأنشطة الرئيسية";
+
+  @override
+  String get seeMore => "عرض المزيد";
+
+  @override
+  String get scan => "مسح";
+
+  @override
+  String get surveyView => "الاستبيان";
+
+  @override
+  String get editProfileView => "تعديل الملف الشخصي";
+
+  @override
+  String get eventDetailsView => "تفاصيل الحدث";
+
+  @override
+  String get success => "تم بنجاح";
+
+  @override
+  String get profilePhotoUpdatedSuccessfully => "تم تحديث الصورة الشخصية بنجاح";
+
+  @override
+  String get failedToUpdateProfilePhoto => "فشل تحديث الصورة الشخصية";
+
+  @override
+  String get noReceiptAvailable => "لا يوجد إيصال متاح";
+
+  // Subscription form strings - Sign up
+  @override
+  String get selectYourPosition => "اختر منصبك";
+
+  @override
+  String get chooseYourRoleInTheOrganization => "اختر دورك في المنظمة";
+
+  @override
+  String get selectYourSubscription => "اختر اشتراكك";
+
+  @override
+  String get selectYourOlm => "اختر أولم الخاص بك";
+
+  @override
+  String get selectYourPreferredRoomType => "اختر نوع الغرفة المفضل لديك";
+
+  @override
+  String get selectYourZone => "اختر منطقتك";
+
+  @override
+  String get specifyYourPosition => "حدد منصبك";
+
+  @override
+  String get pleaseSpecifyYourPosition => "يرجى تحديد منصبك";
+
+  @override
+  String get uploadReceipt => "تحميل الإيصال";
+
+  @override
+  String get pleaseAttachYourPaymentConfirmation =>
+      "يرجى إرفاق تأكيد الدفع الخاص بك";
+
+  @override
+  String get receiptDocument => "مستند الإيصال";
+
+  @override
+  String get paymentReceipt => "إيصال الدفع";
+
+  @override
+  String get roomType => "نوع الغرفة";
+
+  @override
+  String get roommates => "زملاء الغرفة";
+
+  @override
+  String get pleaseEnterRoommates => "يرجى إدخال زملاء الغرفة";
+
+  @override
+  String get selectSubscription => "اختر الاشتراك";
+
+  @override
+  String get noSubscriptionOptionsAvailable => "لا تتوفر خيارات اشتراك";
+
+  @override
+  String get pleaseCheckBackLaterOrContactSupport =>
+      "يرجى التحقق لاحقًا أو الاتصال بالدعم";
+
+  @override
+  String get clickToBrowseOrDropFilesHere => "انقر للتصفح أو إسقاط الملفات هنا";
+
+  @override
+  String get supportJpegPngPdfMax5mb =>
+      "الدعم: JPEG، PNG، PDF (الحد الأقصى: 5 ميجابايت)";
+
+  // Validation messages
+  @override
+  String get pleaseFillInAllRequiredFieldsBeforeRegistering =>
+      "يرجى ملء جميع الحقول المطلوبة قبل التسجيل";
+
+  @override
+  String get roomTypeRequired => "نوع الغرفة مطلوب";
+
+  @override
+  String get paymentReceiptRequired => "إيصال الدفع مطلوب";
+
+  @override
+  String get pleaseUploadYourPaymentReceipt =>
+      "يرجى تحميل إيصال الدفع الخاص بك";
+
+  @override
+  String get pleaseFillInAllPersonalInformation =>
+      "يرجى ملء جميع المعلومات الشخصية";
+
+  @override
+  String get zoneSelectionRequired => "اختيار المنطقة مطلوب";
+
+  @override
+  String get pleaseSelectYourZone => "يرجى اختيار منطقتك";
+
+  @override
+  String get olmSelectionRequired => "اختيار أولم مطلوب";
+
+  @override
+  String get pleaseSelectYourOlm => "يرجى اختيار أولم الخاص بك";
+
+  @override
+  String get positionSelectionRequired => "اختيار المنصب مطلوب";
+
+  @override
+  String get pleaseSelectYourPosition => "يرجى اختيار منصبك";
+
+  @override
+  String get positionDescription => "وصف المنصب";
+
+  @override
+  String get subscriptionSelectionRequired => "اختيار الاشتراك مطلوب";
+
+  @override
+  String get pleaseSelectYourSubscription =>
+      "يرجى اختيار خيار الاشتراك الخاص بك";
+
+  // Sign up form additional strings
+  @override
+  String get personalInformation => "المعلومات الشخصية";
+
+  @override
+  String get organizationInformation => "معلومات المنظمة";
+
+  @override
+  String get byCreatingAnAccountYouAgreeToOurTermsOfServiceAndPrivacyPolicy =>
+      "بإنشاء حساب، فإنك توافق على شروط الخدمة وسياسة الخصوصية الخاصة بنا";
+
+  @override
+  String get alreadyHaveAnAccount => "هل لديك حساب بالفعل؟";
+
+  @override
+  String get scanError => "خطأ في المسح";
+
+  @override
+  String get qrCodeInvalid =>
+      "رمز الاستجابة السريعة غير صالح أو لم يتم العثور على الاشتراك";
+
+  @override
+  String get standardRegistrationExplanation => "التسجيل العادي: 35 دينار";
+
+  @override
+  String get saturdaySundayExplanation =>
+      "السبت-الأحد (SD): 110 دينار + 35 دينار (إقامة ليلة واحدة + تسجيل عادي)";
+
+  @override
+  String get fridaySaturdaySundayExplanation =>
+      "الجمعة-السبت-الأحد (VSD): 210 دينار + 35 دينار (إقامة ليلتين + تسجيل عادي)";
 }

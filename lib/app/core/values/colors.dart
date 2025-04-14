@@ -12,7 +12,7 @@ const Color greyDark = Color(0xff9B9B9B);
 
 const Color white = Color(0xffffffff);
 
-const Color black = Color(0xff242E42);
+const Color black =  Color(0xff000000);
 
 const Color blue10 = Color.fromARGB(51, 87, 194, 224);
 const Color darkRed = Color(0xffB91C1C);

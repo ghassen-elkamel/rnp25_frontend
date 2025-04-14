@@ -42,7 +42,7 @@ class AtomAppBar extends StatelessWidget implements PreferredSizeWidget {
       automaticallyImplyLeading: false,
       toolbarHeight: appBarHeight,
       flexibleSpace: Container(
-        decoration: const BoxDecoration(color: kIsWeb ? white : primaryColor),
+        decoration: const BoxDecoration(color:  white ),
       ),
       actions: [
         ...actions,
@@ -50,7 +50,7 @@ class AtomAppBar extends StatelessWidget implements PreferredSizeWidget {
           Padding(
             padding: const EdgeInsets.only(right: 10, left: 10),
             child: IconButton(
-              color: white,
+              color: black,
               icon: Icon(icon),
               onPressed: onTapIcon,
             ),
@@ -91,7 +91,7 @@ class AtomAppBar extends StatelessWidget implements PreferredSizeWidget {
               child: IconButton(
                 icon: const Icon(
                   Icons.arrow_back_ios,
-                  color: white,
+                  color: black,
                 ),
                 onPressed: () => Navigator.of(context).pop(),
               ),
@@ -103,7 +103,7 @@ class AtomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   child: IconButton(
                     icon: const Icon(
                       Icons.menu,
-                      color: white,
+                      color: black,
                     ),
                     onPressed: () => scaffoldKey?.currentState?.openDrawer(),
                   ),
@@ -112,7 +112,7 @@ class AtomAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: customTitle ??
           CustomText.xl(
             title,
-            color: white,
+            color: black,
           ),
       centerTitle: centerTitle,
     );

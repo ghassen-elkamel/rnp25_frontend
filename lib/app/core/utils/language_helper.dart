@@ -16,8 +16,8 @@ class LanguageHelper {
       // locale = await findSystemLocale();
       locale = locale.languageCode;
 
-      bool languageSupported = ["ar", "en"].contains(locale);
-      if(!languageSupported){
+      bool languageSupported = ["ar", "en", "fr", "tn"].contains(locale);
+      if (!languageSupported) {
         locale = "en";
       }
       await storage.saveItem(key: storageLocaleKey, item: locale);

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_scanner_plus/qr_code_scanner_plus.dart';
 import 'package:rnp_front/app/global_widgets/atoms/button.dart';
+import 'package:rnp_front/app/global_widgets/molecules/drawer.dart';
 
 import '../../../core/utils/alert.dart';
 import '../../../global_widgets/templates/app_scaffold.dart';
@@ -12,10 +13,12 @@ class QrCodeScannerView extends GetView<QrCodeScannerController> {
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
-        title: 'scanQr'.tr,
-        centerTitle: true,
-        withMenu: true,
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('scanQr'.tr),
+          centerTitle: true,
+        ),
+        drawer: const MoleculeDrawer(),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -23,7 +26,7 @@ class QrCodeScannerView extends GetView<QrCodeScannerController> {
             children: [
               AtomButton(
                 isSmall: true,
-                label: 'scan',
+                label: 'scan'.tr,
                 onPressed: () {
                   Alert.showCustomDialog(
                     title: "scanQR".tr,

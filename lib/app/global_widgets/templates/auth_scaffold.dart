@@ -31,7 +31,7 @@ class AuthScaffold extends StatelessWidget {
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                       image: AssetImage(
-                        "assets/images/login.png",
+                      'assets/icons/small_icon.png',
                       ),
                       alignment: Alignment.center,
                       fit: BoxFit.contain,

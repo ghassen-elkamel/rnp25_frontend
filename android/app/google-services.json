@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "788448328718",
+    "project_id": "rnp25-a8a32",
+    "storage_bucket": "rnp25-a8a32.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:788448328718:android:ba3d10dc86b81eee46505f",
+        "android_client_info": {
+          "package_name": "com.gremda.rnp_front"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQlDmSWWznmaYswVbb9Di76OWoGfFKS4s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:788448328718:android:b8b69e58afbdaf2e46505f",
+        "android_client_info": {
+          "package_name": "com.mypartner.rnp_front"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQlDmSWWznmaYswVbb9Di76OWoGfFKS4s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

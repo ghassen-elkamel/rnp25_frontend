@@ -1234,12 +1234,305 @@ class EnLanguage extends BaseLanguage {
   @override
   String get loginAccount => "Login to your account";
 
-
+  @override
+  String get bilel => "";
 
   @override
-  String get bilel => ""; 
-
+  String get scanQr => "Scan QR";
 
   @override
-  String get scanQr => ""; 
+  String get olmInformation => "OLM Information";
+
+  @override
+  String get subscriptionDetails => "Subscription Details";
+
+  @override
+  String get subscriptionInformation => "Subscription Information";
+
+  @override
+  String get olm => "OLM";
+
+  @override
+  String get position => "Position";
+
+  @override
+  String get option => "Option";
+
+  @override
+  String get fee => "Fee";
+
+  @override
+  String get id => "ID";
+
+  @override
+  String get dateInformation => 'Date Information';
+
+  @override
+  String get created => "Created";
+
+  @override
+  String get createAccount => "Create account";
+
+  @override
+  String get profilePictureRequired => "Profile Picture Required";
+
+  @override
+  String get profilePictureRequiredMessage =>
+      "Please add a profile picture to enhance your experience.";
+
+  @override
+  String get addProfilePicture => "Add Profile Picture";
+
+  @override
+  String get enableDisableAccount => "Enable or disable this account";
+
+  @override
+  String get blockAccountAccess => "Block this account from access";
+
+  @override
+  String get basicInformation => "Basic Information";
+
+  @override
+  String get systemInformation => "System Information";
+
+  @override
+  String get contactInformation => "Contact Information";
+
+  @override
+  String get systemActions => "System Actions";
+
+  @override
+  String get internalCode => "Internal Code";
+
+  @override
+  String get role => "Role";
+
+  @override
+  String get createdDate => "Created Date";
+
+  @override
+  String get creditBalance => "Credit Balance";
+
+  @override
+  String get editUser => "Edit User";
+
+  @override
+  String get editProfile => "Edit Profile";
+
+  @override
+  String get notifications => "Notifications";
+
+  @override
+  String get unread => "Unread";
+
+  @override
+  String get read => "Read";
+
+  @override
+  String get singleDay => "day";
+
+  @override
+  String get multipleDays => "days";
+
+  @override
+  String get singleHour => "hour";
+
+  @override
+  String get multipleHours => "hours";
+
+  @override
+  String get singleMinute => "minute";
+
+  @override
+  String get multipleMinutes => "minutes";
+
+  @override
+  String get justNow => "Just now";
+
+  @override
+  String get events => "Events";
+
+  @override
+  String get failedToLoadImage => "Failed to load image";
+
+  @override
+  String get skipButton => "Skip";
+
+  @override
+  String get getStarted => "Get Started";
+
+  @override
+  String get majorActivities => "Major Activities";
+
+  @override
+  String get seeMore => "See more";
+
+  @override
+  String get scan => "Scan";
+
+  @override
+  String get surveyView => "Survey";
+
+  @override
+  String get editProfileView => "Edit Profile";
+
+  @override
+  String get eventDetailsView => "Event Details";
+
+  @override
+  String get success => "Success";
+
+  @override
+  String get profilePhotoUpdatedSuccessfully =>
+      "Profile photo updated successfully";
+
+  @override
+  String get failedToUpdateProfilePhoto => "Failed to update profile photo";
+
+  @override
+  String get noReceiptAvailable => "No receipt available";
+
+  // Subscription form strings - Sign up
+  @override
+  String get selectYourPosition => "Select your position";
+
+  @override
+  String get chooseYourRoleInTheOrganization =>
+      "Choose your role in the organization";
+
+  @override
+  String get selectYourSubscription => "Select your subscription";
+
+  @override
+  String get selectYourOlm => "Select your OLM";
+
+  @override
+  String get selectYourPreferredRoomType => "Select your preferred room type";
+
+  @override
+  String get selectYourZone => "Select your zone";
+
+  @override
+  String get specifyYourPosition => "Specify your position";
+
+  @override
+  String get pleaseSpecifyYourPosition => "Please specify your position";
+
+  @override
+  String get uploadReceipt => "Upload Receipt";
+
+  @override
+  String get pleaseAttachYourPaymentConfirmation =>
+      "Please attach your payment confirmation";
+
+  @override
+  String get receiptDocument => "Receipt document";
+
+  @override
+  String get paymentReceipt => "Payment Receipt";
+
+  @override
+  String get roomType => "Room Type";
+
+  @override
+  String get roommates => "Roommates";
+
+  @override
+  String get pleaseEnterRoommates => "Please enter roommates";
+
+  @override
+  String get selectSubscription => "Select subscription";
+
+  @override
+  String get noSubscriptionOptionsAvailable =>
+      "No subscription options available";
+
+  @override
+  String get pleaseCheckBackLaterOrContactSupport =>
+      "Please check back later or contact support";
+
+  @override
+  String get clickToBrowseOrDropFilesHere =>
+      "Click to browse or drop files here";
+
+  @override
+  String get supportJpegPngPdfMax5mb => "Support: JPEG, PNG, PDF (Max: 5MB)";
+
+  // Validation messages
+  @override
+  String get pleaseFillInAllRequiredFieldsBeforeRegistering =>
+      "Please fill in all required fields before registering";
+
+  @override
+  String get roomTypeRequired => "Room Type Required";
+
+  @override
+  String get paymentReceiptRequired => "Payment Receipt Required";
+
+  @override
+  String get pleaseUploadYourPaymentReceipt =>
+      "Please upload your payment receipt";
+
+  @override
+  String get pleaseFillInAllPersonalInformation =>
+      "Please fill in all personal information";
+
+  @override
+  String get zoneSelectionRequired => "Zone Selection Required";
+
+  @override
+  String get pleaseSelectYourZone => "Please select your zone";
+
+  @override
+  String get olmSelectionRequired => "OLM Selection Required";
+
+  @override
+  String get pleaseSelectYourOlm => "Please select your OLM";
+
+  @override
+  String get positionSelectionRequired => "Position Selection Required";
+
+  @override
+  String get pleaseSelectYourPosition => "Please select your position";
+
+  @override
+  String get positionDescription => "Position description";
+
+  @override
+  String get subscriptionSelectionRequired => "Subscription Selection Required";
+
+  @override
+  String get pleaseSelectYourSubscription =>
+      "Please select your subscription option";
+
+  // Sign up form additional strings
+  @override
+  String get personalInformation => "Personal Information";
+
+  @override
+  String get organizationInformation => "Organization Information";
+
+  @override
+  String get byCreatingAnAccountYouAgreeToOurTermsOfServiceAndPrivacyPolicy =>
+      "By creating an account, you agree to our Terms of Service and Privacy Policy";
+
+  @override
+  String get alreadyHaveAnAccount => "Already have an account?";
+
+  @override
+  String get scanError => "Scan Error";
+
+  @override
+  String get qrCodeInvalid => "Invalid QR code or no subscription found";
+
+  @override
+  String get standardRegistrationExplanation => "Standard Registration: 35 DT";
+
+  @override
+  String get saturdaySundayExplanation =>
+      "Saturday-Sunday (SD): 110 DT + 35 DT (1 night stay + standard registration)";
+
+  @override
+  String get fridaySaturdaySundayExplanation =>
+      "Friday-Saturday-Sunday (VSD): 210 DT + 35 DT (2 nights stay + standard registration)";
 }

@@ -8,7 +8,6 @@ import '../../global_widgets/atoms/text_field.dart';
 import '../../global_widgets/molecules/dropdown_content.dart';
 import '../atoms/image.dart';
 
-
 class OrganismDropdown<T> extends StatefulWidget {
   OrganismDropdown({
     super.key,
@@ -28,16 +27,10 @@ class OrganismDropdown<T> extends StatefulWidget {
     this.isSearchable = false,
     this.simpleInput = false,
     this.labelOnNull = "unknown",
-  })
-      : onChangeSelectedItems = null,
+  })  : onChangeSelectedItems = null,
         isMultiselect = false,
         controller = TextEditingController(),
-        initValue = initValue == null
-            ? null
-            : [ initValue
-        ];
-
-
+        initValue = initValue == null ? null : [initValue];
 
   OrganismDropdown.multiselect({
     super.key,
@@ -57,23 +50,21 @@ class OrganismDropdown<T> extends StatefulWidget {
     this.isSearchable = true,
     this.simpleInput = true,
     this.labelOnNull = "unknown",
-  })
-      : onChange = null,
+  })  : onChange = null,
         rxItems = null,
         isMultiselect = true,
         controller = controller ?? TextEditingController(),
         items = objects
-            .map((e) =>
-            ItemSelect<T>(
-                label: e?.toString() ?? labelOnNull
-                    .toString()
-                    .tr, value: e))
+            .map((e) => ItemSelect<T>(
+                label: e?.toString() ?? labelOnNull.toString().tr, value: e))
             .toList(),
-        initValue = init?.map((e) =>
-            ItemSelect<T>(
-              label: e.toString(),
-              value: e,
-            )).whereType<ItemSelect<T>>().toList();
+        initValue = init
+            ?.map((e) => ItemSelect<T>(
+                  label: e.toString(),
+                  value: e,
+                ))
+            .whereType<ItemSelect<T>>()
+            .toList();
 
   OrganismDropdown.entity({
     super.key,
@@ -95,23 +86,20 @@ class OrganismDropdown<T> extends StatefulWidget {
     this.onClear,
     this.rxItems,
     this.labelOnNull = "unknown",
-  })
-      : controller = controller ?? TextEditingController(),
+  })  : controller = controller ?? TextEditingController(),
         onChangeSelectedItems = null,
         items = objects
-            .map((e) =>
-            ItemSelect<T>(
-                label: e?.toString() ?? labelOnNull
-                    .toString()
-                    .tr, value: e))
+            .map((e) => ItemSelect<T>(
+                label: e?.toString() ?? labelOnNull.toString().tr, value: e))
             .toList(),
         initValue = init == null
             ? null
-            : [ ItemSelect(
-          label: init.toString(),
-          value: init,
-        )
-        ];
+            : [
+                ItemSelect(
+                  label: init.toString(),
+                  value: init,
+                )
+              ];
 
   final List<ItemSelect<T>>? initValue;
   final bool isMultiselect;
@@ -151,7 +139,7 @@ class _OrganismDropdownState<T> extends State<OrganismDropdown<T>> {
   void initState() {
     key = GlobalKey();
     layerLink = LayerLink();
-    if (widget.initValue  case List<ItemSelect<T>> initValue) {
+    if (widget.initValue case List<ItemSelect<T>> initValue) {
       if (widget.isMultiselect) {
         values.addAll(initValue);
         widget.controller.text = values.map((e) => e.label).join(", ");
@@ -188,79 +176,91 @@ class _OrganismDropdownState<T> extends State<OrganismDropdown<T>> {
                 link: layerLink,
                 child: widget.simpleInput
                     ? AtomTextField.simple(
-                  height: 80,
-                  inputKey: key,
-                  backgroundColor: widget.backgroundColor ?? greyDark,
-                  controller: widget.controller,
-                  label: widget.label,
-                  padding: widget.padding,
-                  readOnly: true,
-                  suffix: arrowIcon,
-                  isRequired: widget.isRequired,
-                  prefix: value?.pathPicture == null
-                      ? null
-                      : Padding(
-                    padding: const EdgeInsets.only(
-                        left: 8.0, right: 18.0),
-                    child: AtomImage(
-                      path: value!.pathPicture!,
-                      width: 24,
-                      height: 24,
-                    ),
-                  ),
-                  onTap: () {
-                    if (!_isVisible) {
-                      _isVisible = true;
-                      _overlayEntry = _createOverlayEntry();
-                      _overlayState = Overlay.of(context);
-                      _overlayState!.insert(_overlayEntry!);
-                    } else {
-                      closeOverlay();
-                    }
-                  },
-                )
+                        height: 80,
+                        inputKey: key,
+                        backgroundColor: widget.backgroundColor ?? greyDark,
+                        controller: widget.controller,
+                        label: widget.label,
+                        padding: widget.padding,
+                        readOnly: true,
+                        suffix: arrowIcon,
+                        isRequired: widget.isRequired,
+                        prefix: value?.pathPicture == null
+                            ? null
+                            : Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8.0, right: 18.0),
+                                child: value!.pathPicture!.startsWith('http')
+                                    ? AtomImage(
+                                        path: value!.pathPicture!,
+                                        width: 24,
+                                        height: 24,
+                                      )
+                                    : Image.asset(
+                                        value!.pathPicture!,
+                                        width: 24,
+                                        height: 24,
+                                      ),
+                              ),
+                        onTap: () {
+                          if (!_isVisible) {
+                            _isVisible = true;
+                            _overlayEntry = _createOverlayEntry();
+                            _overlayState = Overlay.of(context);
+                            _overlayState!.insert(_overlayEntry!);
+                          } else {
+                            closeOverlay();
+                          }
+                        },
+                      )
                     : AtomTextField(
-                  inputKey: key,
-                  controller: widget.controller,
-                  label: widget.label,
-                  readOnly: true,
-                  isRequired: widget.isRequired,
-                  contentCanBeSpace: true,
-                  backgroundColor: widget.backgroundColor ?? greyDark,
-                  withBorder: false,
-                  hintText: widget.hintText,
-                  prefix: value?.pathPicture == null
-                      ? null
-                      : Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: AtomImage(
-                      path: value!.pathPicture!,
-                      width: 24,
-                      height: 24,
-                    ),
-                  ),
-                  decoration: InputDecoration(
-                    hintText: widget.hintText,
-                    suffixIcon: arrowIcon,
-                    border: InputBorder.none,
-                    errorStyle: styleTransparentColor,
-                    errorText: "",
-                    errorMaxLines: 1,
-                    contentPadding: const EdgeInsets.only(
-                        left: 12, bottom: 0, top: 16),
-                  ),
-                  style: styleBlackLightFontRobotoW400Size16,
-                  onTap: () {
-                    if (!_isVisible) {
-                      _isVisible = true;
-                      _overlayEntry = _createOverlayEntry();
-                      _overlayState = Overlay.of(context);
-                      _overlayState!.insert(_overlayEntry!);
-                    } else {
-                      closeOverlay();
-                    }
-                  },
-                ),
+                        inputKey: key,
+                        controller: widget.controller,
+                        label: widget.label,
+                        readOnly: true,
+                        isRequired: widget.isRequired,
+                        contentCanBeSpace: true,
+                        backgroundColor: widget.backgroundColor ?? greyDark,
+                        withBorder: false,
+                        hintText: widget.hintText,
+                        prefix: value?.pathPicture == null
+                            ? null
+                            : Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: value!.pathPicture!.startsWith('http')
+                                    ? AtomImage(
+                                        path: value!.pathPicture!,
+                                        width: 24,
+                                        height: 24,
+                                      )
+                                    : Image.asset(
+                                        value!.pathPicture!,
+                                        width: 24,
+                                        height: 24,
+                                      ),
+                              ),
+                        decoration: InputDecoration(
+                          hintText: widget.hintText,
+                          suffixIcon: arrowIcon,
+                          border: InputBorder.none,
+                          errorStyle: styleTransparentColor,
+                          errorText: "",
+                          errorMaxLines: 1,
+                          contentPadding: const EdgeInsets.only(
+                              left: 12, bottom: 0, top: 16),
+                        ),
+                        style: styleBlackLightFontRobotoW400Size16,
+                        onTap: () {
+                          if (!_isVisible) {
+                            _isVisible = true;
+                            _overlayEntry = _createOverlayEntry();
+                            _overlayState = Overlay.of(context);
+                            _overlayState!.insert(_overlayEntry!);
+                          } else {
+                            closeOverlay();
+                          }
+                        },
+                      ),
               ),
             ),
           ),
@@ -296,10 +296,7 @@ class _OrganismDropdownState<T> extends State<OrganismDropdown<T>> {
     Offset position = box.localToGlobal(Offset.zero);
 
     bool openOnDown =
-        position.dy + widget.height < MediaQuery
-            .of(context)
-            .size
-            .height;
+        position.dy + widget.height < MediaQuery.of(context).size.height;
 
     double startPosition = widget.label == null ? 0 : 36;
     if (openOnDown) {
@@ -314,7 +311,7 @@ class _OrganismDropdownState<T> extends State<OrganismDropdown<T>> {
             child: CompositedTransformFollower(
               link: layerLink,
               followerAnchor:
-              openOnDown ? Alignment.topLeft : Alignment.bottomLeft,
+                  openOnDown ? Alignment.topLeft : Alignment.bottomLeft,
               offset: Offset(
                 -4,
                 startPosition,
@@ -331,28 +328,28 @@ class _OrganismDropdownState<T> extends State<OrganismDropdown<T>> {
                     ),
                     child: StatefulBuilder(
                         builder: (context, setStateDropdownContent) {
-                          return widget.rxItems != null
-                              ? Obx(() {
-                            return MoleculeDropdownContent<T>(
+                      return widget.rxItems != null
+                          ? Obx(() {
+                              return MoleculeDropdownContent<T>(
+                                onTap: (item) => onTapDropDown(
+                                    item, setStateDropdownContent),
+                                onSearch: widget.isSearchable ? onSearch : null,
+                                items: widget.rxItems!.value
+                                    .whereType<ItemSelect<T>>()
+                                    .toList(),
+                                selectedItem: value,
+                                selectedItems: values,
+                              );
+                            })
+                          : MoleculeDropdownContent<T>(
                               onTap: (item) =>
-                                  onTapDropDown(
-                                      item, setStateDropdownContent),
+                                  onTapDropDown(item, setStateDropdownContent),
                               onSearch: widget.isSearchable ? onSearch : null,
-                              items: widget.rxItems!.value.whereType<
-                                  ItemSelect<T>>().toList(),
+                              items: items,
                               selectedItem: value,
                               selectedItems: values,
                             );
-                          })
-                              : MoleculeDropdownContent<T>(
-                            onTap: (item) =>
-                                onTapDropDown(item, setStateDropdownContent),
-                            onSearch: widget.isSearchable ? onSearch : null,
-                            items: items,
-                            selectedItem: value,
-                            selectedItems: values,
-                          );
-                        }),
+                    }),
                   ),
                 ),
               ),
@@ -375,10 +372,10 @@ class _OrganismDropdownState<T> extends State<OrganismDropdown<T>> {
         }
       });
       widget.controller.text = values.map((e) => e.label).join(", ");
-      widget.onChangeSelectedItems?.call(
-          values.map((e) => e.value).whereType<T>().toList());
+      widget.onChangeSelectedItems
+          ?.call(values.map((e) => e.value).whereType<T>().toList());
     } else {
-      widget.controller.text = value?.label ?? "";
+      widget.controller.text = value!.label!;
       widget.onChange?.call(item);
       closeOverlay();
     }
@@ -395,8 +392,7 @@ class _OrganismDropdownState<T> extends State<OrganismDropdown<T>> {
 
   void onSearch(value) {
     items = widget.items
-        .where((element) =>
-        element.label
+        .where((element) => element.label
             .toLowerCase()
             .contains(value.toString().toLowerCase()))
         .whereType<ItemSelect<T>>()

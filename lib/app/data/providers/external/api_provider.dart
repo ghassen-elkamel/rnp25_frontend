@@ -6,6 +6,7 @@ import '../../models/file_info.dart';
 import '../../../core/utils/constant.dart';
 import 'src/api_provider_helper.dart';
 part 'src/api_provider_params.dart';
+
 class ApiProvider {
   static ApiProvider? _instance;
 
@@ -49,15 +50,31 @@ class ApiProvider {
       log(params.body.toString());
       List<FileInfo> files = [];
       files.addAll(params.files);
-      if(params.file != null){
+      if (params.file != null) {
         files.add(params.file!);
       }
 
       if (params.isFormData || files.isNotEmpty) {
+        log("Performing form data post request to $uri with ${files.length} files");
+        if (files.isNotEmpty) {
+          for (var file in files) {
+            log("File in request: ${file.fileName}, size: ${file.bytes.length} bytes");
+          }
+        }
 
-        var request = getFormDataRequest("POST", uri, body: params.body, files: files);
-        var responseStream = await request.send();
-        response = await http.Response.fromStream(responseStream);
+        try {
+          var request =
+              getFormDataRequest("POST", uri, body: params.body, files: files);
+          var responseStream = await request.send();
+          response = await http.Response.fromStream(responseStream);
+          log("Form data response status: ${response.statusCode}");
+          if (response.statusCode != 200) {
+            log("Error response body: ${response.body}");
+          }
+        } catch (e) {
+          log("Error during form data request: $e");
+          rethrow;
+        }
       } else {
         response = await http
             .post(
@@ -76,6 +93,7 @@ class ApiProvider {
                 attempt: attempt + 1,
               ));
     } catch (exception) {
+      log("Post request exception: $exception");
       catchException(exception);
     }
     hideLoadingAlert(withLoadingAlert: params.withLoadingAlert);

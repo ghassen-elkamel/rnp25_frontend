@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:open_file_plus/open_file_plus.dart';
 import 'package:rnp_front/app/core/extensions/string/language.dart';
 import 'package:rnp_front/app/data/enums/order.dart';
 import 'package:rnp_front/app/data/enums/role_type.dart';
 import 'package:rnp_front/app/data/models/entities/company.dart';
+import 'package:rnp_front/app/data/models/entities/subscription_form.dart';
 import 'package:rnp_front/app/data/models/file_info.dart';
 import 'package:rnp_front/app/data/services/auth_service.dart';
 import 'package:rnp_front/app/data/services/company_service.dart';
+import 'package:rnp_front/app/data/services/user_form_service.dart';
 import 'package:rnp_front/app/data/services/user_service.dart';
 import 'package:rnp_front/app/global_widgets/atoms/button.dart';
 import 'package:share_plus/share_plus.dart';
@@ -22,7 +25,7 @@ class UsersController extends GetxController {
   CountryService countryService = CountryService();
   CompanyService companyService = CompanyService();
   UserService userService = UserService();
-
+  UserFormService userFormService = UserFormService();
   TextEditingController fullName = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController phone = TextEditingController();
@@ -61,6 +64,9 @@ class UsersController extends GetxController {
   Rx<FileInfo?> selectedImage = Rx(null);
   TextEditingController attachment = TextEditingController();
 
+  // Add flags to track data loading status for each role
+  final Map<RolesType, bool> _dataLoadedByRole = {};
+
   @override
   void onInit() async {
     String? role = Get.parameters["role"];
@@ -93,18 +99,42 @@ class UsersController extends GetxController {
   }
 
   Future<void> loadData([bool withLoading = true]) async {
+    // Skip loading if data for this role is already loaded
+    if (selectedRole.value != null &&
+        _dataLoadedByRole[selectedRole.value] == true) {
+      print(
+          "Data for role ${selectedRole.value} already loaded, skipping API call");
+      return;
+    }
+
     if (withLoading) {
       isLoading.value = true;
     }
+
     if (selectedRole.value != null) {
+      print("Loading data for role ${selectedRole.value} from API");
       originUsers = await userService.findAllByRole(
         roles: getRoles(),
       );
       searchItems();
+
+      // Mark this role as loaded
+      if (selectedRole.value != null) {
+        _dataLoadedByRole[selectedRole.value!] = true;
+      }
     }
+
     if (withLoading) {
       isLoading.value = false;
     }
+  }
+
+  // Method to force reload data when needed
+  Future<void> forceReloadData() async {
+    if (selectedRole.value != null) {
+      _dataLoadedByRole[selectedRole.value!] = false;
+    }
+    await loadData(true);
   }
 
   searchItems() {
@@ -174,7 +204,7 @@ class UsersController extends GetxController {
         content: Column(
           children: [
             CustomText.m(
-              '${'phone'.tr} :${'${user.countryCode} ${user.phoneNumber}'.reverseArabic()}',
+              '${'email'.tr} : ${user.email}'.reverseArabic(),
             ),
             CustomText.m('${'password'.tr}: ${user.password}'),
             const SizedBox(height: 16),
@@ -188,11 +218,11 @@ class UsersController extends GetxController {
         ),
         onClose: () {
           Get.back();
-          loadData();
+          forceReloadData(); // Use force reload since data changed
         },
       );
     } else {
-      loadData();
+      forceReloadData(); // Use force reload since data changed
     }
     return false;
   }
@@ -222,7 +252,27 @@ class UsersController extends GetxController {
     );
     if (isUpdated) {
       Get.back();
-      loadData();
+      forceReloadData(); // Use force reload since data changed
+    }
+  }
+
+  onActivate(User item) async {
+    bool isUpdated = await userService.activateUser(
+      item.id,
+    );
+    if (isUpdated) {
+      Get.back();
+      forceReloadData(); // Use force reload since data changed
+    }
+  }
+
+  onBlock(User item) async {
+    bool isUpdated = await userService.blockUser(
+      item.id,
+    );
+    if (isUpdated) {
+      Get.back();
+      forceReloadData(); // Use force reload since data changed
     }
   }
 }

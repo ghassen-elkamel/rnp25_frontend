@@ -30,23 +30,18 @@ COPY . .
 # Build the app for the web 
 RUN flutter build web --release --dart-define=PROTOCOL=https --dart-define=HOST=api.rnp25.com
 
-# Production stage
-FROM nginx:1.21.1-alpine
+# Create a smaller image with just the built web files
+FROM alpine:3.14
 
-# Copy the build output to nginx
-COPY --from=build-env /app/build/web /usr/share/nginx/html
+# Create directory for the web files
+RUN mkdir -p /app/web
 
-# Configure nginx for SPA routing
-RUN echo 'server { \
-    listen 80; \
-    server_name app.rnp25.com; \
-    location / { \
-        root /usr/share/nginx/html; \
-        index index.html index.htm; \
-        try_files $uri $uri/ /index.html; \
-    } \
-}' > /etc/nginx/conf.d/default.conf
+# Copy the build output from the build stage
+COPY --from=build-env /app/build/web /app/web
 
-EXPOSE 80
+# Set the working directory
+WORKDIR /app
 
-CMD ["nginx", "-g", "daemon off;"] 
+# This container is meant to be used as a build artifact
+# The /app/web directory contains the built web app that can be copied to your existing nginx
+CMD ["echo", "Flutter web app built successfully. Copy the contents of /app/web to your nginx html directory."] 

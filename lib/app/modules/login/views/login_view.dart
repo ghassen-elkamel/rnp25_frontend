@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rnp_front/app/core/values/colors.dart';
@@ -19,7 +18,14 @@ class LoginView extends GetView<LoginController> {
 
   @override
   Widget build(BuildContext context) {
-    if (kIsWeb) {
+    // Check only screen size, not platform type
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isLargeScreen = screenWidth >= 750;
+    
+    // Debug print to console
+    print('LOGIN VIEW: Screen width is $screenWidth, isLargeScreen = $isLargeScreen');
+    
+    if (isLargeScreen) {
       return AuthScaffold(
         isLogin: true,
         child: Padding(

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 import '../../core/utils/constant.dart';
@@ -95,7 +94,7 @@ class AuthService {
     bool? onboardingCompleted =
         await storageHelper.fetchItem(key: 'onboarding_completed');
 
-    if (!kIsWeb&&(onboardingCompleted == null || onboardingCompleted == false)) {
+    if (onboardingCompleted == null || onboardingCompleted == false) {
       Get.offAllNamed(Routes.GET_STARTED);
     } else {
       if (!AuthService.isAuthenticated) {

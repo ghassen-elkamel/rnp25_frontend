@@ -271,12 +271,12 @@ class HomeView extends GetView<HomeController> {
                     Radius.circular(15),
                   ),
                   child: AtomSafeImageNetwork(
-                    path: "assets/splash_screen/4.png",
-
+                    headers: ApiProvider().getImageHeaders(),
+                    path: activity.pathPicture,
+                    host: "$hostPath$apiPrefix/v1/task/photo",
                     width: Get.width * 0.8,
                     height: 200,
                     isCircular: false,
-
                   ),
                 ),
               ),

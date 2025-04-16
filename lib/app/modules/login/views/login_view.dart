@@ -85,10 +85,11 @@ class LoginView extends GetView<LoginController> {
     }
 
     return Scaffold(
+      backgroundColor: primaryColor,
       body: MoleculeFixedBottomSheet(
         height: Get.height * 0.9,
         title: "welcome".tr,
-        backgroundImage: loginBackground,
+        backgroundImage: "assets/icons/small_icon.png",
         content: [
           Column(
             children: [

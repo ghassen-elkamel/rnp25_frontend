@@ -85,8 +85,7 @@ class ProgramManagementView extends GetView<ProgramManagementController> {
                                                     right: 12.0),
                                                 child: AtomSafeImageNetwork(
                                                   path: task.pathPicture,
-                                                  host:
-                                                  "$hostPath$apiPrefix/v1/task/image",
+                                                  host: hostUploadTaskPhoto,
                                                   width: 60,
                                                   height: 60,
                                                   radius: 8,

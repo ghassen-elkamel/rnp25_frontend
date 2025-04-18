@@ -585,6 +585,10 @@ class UserDetailsDialog {
                               "Position Type", subscriptionForm.positionType),
                           _buildInfoItem(
                               "Position Title", subscriptionForm.positionTitle),
+                          if (subscriptionForm.roommates != null &&
+                              subscriptionForm.roommates!.isNotEmpty)
+                            _buildInfoItem(
+                                "Roommates", subscriptionForm.roommates!),
                         ],
                       ),
 

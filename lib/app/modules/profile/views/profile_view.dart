@@ -115,6 +115,7 @@ class ProfileView extends GetView<ProfileController> {
                     padding: const EdgeInsets.symmetric(horizontal: 25),
                     child: Row(
                       children: [
+                        if(controller.user.value?.pathPicture==null)
                         Expanded(
                           child: ElevatedButton(
                             onPressed: () {

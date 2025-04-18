@@ -67,6 +67,9 @@ class SignUpController extends GetxController {
   getAllOlms() async {
     final response = await olmsService.getAllOlms();
     olms.assignAll(response);
+ olms.value.sort(
+      (a, b) => a.name.compareTo(b.name),
+    );
   }
 
   getAllSubscriptionOptions() async {

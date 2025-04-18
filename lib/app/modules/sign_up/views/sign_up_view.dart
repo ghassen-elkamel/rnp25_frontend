@@ -608,10 +608,9 @@ class SignUpView extends GetView<SignUpController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
+              const Row(
                 children: [
-                  CustomText.m('selectYourOlm'.tr, color: Colors.grey.shade700),
-                  const SizedBox(width: 4),
+                  SizedBox(width: 4),
                   CustomText.sm('*', color: Colors.red),
                 ],
               ),

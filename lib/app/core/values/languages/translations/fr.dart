@@ -242,6 +242,23 @@ class FrLanguage extends BaseLanguage {
   String get scanQr => "Scanner QR";
 
   @override
+  String get scanQrDesc =>
+      "Positionnez un code QR dans la vue de la caméra pour le scanner. Le scanner détectera et traitera automatiquement le code.";
+
+  @override
+  String get cameraError => "Erreur de caméra. Veuillez réessayer.";
+
+  @override
+  String get flashlight => "Lampe torche";
+
+  @override
+  String get switchCamera => "Changer de caméra";
+
+  @override
+  String get errorProcessingQR =>
+      "Erreur lors du traitement du code QR. Veuillez réessayer.";
+
+  @override
   String get scan => "Scanner";
 
   @override

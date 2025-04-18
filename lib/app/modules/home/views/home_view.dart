@@ -24,6 +24,11 @@ class HomeView extends GetView<HomeController> {
     // Pass context to controller for showing profile picture alert
     controller.setContext(context);
 
+    // Refresh notifications when returning to the home screen
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.refreshNotifications();
+    });
+
     return Scaffold(
         backgroundColor: white,
         appBar: AppBar(
@@ -37,7 +42,8 @@ class HomeView extends GetView<HomeController> {
 
         // Yellow background color
         body: SafeArea(
-          child: Obx(() => controller.isLoading.value
+          child: Obx(() =>
+          controller.isLoading.value
               ? const Center(child: CircularProgressIndicator())
               : _buildHomeContent()),
         ),
@@ -74,11 +80,46 @@ class HomeView extends GetView<HomeController> {
           const SizedBox(
             width: 50,
           ),
-          InkWell(
-            child: SvgPicture.asset('assets/svg_icons/notification.svg'),
-            onTap: () {
-              Get.toNamed(Routes.NOTIFICATIONS);
-            },
+          Stack(
+            children: [
+              InkWell(
+                child: SvgPicture.asset('assets/svg_icons/notification.svg'),
+                onTap: () {
+                  Get.toNamed(Routes.NOTIFICATIONS);
+                },
+              ),
+              Obx(() {
+                final unreadCount = controller.unreadNotificationsCount;
+                if (unreadCount > 0) {
+                  return Positioned(
+                    top: 0,
+                    right: 0,
+                    child: Container(
+                      padding: const EdgeInsets.all(2),
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      constraints: const BoxConstraints(
+                        minWidth: 16,
+                        minHeight: 16,
+                      ),
+                      child: Text(
+                        unreadCount > 99 ? '99+' : unreadCount.toString(),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  );
+                } else {
+                  return const SizedBox.shrink();
+                }
+              }),
+            ],
           ),
           const SizedBox(
             width: 10,
@@ -125,7 +166,7 @@ class HomeView extends GetView<HomeController> {
                     onTap: () => Get.toNamed('/sponsors'),
                     child: Text(
                       'viewAll'.tr,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 14,
                       ),
                     ),
@@ -250,101 +291,111 @@ class HomeView extends GetView<HomeController> {
   }
 
   Widget _buildActivitiesCarousel() {
-    return CarouselSlider.builder(
-      itemCount: controller.programItems.length,
-      itemBuilder: (context, index, realIndex) {
-        final activity = controller.programItems[index];
-        return Container(
-          width: Get.width * 0.8,
-          margin: const EdgeInsets.only(right: 10),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(15),
-                  ),
-                  child: AtomSafeImageNetwork(
-                    headers: ApiProvider().getImageHeaders(),
-                    path: activity.pathPicture,
-                    host: "$hostPath$apiPrefix/v1/task/photo",
-                    width: Get.width * 0.8,
-                    height: 200,
-                    isCircular: false,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      activity.title ?? 'Activity',
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        const Icon(Icons.calendar_today,
-                            size: 16, color: Colors.amber),
-                        const SizedBox(width: 5),
-                        Text(
-                          UtilsDate.formatMMDD(activity.scheduledDate) ??
-                              'No date',
-                          style: const TextStyle(color: Colors.grey),
-                        ),
-                        const SizedBox(width: 15),
-                        const Icon(Icons.access_time,
-                            size: 16, color: Colors.amber),
-                        const SizedBox(width: 5),
-                        Text(
-                          activity.timeStart ?? 'No time',
-                          style: const TextStyle(color: Colors.grey),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        AtomButton(
-                          onPressed: () {
-                            Get.toNamed(Routes.PROGRAM_OVERVIEW, parameters: {
-                              'taskId': activity.id.toString(),
-                            });
-                          },
-                          isSmall: true,
-                          height: 40,
-                          label: 'seeMore'.tr,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
+    return Obx(() {
+      if( controller.programItems.isEmpty) {
+        return const Center(
+          child: Text(
+            'No activities available',
+            style: TextStyle(color: Colors.grey),
           ),
         );
-      },
-      options: CarouselOptions(
-        height: 370,
-        enableInfiniteScroll: true,
-        padEnds: false,
-        autoPlay: true,
-      ),
-    );
+      }
+      return CarouselSlider.builder(
+        itemCount: controller.programItems.length,
+        itemBuilder: (context, index, realIndex) {
+          final activity = controller.programItems[index];
+          return Container(
+            width: Get.width * 0.8,
+            margin: const EdgeInsets.only(right: 10),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(15),
+                    ),
+                    child: AtomSafeImageNetwork(
+                      headers: ApiProvider().getImageHeaders(),
+                      path: activity.pathPicture,
+                      host: hostUploadTaskPhoto,
+                      width: Get.width * 0.8,
+                      height: 200,
+                      isCircular: false,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        activity.title ?? 'Activity',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        children: [
+                          const Icon(Icons.calendar_today,
+                              size: 16, color: Colors.amber),
+                          const SizedBox(width: 5),
+                          Text(
+                            UtilsDate.formatMMDD(activity.scheduledDate) ??
+                                'No date',
+                            style: const TextStyle(color: Colors.grey),
+                          ),
+                          const SizedBox(width: 15),
+                          const Icon(Icons.access_time,
+                              size: 16, color: Colors.amber),
+                          const SizedBox(width: 5),
+                          Text(
+                            activity.timeStart ?? 'No time',
+                            style: const TextStyle(color: Colors.grey),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          AtomButton(
+                            onPressed: () {
+                              Get.toNamed(Routes.PROGRAM_OVERVIEW, parameters: {
+                                'taskId': activity.id.toString(),
+                              });
+                            },
+                            isSmall: true,
+                            height: 40,
+                            label: 'seeMore'.tr,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+        options: CarouselOptions(
+          height: 370,
+          enableInfiniteScroll: true,
+          padEnds: false,
+          autoPlay: true,
+        ),
+      );
+    });
   }
 
   Widget _buildSponsorsGrid() {
@@ -372,35 +423,6 @@ class HomeView extends GetView<HomeController> {
           );
         },
       ),
-    );
-  }
-
-  Widget _buildNavItem(IconData icon, String label,
-      {required bool isSelected}) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: isSelected ? Colors.white : Colors.transparent,
-            shape: BoxShape.circle,
-          ),
-          child: Icon(
-            icon,
-            color: isSelected ? const Color(0xFFF8DC3D) : Colors.white,
-          ),
-        ),
-        if (label.isNotEmpty)
-          Text(
-            label,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 12,
-              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-            ),
-          ),
-      ],
     );
   }
 }

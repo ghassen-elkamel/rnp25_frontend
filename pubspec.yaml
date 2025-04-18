@@ -1,5 +1,5 @@
 name: rnp_front
-version: 1.0.0+1
+version: 1.0.1+2
 publish_to: none
 description: A new Flutter project.
 
@@ -33,6 +33,8 @@ dependencies:
   mobile_scanner: ^6.0.1
   qr_flutter: ^4.1.0
   qr_code_scanner_plus: ^2.0.10+1
+  path_provider: ^2.1.5
+  syncfusion_flutter_pdfviewer: ^24.2.8
 
   flutter:
     sdk: flutter
@@ -54,6 +56,7 @@ flutter_launcher_icons:
 flutter:
   uses-material-design: true
   assets:
+    - assets/
     - assets/lang/
     - assets/icons/
     - assets/icons/car/

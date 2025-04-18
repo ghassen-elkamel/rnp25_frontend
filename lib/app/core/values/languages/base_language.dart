@@ -11,6 +11,8 @@ abstract class BaseLanguage {
 
   String get scanQr;
 
+  String get scanQrDesc;
+
   String get bilel;
 
   String get loginAccount;
@@ -806,6 +808,14 @@ abstract class BaseLanguage {
   String get saturdaySundayExplanation;
   String get fridaySaturdaySundayExplanation;
 
+  String get cameraError;
+
+  String get flashlight;
+
+  String get switchCamera;
+
+  String get errorProcessingQR;
+
   Map<String, String> toJson() {
     return {
       'back': back,
@@ -1245,6 +1255,10 @@ abstract class BaseLanguage {
       "standardRegistrationExplanation": standardRegistrationExplanation,
       "saturdaySundayExplanation": saturdaySundayExplanation,
       "fridaySaturdaySundayExplanation": fridaySaturdaySundayExplanation,
+      "cameraError": cameraError,
+      "flashlight": flashlight,
+      "switchCamera": switchCamera,
+      "errorProcessingQR": errorProcessingQR,
     };
   }
 }

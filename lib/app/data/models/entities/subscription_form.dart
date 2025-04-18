@@ -14,6 +14,7 @@ class SubscriptionForm {
   final String? pathPicture;
   final String? pathReceipt;
   final String? uuid;
+  final String? roommates;
   final User user;
   final Olm olm;
   final SubscriptionOption subscriptionOption;
@@ -28,6 +29,7 @@ class SubscriptionForm {
     this.pathPicture,
     this.pathReceipt,
     this.uuid,
+    this.roommates,
     required this.user,
     required this.olm,
     required this.subscriptionOption,
@@ -43,6 +45,7 @@ class SubscriptionForm {
       positionTitle: json['positionTitle'],
       pathReceipt: json['pathReciept'] ?? json['pathReceipt'],
       uuid: json['uuid'],
+      roommates: json['roommates'],
       user: json['user'] == null ? User() : User.fromJson(json['user']),
       pathPicture: json['pathPicture'],
       olm: Olm.fromJson(json['olm']),
@@ -62,6 +65,7 @@ class SubscriptionForm {
       'pathReciept': pathReceipt,
       'pathPicture': pathPicture,
       'uuid': uuid,
+      'roommates': roommates,
       'user': user.toJson(),
       'olm': olm.toJson(),
       'subscriptionOption': subscriptionOption.toJson(),

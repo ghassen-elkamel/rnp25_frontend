@@ -10,6 +10,7 @@ import '../../../core/values/colors.dart';
 import '../../../data/providers/external/api_provider.dart';
 import '../../../global_widgets/atoms/curved_navigation_bar.dart';
 import '../../../global_widgets/atoms/safe_image_network.dart';
+import '../../../global_widgets/atoms/floating_action_button.dart';
 import '../controllers/program_controller.dart';
 
 class ProgramView extends GetView<ProgramController> {
@@ -27,7 +28,7 @@ class ProgramView extends GetView<ProgramController> {
         backgroundColor: primaryColor,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Get.back(),
         ),
       ),
@@ -35,6 +36,11 @@ class ProgramView extends GetView<ProgramController> {
         selectedIndex: 1,
       ),
       backgroundColor: white,
+      floatingActionButton: AtomFloatingActionButton(
+        onPressed: () => controller.previewOrdreDuJourPdf(),
+        icon: Icons.picture_as_pdf,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       body: Obx(() => controller.isLoading.value
           ? const Center(child: CircularProgressIndicator())
           : ListView.builder(

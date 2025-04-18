@@ -18,235 +18,481 @@ class ProgramOverviewView extends GetView<ProgramOverviewController> {
 
   @override
   Widget build(BuildContext context) {
-    final goldColor = Color(0xFFE6C22F); // Golden yellow from screenshot
+    final goldColor = const Color(0xFFE6C22F);
+    final screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('details'.tr),
-        centerTitle: true,
-        backgroundColor: primaryColor,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () => Get.back(),
-        ),
-      ),      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Header image section
-          Stack(
-            children: [
-              // Background Image
-              Container(
-                height: 250,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.3),
-                ),
-                child: Obx(() => controller.selectedTask.value?.pathPicture != null
-                    ? AtomSafeImageNetwork(
-                  path: controller.selectedTask.value?.pathPicture ?? '',
-                  host: hostUploadTaskPhoto,
-                  headers: ApiProvider().getImageHeaders(),
-                  width: Get.width * 0.8,
-                  height: 200,
-                  isCircular: false,
-                )
-                    : Image.asset(
-                  'assets/images/event_placeholder.png',
-                  width: double.infinity,
-                  height: 250,
-                  fit: BoxFit.cover,
-                ),
+      body: Obx(() {
+        if (controller.selectedTask.value == null) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        return CustomScrollView(
+          physics: const BouncingScrollPhysics(),
+          slivers: [
+            // Custom App Bar with Full Width Image
+            SliverAppBar(
+              expandedHeight: 300,
+              pinned: true,
+              backgroundColor: primaryColor,
+              leading: Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: GestureDetector(
+                  onTap: () => Get.back(),
+                  child: Container(
+                    margin: const EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.3),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 16.0),
+                  child: GestureDetector(
+                    onTap: () => controller.toggleFavorite(),
+                    child: Container(
+                      margin: const EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.3),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(
+                          controller.isFavorite.value
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+              flexibleSpace: FlexibleSpaceBar(
+                background: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    // Full Width Image without radius
+                    controller.selectedTask.value?.pathPicture != null
+                        ? AtomSafeImageNetwork(
+                            path: controller.selectedTask.value?.pathPicture ??
+                                '',
+                            host: hostUploadTaskPhoto,
+                            headers: ApiProvider().getImageHeaders(),
+                            boxFit: BoxFit.cover,
+                            isCircular: false,
+                            radius: 0,
+                          )
+                        : Image.asset(
+                            'assets/images/event_placeholder.png',
+                            fit: BoxFit.cover,
+                          ),
 
-              // Time display (9:41)
+                    // Gradient overlay for better text visibility
+                    Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.transparent,
+                            Colors.black.withOpacity(0.5),
+                          ],
+                          stops: const [0.6, 1.0],
+                        ),
+                      ),
+                    ),
 
+                    // Event Title and Time
+                    Positioned(
+                      bottom: 20,
+                      left: 20,
+                      right: 20,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Event Time Badge
+                          if (controller.selectedTask.value?.timeStart != null)
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 6),
+                              decoration: BoxDecoration(
+                                color: goldColor,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Text(
+                                controller.selectedTask.value?.timeStart ?? '',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                          const SizedBox(height: 10),
 
+                          // Event Title
+                          Text(
+                            controller.selectedTask.value?.title ?? '',
+                            style: const TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              shadows: [
+                                Shadow(
+                                  blurRadius: 10.0,
+                                  color: Colors.black,
+                                  offset: Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
 
-
-              // Title overlay - white rounded card with gold text
-              Positioned(
-                bottom: -20,
-                left: 0,
-                right: 0,
-                child: Center(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                    width: MediaQuery.of(context).size.width * 0.8,
+            // Content
+            SliverToBoxAdapter(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Event Info Cards
+                  Container(
+                    margin: const EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(15),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
+                          color: Colors.grey.withOpacity(0.1),
                           blurRadius: 10,
                           spreadRadius: 1,
                         ),
                       ],
                     ),
-                    child: Obx(() => Text(
-                      controller.selectedTask.value?.title ?? 'Ifriqiya Village',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: goldColor,
-                      ),
-                    )),
-                  ),
-                ),
-              ),
-            ],
-          ),
+                    child: Column(
+                      children: [
+                        // Date row
+                        _buildInfoRow(
+                          icon: Icons.calendar_today,
+                          iconColor: goldColor,
+                          title: 'Date',
+                          content: controller
+                                      .selectedTask.value?.scheduledDate !=
+                                  null
+                              ? DateFormat('EEEE, dd MMMM yyyy').format(
+                                  controller.selectedTask.value!.scheduledDate)
+                              : '',
+                        ),
 
-          // Main content area
-          Expanded(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 30, 16, 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Date row with circular icon background
-                    _buildCircleInfoRow(
-                      Icons.calendar_today,
-                      Obx(() => Text(
-                        controller.selectedTask.value?.scheduledDate != null
-                            ? DateFormat('EEEE, dd MMMM yyyy').format(controller.selectedTask.value!.scheduledDate)
-                            : 'Samedi, 18 Avril 2025',
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                      )),
-                      goldColor,
-                    ),
+                        const Divider(height: 30),
 
-                    SizedBox(height: 16),
+                        // Time row
+                        _buildInfoRow(
+                          icon: Icons.access_time,
+                          iconColor: goldColor,
+                          title: 'Time',
+                          content:
+                              controller.selectedTask.value?.timeStart ?? '',
+                        ),
 
-                    // Time row with circular icon background
-                    _buildCircleInfoRow(
-                      Icons.access_time,
-                      Obx(() => Text(
-                        controller.selectedTask.value?.timeStart ?? '9:00PM - 1:00PM',
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                      )),
-                      goldColor,
-                    ),
+                        if (controller.selectedTask.value?.location !=
+                            null) ...[
+                          const Divider(height: 30),
 
-                    SizedBox(height: 16),
-
-                    // Location row with circular icon background
-                    _buildCircleInfoRow(
-                      Icons.location_on,
-                      Obx(() => Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            controller.selectedTask.value?.location ?? 'Hôtel Riviera Sousse Port El Kantaoui',
-                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                          ),
-                          Text(
-                            'Salle plénière',
-                            style: TextStyle(fontSize: 14, color: Colors.grey),
+                          // Location row
+                          _buildInfoRow(
+                            icon: Icons.location_on,
+                            iconColor: goldColor,
+                            title: 'Location',
+                            content:
+                                controller.selectedTask.value?.location ?? '',
+                            subtitle: 'Salle plénière',
                           ),
                         ],
-                      )),
-                      goldColor,
+                      ],
                     ),
+                  ),
 
-                    SizedBox(height: 30),
+                  // Details section
+                  if (controller.selectedTask.value?.description != null &&
+                      controller.selectedTask.value!.description!.isNotEmpty)
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.1),
+                            blurRadius: 10,
+                            spreadRadius: 1,
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Header with gold accent
+                          Container(
+                            padding: const EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              color: goldColor.withOpacity(0.1),
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(15),
+                                topRight: Radius.circular(15),
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(Icons.info_outline, color: goldColor),
+                                const SizedBox(width: 10),
+                                Text(
+                                  'Details'.tr,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: goldColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
 
-                    // Details section
-                    Text(
-                      'Details :',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                          // Description content
+                          Padding(
+                            padding: const EdgeInsets.all(20),
+                            child: Text(
+                              controller.selectedTask.value?.description ?? '',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.grey[800],
+                                height: 1.6,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
 
-                    SizedBox(height: 10),
-
-                    // Description text
-                    Obx(() => Text(
-                      controller.selectedTask.value?.description ??
-                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey[600],
-                        height: 1.5,
+                  // Schedule section
+                  if (controller.selectedTask.value?.subtasks != null &&
+                      controller.selectedTask.value!.subtasks!.isNotEmpty)
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(20, 0, 20, 30),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.1),
+                            blurRadius: 10,
+                            spreadRadius: 1,
+                          ),
+                        ],
                       ),
-                    )),
-                  ],
-                ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Header with gold accent
+                          Container(
+                            padding: const EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              color: goldColor.withOpacity(0.1),
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(15),
+                                topRight: Radius.circular(15),
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(Icons.event_note, color: goldColor),
+                                const SizedBox(width: 10),
+                                Text(
+                                  'Schedule'.tr,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: goldColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          // Timeline for subtasks
+                          Padding(
+                            padding: const EdgeInsets.all(20),
+                            child: Column(
+                              children: [
+                                for (var i = 0;
+                                    i <
+                                        controller.selectedTask.value!.subtasks!
+                                            .length;
+                                    i++)
+                                  _buildTimelineItem(
+                                    subtask: controller
+                                        .selectedTask.value!.subtasks![i],
+                                    isLast: i ==
+                                        controller.selectedTask.value!.subtasks!
+                                                .length -
+                                            1,
+                                    goldColor: goldColor,
+                                  ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                ],
               ),
             ),
-          ),
-
-          // Bottom navigation with back button and heart icon
-
-        ],
-      ),
+          ],
+        );
+      }),
     );
   }
 
-  // New method for the circular icon info rows
-  Widget _buildCircleInfoRow(IconData icon, Widget content, Color iconColor) {
+  // New info row widget
+  Widget _buildInfoRow({
+    required IconData icon,
+    required Color iconColor,
+    required String title,
+    required String content,
+    String? subtitle,
+  }) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          width: 50,
-          height: 50,
+          padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: Color(0xFFFFF9E6), // Light yellow background
-            shape: BoxShape.circle,
+            color: iconColor.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(12),
           ),
-          child: Center(
-            child: Icon(
-              icon,
-              color: iconColor,
-              size: 24,
-            ),
+          child: Icon(
+            icon,
+            color: iconColor,
+            size: 22,
           ),
         ),
-        SizedBox(width: 16),
+        const SizedBox(width: 15),
         Expanded(
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 8),
-            child: content,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title.tr,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey[600],
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                content,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              if (subtitle != null) ...[
+                const SizedBox(height: 2),
+                Text(
+                  subtitle,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey[600],
+                  ),
+                ),
+              ],
+            ],
           ),
         ),
       ],
     );
   }
 
-  // Keep the original method for compatibility
-  Widget _buildInfoRow(IconData icon, Widget content, {String? subtitle}) {
+  // Timeline item for subtasks
+  Widget _buildTimelineItem({
+    required dynamic subtask,
+    required bool isLast,
+    required Color goldColor,
+  }) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(icon, color: primaryColor, size: 24),
-        const SizedBox(width: 12),
+        // Timeline dot and line
+        SizedBox(
+          width: 24,
+          child: Column(
+            children: [
+              Container(
+                width: 14,
+                height: 14,
+                decoration: BoxDecoration(
+                  color: goldColor,
+                  shape: BoxShape.circle,
+                ),
+              ),
+              if (!isLast)
+                Container(
+                  width: 2,
+                  height: 60,
+                  color: goldColor.withOpacity(0.3),
+                ),
+            ],
+          ),
+        ),
+        const SizedBox(width: 15),
+
+        // Content
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              content is Text
-                  ? content
-                  : DefaultTextStyle(
-                style: const TextStyle(fontSize: 16),
-                child: content,
-              ),
-              if (subtitle != null)
+              if (subtask.timeStart != null)
                 Text(
-                  subtitle,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey,
+                  '${subtask.timeStart}${subtask.timeEnd != null ? ' - ${subtask.timeEnd}' : ''}',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: goldColor,
                   ),
                 ),
+              const SizedBox(height: 5),
+              Text(
+                subtask.title,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              if (subtask.durationMinutes != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 5),
+                  child: Text(
+                    '${subtask.durationMinutes} ${'minutes'.tr}',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                ),
+              SizedBox(height: isLast ? 0 : 20),
             ],
           ),
         ),

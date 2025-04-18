@@ -95,20 +95,20 @@ class ProgramManagementView extends GetView<ProgramManagementController> {
                                             Expanded(
                                               child: Column(
                                                 crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
                                                     task.title,
                                                     style: const TextStyle(
                                                       fontWeight:
-                                                      FontWeight.bold,
+                                                          FontWeight.bold,
                                                     ),
                                                   ),
                                                   const SizedBox(height: 4),
                                                   Text(
                                                     DateFormat('yyyy-MM-dd')
                                                         .format(
-                                                        task.scheduledDate),
+                                                            task.scheduledDate),
                                                     style: const TextStyle(
                                                       color: Colors.blue,
                                                     ),
@@ -118,7 +118,7 @@ class ProgramManagementView extends GetView<ProgramManagementController> {
                                                       task.description!,
                                                       maxLines: 2,
                                                       overflow:
-                                                      TextOverflow.ellipsis,
+                                                          TextOverflow.ellipsis,
                                                     ),
                                                 ],
                                               ),
@@ -136,10 +136,9 @@ class ProgramManagementView extends GetView<ProgramManagementController> {
                                                 ),
                                                 IconButton(
                                                   icon:
-                                                  const Icon(Icons.delete),
-                                                  onPressed: () =>
-                                                      controller
-                                                          .deleteTask(task.id!),
+                                                      const Icon(Icons.delete),
+                                                  onPressed: () => controller
+                                                      .deleteTask(task.id!),
                                                 ),
                                               ],
                                             ),
@@ -167,7 +166,7 @@ class ProgramManagementView extends GetView<ProgramManagementController> {
                               color: Colors.green.shade100,
                               child: Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     'Sub-Events'.tr,
@@ -205,20 +204,18 @@ class ProgramManagementView extends GetView<ProgramManagementController> {
                                       title: Text(subtask.title),
                                       subtitle: Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
                                           if (subtask.timeStart != null &&
                                               subtask.timeEnd != null)
                                             Text(
-                                              '${subtask.timeStart} - ${subtask
-                                                  .timeEnd}',
+                                              '${subtask.timeStart} - ${subtask.timeEnd}',
                                               style: const TextStyle(
                                                   color: Colors.amber),
                                             ),
                                           if (subtask.durationMinutes != null)
                                             Text(
-                                              'Duration: ${subtask
-                                                  .durationMinutes} minutes'
+                                              'Duration: ${subtask.durationMinutes} minutes'
                                                   .tr,
                                             ),
                                         ],
@@ -236,9 +233,8 @@ class ProgramManagementView extends GetView<ProgramManagementController> {
                                           ),
                                           IconButton(
                                             icon: const Icon(Icons.delete),
-                                            onPressed: () =>
-                                                controller
-                                                    .deleteSubtask(subtask.id!),
+                                            onPressed: () => controller
+                                                .deleteSubtask(subtask.id!),
                                           ),
                                         ],
                                       ),
@@ -264,166 +260,157 @@ class ProgramManagementView extends GetView<ProgramManagementController> {
   void _showTaskDialog(BuildContext context, {String? taskId}) {
     showDialog(
       context: context,
-      builder: (context) =>
-          Dialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16)),
-            insetPadding: const EdgeInsets.symmetric(
-                horizontal: 20, vertical: 40),
-            child: Container(
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width * 0.8,
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    taskId == null ? 'Add Event'.tr : 'Edit Event'.tr,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          TextField(
-                            controller: controller.titleController,
-                            decoration: InputDecoration(labelText: 'Title'.tr),
-                          ),
-                          const SizedBox(height: 12),
-                          TextField(
-                            controller: controller.descriptionController,
-                            decoration:
+      builder: (context) => Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        insetPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.8,
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                taskId == null ? 'Add Event'.tr : 'Edit Event'.tr,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextField(
+                        controller: controller.titleController,
+                        decoration: InputDecoration(labelText: 'Title'.tr),
+                      ),
+                      const SizedBox(height: 12),
+                      TextField(
+                        controller: controller.descriptionController,
+                        decoration:
                             InputDecoration(labelText: 'Description'.tr),
-                            maxLines: 3,
-                          ),
-                          const SizedBox(height: 12),
-                          TextField(
-                            controller: controller.scheduledDateController,
-                            decoration:
+                        maxLines: 3,
+                      ),
+                      const SizedBox(height: 12),
+                      TextField(
+                        controller: controller.scheduledDateController,
+                        decoration:
                             InputDecoration(labelText: 'Date (YYYY-MM-DD)'.tr),
-                            onTap: () => _selectDate(context),
-                            readOnly: true,
-                          ),
-                          const SizedBox(height: 12),
-                          TextField(
-                            controller: controller.timeStartController,
-                            decoration:
+                        onTap: () => _selectDate(context),
+                        readOnly: true,
+                      ),
+                      const SizedBox(height: 12),
+                      TextField(
+                        controller: controller.timeStartController,
+                        decoration:
                             InputDecoration(labelText: 'Time (HH:MM)'.tr),
-                            keyboardType: TextInputType.datetime,
-                            readOnly: true,
-                            onTap: () =>
-                                _selectTime(
-                                    context, controller.timeStartController),
-                          ),
-                          const SizedBox(height: 12),
-                          TextField(
-                            controller: controller.locationController,
-                            decoration: InputDecoration(
-                                labelText: 'Location'.tr),
-                          ),
+                        keyboardType: TextInputType.datetime,
+                        readOnly: true,
+                        onTap: () => _selectTime(
+                            context, controller.timeStartController),
+                      ),
+                      const SizedBox(height: 12),
+                      TextField(
+                        controller: controller.locationController,
+                        decoration: InputDecoration(labelText: 'Location'.tr),
+                      ),
 
-                          // Image selection section
-                          const SizedBox(height: 16),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: TextField(
-                                  controller: controller.imageUrlController,
-                                  decoration:
+                      // Image selection section
+                      const SizedBox(height: 16),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              controller: controller.imageUrlController,
+                              decoration:
                                   InputDecoration(labelText: 'Image URL'.tr),
-                                  enabled: !controller.hasSelectedImage.value,
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Text('or'.tr),
-                              const SizedBox(width: 8),
-                              AtomAttachementButton(
-                                onPressed: (fileInfo) {
-                                  controller.setSelectedImage(fileInfo);
-                                },
-                              ),
-                            ],
-                          ),
-
-                          // Display selected image name if available
-                          Obx(() =>
-                          controller.selectedImageName.isNotEmpty
-                              ? Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Row(
-                              children: [
-                                const Icon(Icons.image, size: 20),
-                                const SizedBox(width: 8),
-                                Expanded(
-                                  child: Text(
-                                    controller.selectedImageName.value,
-                                    style: const TextStyle(fontSize: 12),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                                IconButton(
-                                  icon: const Icon(Icons.clear, size: 16),
-                                  onPressed: () =>
-                                      controller.clearSelectedImage(),
-                                ),
-                              ],
+                              enabled: !controller.hasSelectedImage.value,
                             ),
-                          )
-                              : const SizedBox.shrink()),
-
-                          Row(
-                            children: [
-                              Obx(() {
-                                return Checkbox(
-                                    value: controller.isExpandable.value,
-                                    onChanged: (value) {
-                                      controller.isExpandable.value =
-                                          value ?? false;
-                                    });
-                              }),
-                              Text('Has sub-events?'.tr),
-                            ],
+                          ),
+                          const SizedBox(width: 8),
+                          Text('or'.tr),
+                          const SizedBox(width: 8),
+                          AtomAttachementButton(
+                            onPressed: (fileInfo) {
+                              controller.setSelectedImage(fileInfo);
+                            },
                           ),
                         ],
                       ),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      TextButton(
-                        onPressed: () {
-                          controller.clearTaskForm();
-                          Navigator.pop(context);
-                        },
-                        child: Text('Cancel'.tr),
-                      ),
-                      const SizedBox(width: 8),
-                      ElevatedButton(
-                        onPressed: () {
-                          if (taskId == null) {
-                            controller.createTask();
-                          } else {
-                            controller.updateTask(taskId);
-                          }
-                          Navigator.pop(context);
-                        },
-                        child: Text(taskId == null ? 'Add'.tr : 'Update'.tr),
+
+                      // Display selected image name if available
+                      Obx(() => controller.selectedImageName.isNotEmpty
+                          ? Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.image, size: 20),
+                                  const SizedBox(width: 8),
+                                  Expanded(
+                                    child: Text(
+                                      controller.selectedImageName.value,
+                                      style: const TextStyle(fontSize: 12),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  IconButton(
+                                    icon: const Icon(Icons.clear, size: 16),
+                                    onPressed: () =>
+                                        controller.clearSelectedImage(),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : const SizedBox.shrink()),
+
+                      Row(
+                        children: [
+                          Obx(() {
+                            return Checkbox(
+                                value: controller.isExpandable.value,
+                                onChanged: (value) {
+                                  controller.isExpandable.value =
+                                      value ?? false;
+                                });
+                          }),
+                          Text('Has sub-events?'.tr),
+                        ],
                       ),
                     ],
                   ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      controller.clearTaskForm();
+                      Navigator.pop(context);
+                    },
+                    child: Text('Cancel'.tr),
+                  ),
+                  const SizedBox(width: 8),
+                  ElevatedButton(
+                    onPressed: () {
+                      if (taskId == null) {
+                        controller.createTask();
+                      } else {
+                        controller.updateTask(taskId);
+                      }
+                      Navigator.pop(context);
+                    },
+                    child: Text(taskId == null ? 'Add'.tr : 'Update'.tr),
+                  ),
                 ],
               ),
-            ),
+            ],
           ),
+        ),
+      ),
     );
   }
 
@@ -440,17 +427,15 @@ class ProgramManagementView extends GetView<ProgramManagementController> {
     }
   }
 
-  void _selectTime(BuildContext context,
-      TextEditingController timeController) async {
+  void _selectTime(
+      BuildContext context, TextEditingController timeController) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
       initialTime: _parseTimeFromController(timeController),
     );
     if (picked != null) {
       final String formattedTime =
-          '${picked.hour.toString().padLeft(2, '0')}:${picked.minute
-          .toString()
-          .padLeft(2, '0')}';
+          '${picked.hour.toString().padLeft(2, '0')}:${picked.minute.toString().padLeft(2, '0')}';
       timeController.text = formattedTime;
     }
   }
@@ -479,101 +464,88 @@ class ProgramManagementView extends GetView<ProgramManagementController> {
 
     showDialog(
       context: context,
-      builder: (context) =>
-          Dialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16)),
-            insetPadding: const EdgeInsets.symmetric(
-                horizontal: 20, vertical: 80),
-            child: Container(
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width * 0.7,
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    subtaskId == null ? 'Add Sub-Event'.tr : 'Edit Sub-Event'
-                        .tr,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          TextField(
-                            controller: controller.subtaskTitleController,
-                            decoration: InputDecoration(labelText: 'Title'.tr),
-                          ),
-                          const SizedBox(height: 12),
-                          TextField(
-                            controller: controller.subtaskTimeStartController,
-                            decoration: InputDecoration(
-                                labelText: 'Start Time'.tr),
-                            readOnly: true,
-                            onTap: () =>
-                                _selectTime(
-                                    context, controller
-                                    .subtaskTimeStartController),
-                          ),
-                          const SizedBox(height: 12),
-                          TextField(
-                            controller: controller.subtaskTimeEndController,
-                            decoration: InputDecoration(
-                                labelText: 'End Time'.tr),
-                            readOnly: true,
-                            onTap: () =>
-                                _selectTime(
-                                    context, controller
-                                    .subtaskTimeEndController),
-                          ),
-                          const SizedBox(height: 12),
-                          TextField(
-                            controller: controller.subtaskDurationController,
-                            decoration:
-                            InputDecoration(labelText: 'Duration (minutes)'.tr),
-                            keyboardType: TextInputType.number,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+      builder: (context) => Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        insetPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 80),
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.7,
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                subtaskId == null ? 'Add Sub-Event'.tr : 'Edit Sub-Event'.tr,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      TextButton(
-                        onPressed: () {
-                          controller.clearSubtaskForm();
-                          Navigator.pop(context);
-                        },
-                        child: Text('Cancel'.tr),
+                      TextField(
+                        controller: controller.subtaskTitleController,
+                        decoration: InputDecoration(labelText: 'Title'.tr),
                       ),
-                      const SizedBox(width: 8),
-                      ElevatedButton(
-                        onPressed: () {
-                          if (subtaskId == null) {
-                            controller.createSubtask();
-                          } else {
-                            controller.updateSubtask(subtaskId);
-                          }
-                          Navigator.pop(context);
-                        },
-                        child: Text(subtaskId == null ? 'Add'.tr : 'Update'.tr),
+                      const SizedBox(height: 12),
+                      TextField(
+                        controller: controller.subtaskTimeStartController,
+                        decoration: InputDecoration(labelText: 'Start Time'.tr),
+                        readOnly: true,
+                        onTap: () => _selectTime(
+                            context, controller.subtaskTimeStartController),
+                      ),
+                      const SizedBox(height: 12),
+                      TextField(
+                        controller: controller.subtaskTimeEndController,
+                        decoration: InputDecoration(labelText: 'End Time'.tr),
+                        readOnly: true,
+                        onTap: () => _selectTime(
+                            context, controller.subtaskTimeEndController),
+                      ),
+                      const SizedBox(height: 12),
+                      TextField(
+                        controller: controller.subtaskDurationController,
+                        decoration:
+                            InputDecoration(labelText: 'Duration (minutes)'.tr),
+                        keyboardType: TextInputType.number,
                       ),
                     ],
                   ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      controller.clearSubtaskForm();
+                      Navigator.pop(context);
+                    },
+                    child: Text('Cancel'.tr),
+                  ),
+                  const SizedBox(width: 8),
+                  ElevatedButton(
+                    onPressed: () {
+                      if (subtaskId == null) {
+                        controller.createSubtask();
+                      } else {
+                        controller.updateSubtask(subtaskId);
+                      }
+                      Navigator.pop(context);
+                    },
+                    child: Text(subtaskId == null ? 'Add'.tr : 'Update'.tr),
+                  ),
                 ],
               ),
-            ),
+            ],
           ),
+        ),
+      ),
     );
   }
 }

@@ -43,6 +43,18 @@ Future<void> main() async {
             foregroundColor: primaryColor,
           ),
         ),
+        textSelectionTheme: const TextSelectionThemeData(
+          cursorColor: Colors.blue,
+          selectionColor: Colors.lightBlueAccent,
+          selectionHandleColor: Colors.blue,
+        ),
+        inputDecorationTheme: const InputDecorationTheme(
+          // Make sure form fields have a visible cursor
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.blue, width: 2.0),
+          ),
+          focusColor: Colors.blue,
+        ),
       ),
       locale: Locale(LanguageHelper.language.languageCode),
       builder: EasyLoading.init(),

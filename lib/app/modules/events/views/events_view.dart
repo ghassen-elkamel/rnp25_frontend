@@ -174,17 +174,7 @@ class EventsView extends GetView<EventsController> {
             controller.endDate = newItem;
           },
         ),
-        ItemForm(
-          label: "location".tr,
-          controller: controller.location,
-          readOnly: true,
-          isRequired: false,
-          onTap: () => controller.selectPosition(context),
-          suffix: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
-            child: Icon(Icons.map),
-          ),
-        ),
+
       ],
       onAdd: controller.addItem,
     );

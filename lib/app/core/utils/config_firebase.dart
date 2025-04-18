@@ -2,15 +2,27 @@ import 'dart:developer';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import '../../data/enums/notification_type.dart';
+import '../../../firebase_options.dart';
 
 class ConfigFirebase {
   static String currentToken = "";
 
   static init() async {
-    await Firebase.initializeApp();
-    await getPermission();
-    getToken();
-    messageListener();
+    try {
+      // Check if Firebase is already initialized
+      if (Firebase.apps.isEmpty) {
+        await Firebase.initializeApp(
+          options: DefaultFirebaseOptions.currentPlatform,
+        );
+      } else {
+        Firebase.app(); // Get the default app instance
+      }
+      await getPermission();
+      getToken();
+      messageListener();
+    } catch (e) {
+      print('Firebase initialization error: $e');
+    }
   }
 
   static getToken() {

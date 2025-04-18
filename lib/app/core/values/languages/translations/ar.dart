@@ -1336,4 +1336,21 @@ class ArLanguage extends BaseLanguage {
   @override
   String get fridaySaturdaySundayExplanation =>
       "الجمعة-السبت-الأحد (VSD): 210 دينار + 35 دينار (إقامة ليلتين + تسجيل عادي)";
+
+  @override
+  String get scanQrDesc =>
+      "ضع رمز QR في إطار الكاميرا لمسحه. سيقوم الماسح تلقائيًا بالكشف عن الرمز ومعالجته.";
+
+  @override
+  String get cameraError => "خطأ في الكاميرا. يرجى المحاولة مرة أخرى.";
+
+  @override
+  String get flashlight => "الفلاش";
+
+  @override
+  String get switchCamera => "تبديل الكاميرا";
+
+  @override
+  String get errorProcessingQR =>
+      "خطأ في معالجة رمز QR. يرجى المحاولة مرة أخرى.";
 }

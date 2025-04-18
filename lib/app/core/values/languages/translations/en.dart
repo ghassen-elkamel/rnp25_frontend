@@ -1241,6 +1241,25 @@ class EnLanguage extends BaseLanguage {
   String get scanQr => "Scan QR";
 
   @override
+  String get scanQrDesc =>
+      "Position a QR code in the camera view to scan it. The scanner will automatically detect and process the code.";
+
+  @override
+  String get qrCodeInvalid => "Invalid QR code or no subscription found";
+
+  @override
+  String get cameraError => "Camera error. Please try again.";
+
+  @override
+  String get flashlight => "Flashlight";
+
+  @override
+  String get switchCamera => "Switch camera";
+
+  @override
+  String get errorProcessingQR => "Error processing QR code. Please try again.";
+
+  @override
   String get olmInformation => "OLM Information";
 
   @override
@@ -1521,9 +1540,6 @@ class EnLanguage extends BaseLanguage {
 
   @override
   String get scanError => "Scan Error";
-
-  @override
-  String get qrCodeInvalid => "Invalid QR code or no subscription found";
 
   @override
   String get standardRegistrationExplanation => "Standard Registration: 35 DT";

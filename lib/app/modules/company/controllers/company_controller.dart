@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:latlong2/latlong.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:rnp_front/app/data/models/dto/create_company.dart';
 import 'package:rnp_front/app/data/models/entities/region.dart';
 import 'package:rnp_front/app/data/models/entities/user.dart';
@@ -27,7 +24,6 @@ class CompanyController extends GetxController {
   TextEditingController fullName = TextEditingController();
   TextEditingController imagePath = TextEditingController();
   FileInfo? selectedFile;
-  Rx<LatLng?> selectedPosition = Rx(null);
 
   RxList<Country> countries = <Country>[].obs;
   RxList<Region> regions = <Region>[].obs;
@@ -45,7 +41,6 @@ class CompanyController extends GetxController {
     isLoading.value = true;
     countries.value = await countryService.findAllCountries();
     await loadData();
-    getCurrentLocation();
     isLoading.value = false;
 
     super.onInit();
@@ -101,16 +96,5 @@ class CompanyController extends GetxController {
         countryId: selectedCountry.value?.id);
     Future.delayed(const Duration(milliseconds: 500))
         .then((value) => region.clear());
-  }
-
-  Future<LatLng?> getCurrentLocation() async {
-    var status = await Permission.location.request();
-    if (status == PermissionStatus.granted) {
-      Position? position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.best,
-      );
-      selectedPosition.value = LatLng(position.latitude, position.longitude);
-    }
-    return null;
   }
 }

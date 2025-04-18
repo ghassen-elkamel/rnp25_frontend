@@ -17,19 +17,13 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -53,10 +47,31 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDQlDmSWWznmaYswVbb9Di76OWoGfFKS4s',
-    appId: '1:788448328718:android:ba3d10dc86b81eee46505f',
-    messagingSenderId: '788448328718',
+    apiKey: 'AIzaSyBfNuuvNBwcAhDhVoMaZEWJoHGTvhTLSNU',
+    appId: '1:967034514608:android:bdb15e4fa88c1dd30fa2a9',
+    messagingSenderId: '967034514608',
     projectId: 'rnp25-a8a32',
-    storageBucket: 'rnp25-a8a32.firebasestorage.app',
+    storageBucket: 'rnp25-a8a32.appspot.com',
+  );
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyAhqOxdHy0_3RhMwQ7Qa-mAGkGlVXbDGJ0',
+    appId: '1:967034514608:web:3e31c2e6a5ecdd1c0fa2a9',
+    messagingSenderId: '967034514608',
+    projectId: 'rnp25-a8a32',
+    authDomain: 'rnp25-a8a32.firebaseapp.com',
+    storageBucket: 'rnp25-a8a32.appspot.com',
+    measurementId: 'G-PFVBY33EF1',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyACkFLt9MPP-pI_LD42Qov0KnLOqMcIIqU',
+    appId: '1:967034514608:ios:cc633d6c10c7c9bb0fa2a9',
+    messagingSenderId: '967034514608',
+    projectId: 'rnp25-a8a32',
+    storageBucket: 'rnp25-a8a32.appspot.com',
+    iosClientId:
+        '967034514608-1u27aenrpfj5jlcphov1iuqj7hlmg1uv.apps.googleusercontent.com',
+    iosBundleId: 'com.gremda.rnp-front',
   );
 }

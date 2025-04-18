@@ -47,7 +47,7 @@ class _AtomCurvedNavigationBarState extends State<AtomCurvedNavigationBar> {
               ),
               const SizedBox(height: 2),
               Text(
-                'home'.tr,
+                ''.tr,
                 style: const TextStyle(fontSize: 12, color: Colors.white),
               ),
             ],

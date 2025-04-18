@@ -6,6 +6,10 @@ import 'package:rnp_front/app/data/models/entities/subtask.dart';
 import 'package:rnp_front/app/data/services/program_service.dart';
 import 'package:rnp_front/app/data/services/user_form_service.dart';
 import 'package:rnp_front/app/core/utils/profile_alert_manager.dart';
+import 'package:rnp_front/app/data/providers/external/api_provider.dart';
+import 'package:rnp_front/app/core/utils/constant.dart';
+import '../views/asset_pdf_view.dart';
+import 'dart:developer' as developer;
 
 class ProgramController extends GetxController {
   final ProgramService programService = ProgramService();
@@ -14,6 +18,9 @@ class ProgramController extends GetxController {
   final RxBool isLoading = true.obs;
   final Rx<SubscriptionForm?> user = Rx<SubscriptionForm?>(null);
   BuildContext? _context;
+
+  // Path to the PDF asset
+  static const String ordreDuJourAssetPath = 'assets/ordre_du_jour.pdf';
 
   @override
   void onInit() {
@@ -114,5 +121,14 @@ class ProgramController extends GetxController {
       Get.snackbar('Error', 'Failed to load subtasks');
       return [];
     }
+  }
+
+  // Method to preview the PDF from local assets
+  void previewOrdreDuJourPdf() {
+    developer.log('Opening PDF from asset: $ordreDuJourAssetPath');
+    Get.to(() => AssetPdfView(
+          assetPath: ordreDuJourAssetPath,
+          title: 'Ordre du Jour',
+        ));
   }
 }

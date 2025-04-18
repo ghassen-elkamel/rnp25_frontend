@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rnp_front/app/data/models/entities/subscription_form.dart';
 import 'package:rnp_front/app/data/services/auth_service.dart';
+import 'package:rnp_front/app/modules/notifications/controllers/notifications_controller.dart';
 
 import '../../../core/utils/profile_alert_manager.dart';
 import '../../../data/models/activity_model.dart';
@@ -21,6 +22,7 @@ class HomeController extends GetxController {
   final RxList<ActivityModel> activities = <ActivityModel>[].obs;
   final RxList<SponsorModel> sponsors = <SponsorModel>[].obs;
   final Rx<SubscriptionForm?> user = Rx<SubscriptionForm?>(null);
+  late NotificationsController notificationsController;
 
   Timer? _refreshTimer;
   BuildContext? _context;
@@ -30,16 +32,17 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     fetchData();
+    // Initialize notifications controller
+    notificationsController = Get.put(NotificationsController());
+  }
 
-    // Set up a timer to periodically refresh user data
-    _refreshTimer = Timer.periodic(const Duration(seconds: 30), (timer) {
-      refreshUserData();
-    });
+  // Get the count of unread notifications
+  int get unreadNotificationsCount =>
+      notificationsController.unreadNotifications.length;
 
-    // Delay checking for profile picture until view is built
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      checkProfilePicture();
-    });
+  // Refresh notifications
+  Future<void> refreshNotifications() async {
+    await notificationsController.fetchNotifications();
   }
 
   void setContext(BuildContext context) {

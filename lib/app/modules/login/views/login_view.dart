@@ -21,10 +21,11 @@ class LoginView extends GetView<LoginController> {
     // Check only screen size, not platform type
     final screenWidth = MediaQuery.of(context).size.width;
     final isLargeScreen = screenWidth >= 750;
-    
+
     // Debug print to console
-    print('LOGIN VIEW: Screen width is $screenWidth, isLargeScreen = $isLargeScreen');
-    
+    print(
+        'LOGIN VIEW: Screen width is $screenWidth, isLargeScreen = $isLargeScreen');
+
     if (isLargeScreen) {
       return AuthScaffold(
         isLogin: true,
@@ -35,6 +36,9 @@ class LoginView extends GetView<LoginController> {
             child: Column(
               children: [
                 AtomTextField.simple(
+                  controller: controller.email,
+                  label: "email".tr,
+                  hintText: "email".tr,
                   validator: (p0) {
                     if (p0!.isEmpty) {
                       return "emailIsRequired".tr;
@@ -44,16 +48,17 @@ class LoginView extends GetView<LoginController> {
                     }
                     return null;
                   },
-                  controller: controller.email,
-                  hintText: "email".tr,
                   suffix: const Icon(
                     Icons.email,
                     color: grey,
                   ),
+                  borderRadius: 8,
                 ),
+                const SizedBox(height: 16),
                 Obx(() {
                   return AtomTextField.simple(
                     controller: controller.password,
+                    label: "password".tr,
                     hintText: "password".tr,
                     isObscureText: controller.isObscureText.value,
                     suffix: InkWell(
@@ -68,6 +73,7 @@ class LoginView extends GetView<LoginController> {
                         color: grey,
                       ),
                     ),
+                    borderRadius: 8,
                   );
                 }),
                 const SizedBox(
@@ -85,10 +91,11 @@ class LoginView extends GetView<LoginController> {
     }
 
     return Scaffold(
+      backgroundColor: primaryColor,
       body: MoleculeFixedBottomSheet(
         height: Get.height * 0.9,
         title: "welcome".tr,
-        backgroundImage: loginBackground,
+        backgroundImage: "assets/icons/small_icon.png",
         content: [
           Column(
             children: [
@@ -109,9 +116,13 @@ class LoginView extends GetView<LoginController> {
                     Obx(() {
                       return AtomTextField(
                           borderRadius: 30,
+
                           label: "password".tr,
                           controller: controller.password,
                           isObscureText: controller.isObscureText.value,
+                          onSubmitted: (value) {
+                            controller.login();
+                          },
                           suffix: InkWell(
                             onTap: () {
                               controller.isObscureText.value =

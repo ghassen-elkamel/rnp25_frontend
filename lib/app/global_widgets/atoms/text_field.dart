@@ -306,7 +306,8 @@ class _AtomTextFieldState extends State<AtomTextField> {
       child: TextFormField(
         key: inputKey,
         mouseCursor: mouseCursor,
-        cursorColor: primaryColor,
+        cursorColor: black,
+        showCursor: true,
         onFieldSubmitted: widget.onSubmitted,
         controller: widget.controller,
         autofocus: widget.autofocus,
@@ -416,8 +417,9 @@ class _AtomTextFieldState extends State<AtomTextField> {
                                     color: darkRed,
                                     width: 1,
                                   ),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(8)),
+
+                borderRadius: BorderRadius.all(
+                    Radius.circular(widget.borderRadius)),
                       ),
                 child: Row(
                   key: inputKey,

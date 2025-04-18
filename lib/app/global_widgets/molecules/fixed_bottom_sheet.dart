@@ -17,7 +17,7 @@ class MoleculeFixedBottomSheet extends StatelessWidget {
     required this.title,
     required this.content,
     required this.backgroundImage,
-    this.imageErrorPath = 'images/login.png',
+    this.imageErrorPath = 'assets/icons/small_icon.png',
     this.height = 500,
   });
 
@@ -25,15 +25,15 @@ class MoleculeFixedBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Align(
-            alignment: Alignment.topCenter,
-            child: AtomSafeImageNetwork(
-              host: hostPhoto,
-              path: backgroundImage,
-              width: Get.width,
-              boxFit: BoxFit.fitWidth,
-              imageErrorPath: imageErrorPath,
-            )),
+        Padding(
+          padding: const EdgeInsets.only(top: 98.0),
+          child: Align(
+              alignment: Alignment.topCenter,
+              child: Image.asset(
+                backgroundImage,
+
+              )),
+        ),
         Align(
           alignment: Alignment.bottomCenter,
           child: SizedBox(

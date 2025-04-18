@@ -33,7 +33,7 @@ RUN flutter clean
 # Get dependencies again after cleaning
 RUN flutter pub get
 
-# Build the app for the web 
+# Build the app for the web
 RUN flutter build web --release --dart-define=PROTOCOL=https --dart-define=HOST=api.rnp25.com
 
 # Production stage

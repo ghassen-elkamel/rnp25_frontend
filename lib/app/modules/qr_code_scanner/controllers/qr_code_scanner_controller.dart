@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:qr_code_scanner_plus/qr_code_scanner_plus.dart';
 import 'package:rnp_front/app/core/theme/text.dart';
 import 'package:rnp_front/app/core/utils/alert.dart';
 import 'package:rnp_front/app/core/utils/constant.dart';
@@ -19,10 +18,10 @@ import '../../../global_widgets/atoms/safe_image_network.dart';
 class QrCodeScannerController extends GetxController {
   final MobileScannerController scannerController = MobileScannerController();
   UserFormService userEventService = UserFormService();
-  GlobalKey qrKey = GlobalKey();
-  QRViewController? controller;
+  bool isScanning = false;
   bool isScanned = false;
-  Rx<String> qrText = Rx("");
+  final RxBool hasPermission = true.obs;
+  final RxBool isScanComplete = false.obs;
 
   @override
   void onInit() {
@@ -31,39 +30,61 @@ class QrCodeScannerController extends GetxController {
 
   @override
   void onClose() {
-    controller?.dispose();
+    scannerController.dispose();
     super.onClose();
   }
 
-  void onQRViewCreated(QRViewController controller) {
-    controller.pauseCamera();
+  void resetScanner() {
+    isScanned = false;
+    isScanComplete.value = false;
+  }
 
-    controller.scannedDataStream.listen((scanData) async {
-      if (scanData.code != null && !isScanned) {
-        controller.pauseCamera();
-        qrText.value = scanData.code!;
+  Future<void> onQRCodeDetected(BarcodeCapture capture) async {
+    if (isScanned) return; // Prevent multiple scans
+
+    final List<Barcode> barcodes = capture.barcodes;
+    if (barcodes.isNotEmpty && barcodes[0].rawValue != null) {
+      try {
         isScanned = true;
+        isScanComplete.value = true;
 
-        final response = await userEventService.verifyUuid(scanData.code!);
+        scannerController.stop(); // Stop scanning
+
+        final qrCode = barcodes[0].rawValue!;
+        final response = await userEventService.verifyUuid(qrCode);
+
         if (response != null) {
-          Get.back();
+          Get.back(); // Close scanner view
           SubscriptionSuccessDialog.show(response);
-          // Reset the isScanned flag after successful scan
-          isScanned = false;
         } else {
           // Display error message when scan returns null
-          Get.back();
+          Get.back(); // Close scanner view
           Alert.showCustomDialog(
             title: "scanError".tr,
             subTitle: "qrCodeInvalid".tr,
             onClose: () {
               Get.back();
-              isScanned = false;
+              resetScanner();
             },
           );
         }
+      } catch (e) {
+        isScanned = false;
+        isScanComplete.value = false;
+        print("Error processing QR code: $e");
+
+        // Show error dialog
+        Get.back(); // Close scanner view
+        Alert.showCustomDialog(
+          title: "scanError".tr,
+          subTitle: "errorProcessingQR".tr,
+          onClose: () {
+            Get.back();
+            resetScanner();
+          },
+        );
       }
-    });
+    }
   }
 }
 
@@ -187,6 +208,25 @@ class SubscriptionSuccessDialog {
                       ),
                     ],
                   ),
+
+                  // Display roommates if available
+                  if (subscriptionForm.roommates != null &&
+                      subscriptionForm.roommates!.isNotEmpty)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 16),
+                        Text(
+                          'roommates'.tr,
+                          style: Get.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        _buildInfoItem(
+                            'roommates'.tr, subscriptionForm.roommates!),
+                      ],
+                    ),
                 ],
               ),
 

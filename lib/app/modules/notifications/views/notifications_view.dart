@@ -120,12 +120,16 @@ class NotificationsView extends GetView<NotificationsController> {
           margin: const EdgeInsets.only(bottom: 12),
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: isUnread ? Colors.white : Colors.grey[50],
             borderRadius: BorderRadius.circular(16),
+            border: isUnread
+                ? Border(
+                    left: BorderSide(color: const Color(0xFFF8DC3D), width: 5))
+                : null,
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(0.1),
-                spreadRadius: 1,
+                color: Colors.grey.withOpacity(isUnread ? 0.2 : 0.1),
+                spreadRadius: isUnread ? 2 : 1,
                 blurRadius: 3,
                 offset: const Offset(0, 1),
               ),
@@ -137,6 +141,16 @@ class NotificationsView extends GetView<NotificationsController> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  if (isUnread)
+                    Container(
+                      width: 8,
+                      height: 8,
+                      margin: const EdgeInsets.only(top: 5, right: 8),
+                      decoration: const BoxDecoration(
+                        color: Color(0xFFF8DC3D),
+                        shape: BoxShape.circle,
+                      ),
+                    ),
                   Expanded(
                     child: Text(
                       notification.body ??
@@ -145,7 +159,9 @@ class NotificationsView extends GetView<NotificationsController> {
                       overflow: isExpanded ? null : TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: 14,
-                        color: Colors.grey[700],
+                        fontWeight:
+                            isUnread ? FontWeight.bold : FontWeight.normal,
+                        color: isUnread ? Colors.black87 : Colors.grey[700],
                       ),
                     ),
                   ),
@@ -157,7 +173,9 @@ class NotificationsView extends GetView<NotificationsController> {
                         _getTimeAgo(notification.createdAt),
                         style: TextStyle(
                           fontSize: 12,
-                          color: Colors.grey[500],
+                          fontWeight:
+                              isUnread ? FontWeight.bold : FontWeight.normal,
+                          color: isUnread ? Colors.black54 : Colors.grey[500],
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -165,7 +183,7 @@ class NotificationsView extends GetView<NotificationsController> {
                         isExpanded
                             ? Icons.keyboard_arrow_up
                             : Icons.keyboard_arrow_down,
-                        color: Colors.grey[400],
+                        color: isUnread ? Colors.black54 : Colors.grey[400],
                         size: 20,
                       ),
                     ],

@@ -1035,403 +1035,317 @@ class TnLanguage extends BaseLanguage {
 
   @override
   String get loginAccount => "تسجيل الدخول";
+  @override
+  String get addProfilePicture => "زيد تصويرتك";
 
   @override
-  // TODO: implement addProfilePicture
-  String get addProfilePicture => "addProfilePicture";
+  String get alreadyHaveAnAccount => "عندك حساب؟";
 
   @override
-  // TODO: implement alreadyHaveAnAccount
-  String get alreadyHaveAnAccount => "alreadyHaveAnAccount";
+  String get basicInformation => "المعلومات الأساسية";
 
   @override
-  // TODO: implement basicInformation
-  String get basicInformation => "basicInformation";
+  String get bilel => "بلال";
 
   @override
-  // TODO: implement bilel
-  String get bilel => "bilel";
+  String get blockAccountAccess => "منع الدخول للحساب";
 
   @override
-  // TODO: implement blockAccountAccess
-  String get blockAccountAccess => "blockAccountAccess";
-
-  @override
-  // TODO: implement byCreatingAnAccountYouAgreeToOurTermsOfServiceAndPrivacyPolicy
   String get byCreatingAnAccountYouAgreeToOurTermsOfServiceAndPrivacyPolicy =>
-      "byCreatingAnAccountYouAgreeToOurTermsOfServiceAndPrivacyPolicy";
+      "بإنشائك لحساب، إنت موافق على شروط الخدمة و سياسة الخصوصية";
 
   @override
-  // TODO: implement chooseYourRoleInTheOrganization
-  String get chooseYourRoleInTheOrganization =>
-      "chooseYourRoleInTheOrganization";
+  String get chooseYourRoleInTheOrganization => "إختار دورك في المنظمة";
 
   @override
-  // TODO: implement clickToBrowseOrDropFilesHere
-  String get clickToBrowseOrDropFilesHere => "clickToBrowseOrDropFilesHere";
+  String get clickToBrowseOrDropFilesHere => "كليكي ولا حط الملفات توا لهنا";
 
   @override
-  // TODO: implement contactInformation
-  String get contactInformation => "contactInformation";
+  String get contactInformation => "معلومات التواصل";
 
   @override
-  // TODO: implement createAccount
-  String get createAccount => "createAccount";
+  String get createAccount => "سجل حساب";
 
   @override
-  // TODO: implement created
-  String get created => "created";
+  String get created => "تم الإنشاء";
 
   @override
-  // TODO: implement createdDate
-  String get createdDate => "createdDate";
+  String get createdDate => "تاريخ الإنشاء";
 
   @override
-  // TODO: implement creditBalance
-  String get creditBalance => "creditBalance";
+  String get creditBalance => "الرصيد المتوفر";
 
   @override
-  // TODO: implement dateInformation
-  String get dateInformation => "dateInformation";
+  String get dateInformation => "معلومات التاريخ";
 
   @override
-  // TODO: implement editProfile
-  String get editProfile => "editProfile";
+  String get editProfile => "بدّل البروفيل";
 
   @override
-  // TODO: implement editProfileView
-  String get editProfileView => "editProfileView";
+  String get editProfileView => "واجهة تعديل البروفيل";
 
   @override
-  // TODO: implement editUser
-  String get editUser => "editUser";
+  String get editUser => "بدّل معلومات المستعمل";
 
   @override
-  // TODO: implement enableDisableAccount
-  String get enableDisableAccount => "enableDisableAccount";
+  String get enableDisableAccount => "فعل/عطّل الحساب";
 
   @override
-  // TODO: implement eventDetailsView
-  String get eventDetailsView => "eventDetailsView";
+  String get eventDetailsView => "تفاصيل الحدث";
 
   @override
-  // TODO: implement events
-  String get events => "events";
+  String get events => "الأحداث";
 
   @override
-  // TODO: implement failedToLoadImage
-  String get failedToLoadImage => "failedToLoadImage";
+  String get failedToLoadImage => "ما نجمتش نحمّل الصورة";
 
   @override
-  // TODO: implement failedToUpdateProfilePhoto
-  String get failedToUpdateProfilePhoto => "failedToUpdateProfilePhoto";
+  String get failedToUpdateProfilePhoto => "ما نجمتش نبدّل تصويرتك";
 
   @override
-  // TODO: implement fee
-  String get fee => "fee";
+  String get fee => "المعلوم";
 
   @override
-  // TODO: implement getStarted
-  String get getStarted => "getStarted";
+  String get getStarted => "أبدا توا";
 
   @override
-  // TODO: implement id
-  String get id => "id";
+  String get id => "المعرف";
 
   @override
-  // TODO: implement internalCode
-  String get internalCode => "internalCode";
+  String get internalCode => "الكود الداخلي";
 
   @override
-  // TODO: implement justNow
-  String get justNow => "justNow";
+  String get justNow => "توا توا";
 
   @override
-  // TODO: implement majorActivities
-  String get majorActivities => "majorActivities";
+  String get majorActivities => "الأنشطة الرئيسية";
 
   @override
-  // TODO: implement multipleDays
-  String get multipleDays => "multipleDays";
+  String get multipleDays => "أكثر من نهار";
 
   @override
-  // TODO: implement multipleHours
-  String get multipleHours => "multipleHours";
+  String get multipleHours => "أكثر من ساعة";
 
   @override
-  // TODO: implement multipleMinutes
-  String get multipleMinutes => "multipleMinutes";
+  String get multipleMinutes => "أكثر من دقيقة";
 
   @override
-  // TODO: implement noReceiptAvailable
-  String get noReceiptAvailable => "noReceiptAvailable";
+  String get noReceiptAvailable => "ما فماش وصل متوفر";
 
   @override
-  // TODO: implement noSubscriptionOptionsAvailable
-  String get noSubscriptionOptionsAvailable => "noSubscriptionOptionsAvailable";
+  String get noSubscriptionOptionsAvailable => "ما فماش اختيارات اشتراك متوفرة";
 
   @override
-  // TODO: implement notifications
-  String get notifications => "notifications";
+  String get notifications => "الإشعارات";
 
   @override
-  // TODO: implement ok
-  String get ok => "ok";
+  String get ok => "ماشي";
 
   @override
-  // TODO: implement olm
-  String get olm => "olm";
+  String get olm => "OLM";
 
   @override
-  // TODO: implement olmInformation
-  String get olmInformation => "olmInformation";
+  String get olmInformation => "معلومات الـ OLM";
 
   @override
-  // TODO: implement olmSelectionRequired
-  String get olmSelectionRequired => "olmSelectionRequired";
+  String get olmSelectionRequired => "لازم تختار OLM";
 
   @override
-  // TODO: implement option
-  String get option => "option";
+  String get option => "اختيار";
 
   @override
-  // TODO: implement organizationInformation
-  String get organizationInformation => "organizationInformation";
+  String get organizationInformation => "معلومات المنظمة";
 
   @override
-  // TODO: implement paymentReceipt
-  String get paymentReceipt => "paymentReceipt";
+  String get paymentReceipt => "وصل الخلاص";
 
   @override
-  // TODO: implement paymentReceiptRequired
-  String get paymentReceiptRequired => "paymentReceiptRequired";
+  String get paymentReceiptRequired => "الوصل ضروري";
 
   @override
-  // TODO: implement personalInformation
-  String get personalInformation => "personalInformation";
+  String get personalInformation => "المعلومات الشخصية";
 
   @override
-  // TODO: implement pleaseAttachYourPaymentConfirmation
-  String get pleaseAttachYourPaymentConfirmation =>
-      "pleaseAttachYourPaymentConfirmation";
+  String get pleaseAttachYourPaymentConfirmation => "زيد تأكيد الخلاص";
 
   @override
-  // TODO: implement pleaseCheckBackLaterOrContactSupport
   String get pleaseCheckBackLaterOrContactSupport =>
-      "pleaseCheckBackLaterOrContactSupport";
+      "عاود جرب بعد شوية ولا كلّم الدعم";
 
   @override
-  // TODO: implement pleaseEnterRoommates
-  String get pleaseEnterRoommates => "pleaseEnterRoommates";
+  String get pleaseEnterRoommates => "زيد أسامي اللي باش تسكن معاهم";
 
   @override
-  // TODO: implement pleaseFillInAllPersonalInformation
-  String get pleaseFillInAllPersonalInformation =>
-      "pleaseFillInAllPersonalInformation";
+  String get pleaseFillInAllPersonalInformation => "عبي كل المعلومات الشخصية";
 
   @override
-  // TODO: implement pleaseFillInAllRequiredFieldsBeforeRegistering
   String get pleaseFillInAllRequiredFieldsBeforeRegistering =>
-      "pleaseFillInAllRequiredFieldsBeforeRegistering";
+      "عبي كل الخانات المطلوبة قبل ما تسجل";
 
   @override
-  // TODO: implement pleaseSelectYourOlm
-  String get pleaseSelectYourOlm => "pleaseSelectYourOlm";
+  String get pleaseSelectYourOlm => "إختار الـ OLM متاعك";
 
   @override
-  // TODO: implement pleaseSelectYourPosition
-  String get pleaseSelectYourPosition => "pleaseSelectYourPosition";
+  String get pleaseSelectYourPosition => "إختار المنصب متاعك";
 
   @override
-  // TODO: implement pleaseSelectYourSubscription
-  String get pleaseSelectYourSubscription => "pleaseSelectYourSubscription";
+  String get pleaseSelectYourSubscription => "إختار الاشتراك متاعك";
 
   @override
-  // TODO: implement pleaseSelectYourZone
-  String get pleaseSelectYourZone => "pleaseSelectYourZone";
+  String get pleaseSelectYourZone => "إختار المنطقة متاعك";
 
   @override
-  // TODO: implement pleaseSpecifyYourPosition
-  String get pleaseSpecifyYourPosition => "pleaseSpecifyYourPosition";
+  String get pleaseSpecifyYourPosition => "حدد المنصب متاعك";
 
   @override
-  // TODO: implement pleaseUploadYourPaymentReceipt
-  String get pleaseUploadYourPaymentReceipt => "pleaseUploadYourPaymentReceipt";
+  String get pleaseUploadYourPaymentReceipt => "زيد وصل الخلاص";
 
   @override
-  // TODO: implement position
-  String get position => "position";
+  String get position => "المنصب";
 
   @override
-  // TODO: implement positionDescription
-  String get positionDescription => "positionDescription";
+  String get positionDescription => "وصف المنصب";
 
   @override
-  // TODO: implement positionSelectionRequired
-  String get positionSelectionRequired => "positionSelectionRequired";
+  String get positionSelectionRequired => "لازم تختار المنصب";
 
   @override
-  // TODO: implement profilePhotoUpdatedSuccessfully
-  String get profilePhotoUpdatedSuccessfully =>
-      "profilePhotoUpdatedSuccessfully";
+  String get profilePhotoUpdatedSuccessfully => "تصويرتك تبدلت بنجاح";
 
   @override
-  // TODO: implement profilePictureRequired
-  String get profilePictureRequired => "profilePictureRequired";
+  String get profilePictureRequired => "تصويرة ضرورية";
 
   @override
-  // TODO: implement profilePictureRequiredMessage
-  String get profilePictureRequiredMessage => "profilePictureRequiredMessage";
+  String get profilePictureRequiredMessage => "لازمك تصور باش تكمل التسجيل";
 
   @override
-  // TODO: implement qrCodeInvalid
-  String get qrCodeInvalid => "Invalid QR code or no subscription found";
+  String get qrCodeInvalid => "الكود موش صحيح ولا ما فماش اشتراك";
 
   @override
-  // TODO: implement read
-  String get read => "read";
+  String get read => "مقروء";
 
   @override
-  // TODO: implement receiptDocument
-  String get receiptDocument => "receiptDocument";
+  String get receiptDocument => "وثيقة الوصل";
 
   @override
-  // TODO: implement role
-  String get role => "role";
+  String get role => "الدور";
 
   @override
-  // TODO: implement roomType
-  String get roomType => "roomType";
+  String get roomType => "نوع الغرفة";
 
   @override
-  // TODO: implement roomTypeRequired
-  String get roomTypeRequired => "roomTypeRequired";
+  String get roomTypeRequired => "لازمك تختار نوع الغرفة";
 
   @override
-  // TODO: implement roommates
-  String get roommates => "roommates";
+  String get roommates => "الناس اللي باش تسكن معاهم";
 
   @override
-  // TODO: implement scan
-  String get scan => "scan";
+  String get scan => "إسكان";
 
   @override
-  // TODO: implement scanError
-  String get scanError => "scanError";
+  String get scanError => "غلط في الإسكان";
 
   @override
-  // TODO: implement scanQr
-  String get scanQr => "scanQr";
+  String get scanQr => "إسكان الكود";
 
   @override
-  // TODO: implement seeMore
-  String get seeMore => "seeMore";
+  String get scanQrDesc =>
+      "حط رمز QR في مجال الكاميرا باش تمسحو. الماسح باش يكشف ويعالج الرمز تلقائياً.";
 
   @override
-  // TODO: implement selectSubscription
-  String get selectSubscription => "selectSubscription";
+  String get cameraError => "مشكلة في الكاميرا. حاول مرة أخرى.";
 
   @override
-  // TODO: implement selectYourOlm
-  String get selectYourOlm => "selectYourOlm";
+  String get flashlight => "الفلاش";
 
   @override
-  // TODO: implement selectYourPosition
-  String get selectYourPosition => "selectYourPosition";
+  String get switchCamera => "بدل الكاميرا";
 
   @override
-  // TODO: implement selectYourPreferredRoomType
-  String get selectYourPreferredRoomType => "selectYourPreferredRoomType";
+  String get errorProcessingQR => "فمة مشكلة في معالجة رمز QR. حاول مرة أخرى.";
 
   @override
-  // TODO: implement selectYourSubscription
-  String get selectYourSubscription => "selectYourSubscription";
+  String get seeMore => "شوف أكثر";
 
   @override
-  // TODO: implement selectYourZone
-  String get selectYourZone => "selectYourZone";
+  String get selectSubscription => "إختار الاشتراك";
 
   @override
-  // TODO: implement singleDay
-  String get singleDay => "singleDay";
+  String get selectYourOlm => "إختار الـ OLM متاعك";
 
   @override
-  // TODO: implement singleHour
-  String get singleHour => "singleHour";
+  String get selectYourPosition => "إختار المنصب متاعك";
 
   @override
-  // TODO: implement singleMinute
-  String get singleMinute => "singleMinute";
+  String get selectYourPreferredRoomType => "إختار نوع الغرفة اللي تفضلها";
 
   @override
-  // TODO: implement skipButton
-  String get skipButton => "skipButton";
+  String get selectYourSubscription => "إختار الاشتراك متاعك";
 
   @override
-  // TODO: implement specifyYourPosition
-  String get specifyYourPosition => "specifyYourPosition";
+  String get selectYourZone => "إختار المنطقة متاعك";
 
   @override
-  // TODO: implement subscriptionDetails
-  String get subscriptionDetails => "subscriptionDetails";
+  String get singleDay => "نهار واحد";
 
   @override
-  // TODO: implement subscriptionInformation
-  String get subscriptionInformation => "subscriptionInformation";
+  String get singleHour => "ساعة وحدة";
 
   @override
-  // TODO: implement subscriptionSelectionRequired
-  String get subscriptionSelectionRequired => "subscriptionSelectionRequired";
+  String get singleMinute => "دقيقة وحدة";
 
   @override
-  // TODO: implement success
-  String get success => "success";
+  String get skipButton => "تعدى";
 
   @override
-  // TODO: implement supportJpegPngPdfMax5mb
-  String get supportJpegPngPdfMax5mb => "supportJpegPngPdfMax5mb";
+  String get specifyYourPosition => "حدد المنصب متاعك";
 
   @override
-  // TODO: implement surveyView
-  String get surveyView => "surveyView";
+  String get subscriptionDetails => "تفاصيل الاشتراك";
 
   @override
-  // TODO: implement systemActions
-  String get systemActions => "systemActions";
+  String get subscriptionInformation => "معلومات الاشتراك";
 
   @override
-  // TODO: implement systemInformation
-  String get systemInformation => "systemInformation";
+  String get subscriptionSelectionRequired => "لازمك تختار اشتراك";
 
   @override
-  // TODO: implement unread
-  String get unread => "unread";
+  String get success => "تمت بنجاح";
 
   @override
-  // TODO: implement uploadReceipt
-  String get uploadReceipt => "uploadReceipt";
+  String get supportJpegPngPdfMax5mb => "نقبل JPEG, PNG, PDF (ماكس 5MB)";
 
   @override
-  // TODO: implement zoneSelectionRequired
-  String get zoneSelectionRequired => "zoneSelectionRequired";
+  String get surveyView => "استبيان";
 
   @override
-  // TODO: implement standardRegistrationExplanation
-  String get standardRegistrationExplanation => "Standard Registration: 35 DT";
+  String get systemActions => "أوامر النظام";
 
   @override
-  // TODO: implement saturdaySundayExplanation
+  String get systemInformation => "معلومات النظام";
+
+  @override
+  String get unread => "ما تقراش";
+
+  @override
+  String get uploadReceipt => "زيد الوصل";
+
+  @override
+  String get zoneSelectionRequired => "لازم تختار المنطقة";
+
+  @override
+  String get standardRegistrationExplanation => "التسجيل العادي: 35 دينار";
+
+  @override
   String get saturdaySundayExplanation =>
-      "Saturday-Sunday (SD): 110 DT + 35 DT (1 night stay + standard registration)";
+      "السبت-الأحد (SD): 110 دينار + 35 دينار ( ليلة + تسجيل عادي)";
 
   @override
-  // TODO: implement fridaySaturdaySundayExplanation
   String get fridaySaturdaySundayExplanation =>
-      "Friday-Saturday-Sunday (VSD): 210 DT + 35 DT (2 nights stay + standard registration)";
+      "الجمعة-السبت-الأحد (VSD): 210 دينار + 35 دينار (ليلتين + تسجيل عادي)";
 
-  // Replace fallback mechanism to handle all missing translations
   @override
-  noSuchMethod(Invocation invocation) {
+  dynamic noSuchMethod(Invocation invocation) {
     if (invocation.isGetter) {
       // Extract the method name from the invocation
       String methodName = invocation.memberName.toString().split('"')[1];

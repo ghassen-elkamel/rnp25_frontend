@@ -961,6 +961,10 @@ class FrLanguage extends BaseLanguage {
   String get fridaySaturdaySundayExplanation =>
       "Vendredi-Samedi-Dimanche (VSD): 210 DT + 35 DT (2 nuits d'hébergement + inscription standard)";
 
+  @override
+  String get userIsNotActive =>
+      "Votre compte n'est pas actif. Veuillez suivre le processus d'activation pour activer votre compte.";
+
   // Fallback mechanism for missing implementations
   @override
   noSuchMethod(Invocation invocation) {

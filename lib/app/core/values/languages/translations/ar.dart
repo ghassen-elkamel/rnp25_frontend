@@ -1353,4 +1353,8 @@ class ArLanguage extends BaseLanguage {
   @override
   String get errorProcessingQR =>
       "خطأ في معالجة رمز QR. يرجى المحاولة مرة أخرى.";
+
+  @override
+  String get userIsNotActive =>
+      "حسابك غير نشط. يرجى اتباع عملية التفعيل لتنشيط حسابك.";
 }

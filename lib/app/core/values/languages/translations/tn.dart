@@ -1345,6 +1345,10 @@ class TnLanguage extends BaseLanguage {
       "الجمعة-السبت-الأحد (VSD): 210 دينار + 35 دينار (ليلتين + تسجيل عادي)";
 
   @override
+  String get userIsNotActive =>
+      "الحساب متاعك مش نشط. تبع عملية التفعيل باش تنشط الحساب متاعك.";
+
+  @override
   dynamic noSuchMethod(Invocation invocation) {
     if (invocation.isGetter) {
       // Extract the method name from the invocation

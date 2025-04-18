@@ -1551,4 +1551,8 @@ class EnLanguage extends BaseLanguage {
   @override
   String get fridaySaturdaySundayExplanation =>
       "Friday-Saturday-Sunday (VSD): 210 DT + 35 DT (2 nights stay + standard registration)";
+
+  @override
+  String get userIsNotActive =>
+      "Your account is not active. Please follow the activation process to activate your account.";
 }

@@ -118,6 +118,43 @@ class UsersView extends GetView<UsersController> {
                         onBlock: (p0) {
                           controller.onBlock(item);
                         },
+                        onDownloadPdf: () async {
+                          // Try both possible backend endpoint paths
+                          var receiptUrl =
+                              '$hostPath$apiPrefix/v1/subscription-form/receipt/${item.subscirptionForm?.id}';
+
+                          try {
+                            // Create the URI for launching
+                            final uri = Uri.parse(receiptUrl);
+                            if (await canLaunchUrl(uri)) {
+                              await launchUrl(
+                                uri,
+                                mode: LaunchMode.externalApplication,
+                              );
+                            } else {
+                              // Try fallback with typo in endpoint
+                              receiptUrl =
+                                  '$hostPath$apiPrefix/v1/subscription-form/reciept/${item.subscirptionForm?.id}';
+                              final fallbackUri = Uri.parse(receiptUrl);
+                              if (await canLaunchUrl(fallbackUri)) {
+                                await launchUrl(
+                                  fallbackUri,
+                                  mode: LaunchMode.externalApplication,
+                                );
+                              } else {
+                                throw 'Could not launch receipt URL';
+                              }
+                            }
+                          } catch (e) {
+                            Get.snackbar(
+                              'error'.tr,
+                              'Failed to download receipt: ${e.toString()}',
+                              snackPosition: SnackPosition.TOP,
+                              backgroundColor: Colors.red.shade100,
+                              colorText: Colors.red.shade900,
+                            );
+                          }
+                        },
                       );
                     },
                     child: Row(
@@ -284,6 +321,7 @@ class UserDetailsDialog {
     required dynamic entity,
     required Function(User) onActivate,
     required Function(User) onBlock,
+    required Function() onDownloadPdf,
   }) {
     final dateFormat = DateFormat('dd MMM yyyy');
     bool isClient = false;
@@ -424,6 +462,152 @@ class UserDetailsDialog {
                       onBlock: onBlock,
                       user: user!,
                       isBlocked: user.isBlocked ?? false),
+
+                  const SizedBox(height: 24),
+
+                  // Download PDF button
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.black,
+                          backgroundColor: Colors.amber[100],
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 24, vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        onPressed: onDownloadPdf,
+                        icon: const Icon(Icons.download, color: Colors.black),
+                        label: Text(
+                          "downloadPDF".tr,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.black,
+                          backgroundColor: Colors.blue[100],
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 24, vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        onPressed: () {
+                          Alert.showCustomDialog(
+                            title: "receipt".tr,
+                            content: Column(
+                              children: [
+                                const SizedBox(height: 16),
+                                CustomText.m(
+                                  "receipt".tr,
+                                  color: primaryColor,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                const SizedBox(height: 16),
+                                if ((subscriptionForm?.pathReceipt == null ||
+                                        subscriptionForm!
+                                            .pathReceipt!.isEmpty) &&
+                                    (subscriptionForm?.pathPicture == null ||
+                                        subscriptionForm!.pathPicture!.isEmpty))
+                                  Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Column(
+                                      children: [
+                                        Icon(Icons.receipt_long,
+                                            size: 48, color: Colors.grey[400]),
+                                        const SizedBox(height: 8),
+                                        Text(
+                                          "noReceiptAvailable".tr,
+                                          style: TextStyle(
+                                              color: Colors.grey[600]),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                else
+                                  // Test with the correct URL structure
+                                  Builder(
+                                    builder: (context) {
+                                      final filePath =
+                                          subscriptionForm?.pathReceipt ??
+                                              subscriptionForm?.pathPicture;
+
+                                      // The route pattern is ':uploads/receipt' where :uploads is a parameter
+                                      // So we need to provide an actual value for :uploads
+                                      final correctUrl =
+                                          "$hostPath$apiPrefix/v1/subscription-form/uploads/receipt?path=$filePath";
+
+                                      print("Receipt path: $filePath");
+                                      print("URL: $correctUrl");
+
+                                      return Column(
+                                        children: [
+                                          Container(
+                                            width: 300,
+                                            height: 400,
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: Colors.grey.shade300),
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              child: Image.network(
+                                                correctUrl,
+                                                headers: ApiProvider()
+                                                    .getImageHeaders(),
+                                                fit: BoxFit.contain,
+                                                errorBuilder:
+                                                    (context, error, stack) {
+                                                  print("Image error: $error");
+                                                  return Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Icon(Icons.broken_image,
+                                                          size: 48,
+                                                          color: Colors.grey),
+                                                      Text(
+                                                          "Receipt not available",
+                                                          textAlign:
+                                                              TextAlign.center),
+                                                      Text(
+                                                          "Error: ${error.toString().substring(0, min(50, error.toString().length))}...",
+                                                          style: TextStyle(
+                                                              fontSize: 10),
+                                                          textAlign:
+                                                              TextAlign.center),
+                                                    ],
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                              ],
+                            ),
+                            onClose: () {
+                              Get.back();
+                            },
+                          );
+                        }, label:const Text( "download"),
+                      ),
+                    ],
+                  ),
                 ] else if (user != null) ...[
                   // Supervisor or any other role
                   _buildSupervisorContent(user, dateFormat),
